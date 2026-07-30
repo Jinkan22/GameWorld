@@ -36,7 +36,7 @@ public class DettaglioOrdineBean {
 	public void setQuantita(int quantita) {
 		this.quantita = quantita;
 	}
-	public void setPrezzoAquisto(float prezzoAcquisto) {
+	public void setPrezzoAcquisto(float prezzoAcquisto) {
 		this.prezzoAcquisto = prezzoAcquisto;
 	}
 	public void setIdOrdine(int idOrdine) {

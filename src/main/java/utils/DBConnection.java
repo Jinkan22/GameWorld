@@ -19,7 +19,7 @@ public class DBConnection {
             try {
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
             } catch (SQLException e) {
-                System.err.println("Errore nella connessione al database: " + e.getMessage());
+                e.printStackTrace();
                 return null;
             }
         }

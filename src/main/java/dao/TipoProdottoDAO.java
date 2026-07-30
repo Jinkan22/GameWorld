@@ -72,4 +72,28 @@ public class TipoProdottoDAO {
     	
     	return list;
     }
+    
+    //salvataggio di un tipo prodotto
+    public boolean doSave(TipoProdottoBean tipoProdotto) {
+    	
+    	try {
+    		String sql = "INSERT INTO tipoProdotto "
+    				+ "(nomeTipo) "
+    				+ "VALUES (?)";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		
+    		ps.setString(1, tipoProdotto.getNomeTipo());
+
+    		
+    		int result = ps.executeUpdate();
+    		ps.close();
+    		
+    		return result > 0;
+    	}
+    	catch(SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
 }
