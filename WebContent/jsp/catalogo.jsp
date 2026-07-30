@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GameWorld - Catalogo</title>
 </head>
 <body>
 <%
@@ -18,6 +18,7 @@
 			<h2><%= prodotto.getNome() %></h2>
 			<p>Prezzo: <%= prodotto.getPrezzo() %> €</p>
 			<p>Descrizione: <%= prodotto.getDescrizione() %></p>
+			<a href="PaginaProdottoServlet?idProdotto=<%= prodotto.getIdProdotto() %>">Visualizza prodotto</a>
 			<hr>
 <%
         }
