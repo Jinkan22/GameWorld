@@ -38,8 +38,8 @@
 	<label>Indirizzo</label><br>
 	<input type="text" name="indirizzo" required><br><br>
 	
-	<label>MetodoDiPagamento</label><br>
-	<input type="text" name="pagamento" required><br><br>
+	<label>Metodo di pagamento</label><br>
+	<input type="text" name="metodoPagamento" required><br><br>
 	
 	<input type="submit" name="Registrati">
 	

@@ -12,20 +12,18 @@
 </head>
 <body>
 
+<a href="<%= request.getContextPath() %>/CatalogoServlet">Catalogo</a><br><br>
+
 <h1><%= prodotto.getNome() %></h1>
 
 <p>Prezzo: <%= prodotto.getPrezzo() %> €
 <p>Descrizione: <%= prodotto.getDescrizione() %>
+
+<% if(prodotto.getSviluppatore() != null) %>
 <p>Sviluppatore: <%= prodotto.getSviluppatore() %>
-<p>Data uscita: <%= prodotto.getDataUscita() %>
 
-<p>Valore immagine dal bean: <%= prodotto.getImmagine() %></p>
 
-<p>Context path: <%= request.getContextPath() %></p>
-
-<p>Percorso completo generato:
-<%= request.getContextPath() + "/" + prodotto.getImmagine() %>
-</p>
+<p>Data uscita: <%= prodotto.getDataUscita() %><br><br>
 
 <img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200">
 

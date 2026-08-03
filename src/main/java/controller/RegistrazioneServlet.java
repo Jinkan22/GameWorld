@@ -33,7 +33,7 @@ public class RegistrazioneServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.sendRedirect(request.getContextPath() + "/jsp/registrazione.jsp");
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
 		String indirizzo=request.getParameter("indirizzo");
-		String MetodoDiPagamento=request.getParameter("pagamento");
+		String metodoPagamento=request.getParameter("pagamento");
 		
 		UtenteBean utente=new UtenteBean();
 		
@@ -54,7 +54,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		utente.setEmail(email);
 		utente.setPassword(password);
 		utente.setIndirizzo(indirizzo);
-		utente.setMetodoPagamento(MetodoDiPagamento);
+		utente.setMetodoPagamento(metodoPagamento);
 		
 		UtenteDAO dao=new UtenteDAO();
 		if(!dao.doSave(utente)) {

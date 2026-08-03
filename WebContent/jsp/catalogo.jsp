@@ -9,6 +9,9 @@
 <title>GameWorld - Catalogo</title>
 </head>
 <body>
+
+<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br><br>
+
 <%
     ArrayList<ProdottoBean> prodotti = (ArrayList<ProdottoBean>) request.getAttribute("prodotti");
 

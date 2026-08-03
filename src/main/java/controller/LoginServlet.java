@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.UtenteBean;
 
 import java.io.IOException;
@@ -54,6 +55,9 @@ public class LoginServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			return;
 		}
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("utente", utente);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 		dispatcher.forward(request, response);
