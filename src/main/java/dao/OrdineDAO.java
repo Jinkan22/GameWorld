@@ -130,4 +130,37 @@ public class OrdineDAO {
     		return false;
     	}
     }
+    
+    //lettura di tutti gli ordini di un utente
+    public ArrayList<OrdineBean> doRetrieveByIdUtente(int idUtente){
+    	ArrayList<OrdineBean> list = new ArrayList<OrdineBean>();
+    	
+    	try {
+    		String sql = "SELECT * FROM ordine WHERE idUtente=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idUtente);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			OrdineBean ordine = new OrdineBean();
+    			
+    			ordine.setIdOrdine(rs.getInt("idOrdine"));
+    			ordine.setDataOrdine(rs.getDate("dataOrdine"));
+    			ordine.setTotale(rs.getFloat("totale"));
+    			ordine.setStatoOrdine(rs.getString("statoOrdine"));
+    			ordine.setIdUtente(rs.getInt("idUtente"));
+    			
+    			list.add(ordine);
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
 }
