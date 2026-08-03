@@ -20,5 +20,8 @@ UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 <p><strong>Email:</strong> <%= utente.getEmail() %></p>
 <p><strong>Ruolo:</strong> <%= utente.getRuolo() %></p>
 
+
+<a href="<%= request.getContextPath()%>/ModificaProfiloServlet">Modifica Profilo</a>
+
 </body>
 </html>
