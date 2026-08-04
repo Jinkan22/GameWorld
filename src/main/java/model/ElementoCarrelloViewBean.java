@@ -1,11 +1,11 @@
 package model;
 
-public class CarrelloViewBean {
+public class ElementoCarrelloViewBean {
 	private ProdottoBean prodotto;
 	private int quantita;
 	
 	//empty constructor
-	public CarrelloViewBean() {
+	public ElementoCarrelloViewBean() {
 		
 	}
 		

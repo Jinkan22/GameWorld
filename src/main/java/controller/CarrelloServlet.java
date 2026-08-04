@@ -7,8 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.CarrelloViewBean;
 import model.ElementoCarrelloBean;
+import model.ElementoCarrelloViewBean;
 import model.ProdottoBean;
 import model.UtenteBean;
 
@@ -57,12 +57,12 @@ public class CarrelloServlet extends HttpServlet {
 			carrello = new ArrayList<ElementoCarrelloBean>();
 		}
 		
-		ArrayList<CarrelloViewBean> carrelloView = new ArrayList<CarrelloViewBean>();
+		ArrayList<ElementoCarrelloViewBean> carrelloView = new ArrayList<ElementoCarrelloViewBean>();
 		
 		ProdottoDAO prodottoDAO = new ProdottoDAO();
 		
 		for(ElementoCarrelloBean elemento : carrello) {
-			CarrelloViewBean elementoView = new CarrelloViewBean();
+			ElementoCarrelloViewBean elementoView = new ElementoCarrelloViewBean();
 			
 			ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(elemento.getIdProdotto());
 			
