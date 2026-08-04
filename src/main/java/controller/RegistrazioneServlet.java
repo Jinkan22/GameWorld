@@ -47,7 +47,19 @@ public class RegistrazioneServlet extends HttpServlet {
 		String indirizzo=request.getParameter("indirizzo");
 		String metodoPagamento=request.getParameter("metodoPagamento");
 		
-		UtenteBean utente=new UtenteBean();
+		UtenteDAO dao=new UtenteDAO();
+		
+		UtenteBean utente= dao.doRetrieveByEmail(email);
+		
+		if(utente!=null) {
+			request.setAttribute("errore", "Account già esistente");
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/LoginServlet");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
+		utente=new UtenteBean();
 		
 		utente.setNome(nome);
 		utente.setCognome(cognome);
@@ -56,7 +68,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		utente.setIndirizzo(indirizzo);
 		utente.setMetodoPagamento(metodoPagamento);
 		
-		UtenteDAO dao=new UtenteDAO();
+	
 		if(!dao.doSave(utente)) {
 			request.setAttribute("errore", "Errore nella registrazione");
 			

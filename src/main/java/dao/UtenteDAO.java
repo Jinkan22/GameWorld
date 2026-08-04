@@ -197,4 +197,38 @@ public class UtenteDAO {
     	
     	return utente;
     }
+    
+    public UtenteBean doRetrieveByEmail(String email) {
+    	UtenteBean utente = null;
+    	
+    	try {
+    		String sql = "SELECT * FROM utente WHERE email=? ";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setString(1, email);
+
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		if(rs.next()) {
+    			utente = new UtenteBean();
+    			
+    			utente.setIdUtente(rs.getInt("idUtente"));
+    			utente.setNome(rs.getString("nome"));
+    			utente.setCognome(rs.getString("cognome"));
+    			utente.setEmail(rs.getString("email"));
+    			utente.setPassword(rs.getString("password"));
+    			utente.setIndirizzo(rs.getString("indirizzo"));
+    			utente.setMetodoPagamento(rs.getString("metodoPagamento"));
+    			utente.setRuolo(rs.getString("ruolo"));
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return utente;
+    }
 }
