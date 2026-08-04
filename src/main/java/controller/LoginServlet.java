@@ -7,10 +7,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.ElementoCarrelloBean;
 import model.UtenteBean;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import dao.ElementoCarrelloDAO;
 import dao.UtenteDAO;
 
 /**
@@ -57,10 +60,33 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		HttpSession session = request.getSession();
+		
+		versaCarrelloSessione(session,utente);
+		
 		session.setAttribute("utente", utente);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 		dispatcher.forward(request, response);
+	}
+	
+	private void versaCarrelloSessione(HttpSession session,UtenteBean utente) {
+		ArrayList<ElementoCarrelloBean> carrello = (ArrayList<ElementoCarrelloBean>)session.getAttribute("carrello");
+		if(carrello==null)
+			return;
+		
+		ElementoCarrelloDAO dao=new ElementoCarrelloDAO();
+		
+		for(ElementoCarrelloBean elemento:carrello) {
+			ElementoCarrelloBean elementoDB=dao.doRetrieveByIdUtenteAndIdProdotto(utente.getIdUtente(),elemento.getIdProdotto());
+			if(elementoDB!=null) {
+				elementoDB.setQuantita(elementoDB.getQuantita()+elemento.getQuantita());
+				dao.doUpdate(elementoDB);
+			}else {
+				elemento.setIdUtente(utente.getIdUtente());
+				dao.doSave(elemento);
+			}
+		}
+		
 	}
 
 }
