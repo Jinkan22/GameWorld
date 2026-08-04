@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import model.UtenteBean;
 
 import java.io.IOException;
+import java.sql.Date;
 
 import dao.UtenteDAO;
 
@@ -40,33 +41,33 @@ public class RegistrazioneServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String nome=request.getParameter("nome");
-		String cognome=request.getParameter("cognome");
-		String email=request.getParameter("email");
-		String password=request.getParameter("password");
-		String indirizzo=request.getParameter("indirizzo");
-		String metodoPagamento=request.getParameter("metodoPagamento");
+		String nome = request.getParameter("nome");
+		String cognome = request.getParameter("cognome");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		Date dataNascita = Date.valueOf(request.getParameter("dataNascita"));
+		String numeroTelefono = request.getParameter("numeroTelefono");
 		
-		UtenteDAO dao=new UtenteDAO();
+		UtenteDAO dao = new UtenteDAO();
 		
-		UtenteBean utente= dao.doRetrieveByEmail(email);
+		UtenteBean utente = dao.doRetrieveByEmail(email);
 		
 		if(utente!=null) {
-			request.setAttribute("errore", "Account già esistente");
+			request.setAttribute("errore", "Email già esistente, effettuare il login");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/LoginServlet");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
 		
-		utente=new UtenteBean();
+		utente = new UtenteBean();
 		
 		utente.setNome(nome);
 		utente.setCognome(cognome);
 		utente.setEmail(email);
 		utente.setPassword(password);
-		utente.setIndirizzo(indirizzo);
-		utente.setMetodoPagamento(metodoPagamento);
+		utente.setDataNascita(dataNascita);
+		utente.setNumeroTelefono(numeroTelefono);
 		
 	
 		if(!dao.doSave(utente)) {

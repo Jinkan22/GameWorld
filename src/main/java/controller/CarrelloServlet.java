@@ -45,13 +45,12 @@ public class CarrelloServlet extends HttpServlet {
 		ArrayList<ElementoCarrelloBean> carrello;
 		
 		if(utente == null) {
-			carrello = (ArrayList<ElementoCarrelloBean>) session.getAttribute("carrello");	
+			carrello = (ArrayList<ElementoCarrelloBean>) session.getAttribute("carrello");
 		}
 		else {
 			ElementoCarrelloDAO elementoCarrelloDAO = new ElementoCarrelloDAO();
 			
 			carrello = elementoCarrelloDAO.doRetrieveByIdUtente(utente.getIdUtente());
-			
 		}
 		
 		if(carrello == null) {

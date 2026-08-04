@@ -61,32 +61,37 @@ public class LoginServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		versaCarrelloSessione(session,utente);
-		
 		session.setAttribute("utente", utente);
+		
+		versaCarrelloSessione(session, utente);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 		dispatcher.forward(request, response);
 	}
 	
-	private void versaCarrelloSessione(HttpSession session,UtenteBean utente) {
+	private void versaCarrelloSessione(HttpSession session, UtenteBean utente) {
+		
 		ArrayList<ElementoCarrelloBean> carrello = (ArrayList<ElementoCarrelloBean>)session.getAttribute("carrello");
-		if(carrello==null)
+		
+		if(carrello == null || carrello.isEmpty())
 			return;
 		
-		ElementoCarrelloDAO dao=new ElementoCarrelloDAO();
+		ElementoCarrelloDAO dao = new ElementoCarrelloDAO();
 		
-		for(ElementoCarrelloBean elemento:carrello) {
-			ElementoCarrelloBean elementoDB=dao.doRetrieveByIdUtenteAndIdProdotto(utente.getIdUtente(),elemento.getIdProdotto());
-			if(elementoDB!=null) {
+		for(ElementoCarrelloBean elemento : carrello) {
+			ElementoCarrelloBean elementoDB = dao.doRetrieveByIdUtenteAndIdProdotto(utente.getIdUtente(),elemento.getIdProdotto());
+			
+			if(elementoDB != null) {
 				elementoDB.setQuantita(elementoDB.getQuantita()+elemento.getQuantita());
 				dao.doUpdate(elementoDB);
-			}else {
+			}
+			else {
 				elemento.setIdUtente(utente.getIdUtente());
 				dao.doSave(elemento);
 			}
 		}
 		
+		session.removeAttribute("carrello");
 	}
 
 }

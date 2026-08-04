@@ -11,7 +11,7 @@
 
 	<form action="<%= request.getContextPath()%>/ModificaProfiloServlet" method=post>
 	
-	<h1> Modifica Profilo </h1>
+	<h1>Modifica Profilo</h1>
 	
 	<%
 		String errore = (String) request.getAttribute("errore");
@@ -31,11 +31,11 @@
 	<label>Cognome</label><br>
 	<input type="text" name="cognome"><br><br>
 	
-	<label>Indirizzo</label><br>
-	<input type="text" name="indirizzo"><br><br>
+	<label>Data di nascita</label><br>
+	<input type="date" name="dataNascita"><br><br>
 	
-	<label>Metodo di pagamento</label><br>
-	<input type="text" name="metodoPagamento"><br><br>
+	<label>Numero di telefono</label><br>
+	<input type="tel" name="numeroTelefono"><br><br>
 	
 	<input type="submit" value="Modifica Profilo">
 	

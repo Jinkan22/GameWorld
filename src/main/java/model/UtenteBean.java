@@ -1,13 +1,15 @@
 package model;
 
+import java.sql.Date;
+
 public class UtenteBean {
 	private int idUtente;
 	private String nome;
 	private String cognome;
 	private String email;
 	private String password;
-	private String indirizzo;
-	private String metodoPagamento;
+	private Date dataNascita;
+	private String numeroTelefono;
 	private String ruolo;
 	
 	//empty constructor
@@ -31,11 +33,11 @@ public class UtenteBean {
 	public String getPassword() {
 		return password;
 	}
-	public String getIndirizzo() {
-		return indirizzo;
+	public Date getDataNascita() {
+		return dataNascita;
 	}
-	public String getMetodoPagamento() {
-		return metodoPagamento;
+	public String getNumeroTelefono() {
+		return numeroTelefono;
 	}
 	public String getRuolo() {
 		return ruolo;
@@ -57,11 +59,11 @@ public class UtenteBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public void setIndirizzo(String indirizzo) {
-		this.indirizzo = indirizzo;
+	public void setDataNascita(Date dataNascita) {
+		this.dataNascita = dataNascita;
 	}
-	public void setMetodoPagamento(String metodoPagamento) {
-		this.metodoPagamento = metodoPagamento;
+	public void setNumeroTelefono(String numeroTelefono) {
+		this.numeroTelefono = numeroTelefono;
 	}
 	public void setRuolo(String ruolo) {
 		this.ruolo = ruolo;

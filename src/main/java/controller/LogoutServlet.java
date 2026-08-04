@@ -28,9 +28,12 @@ public class LogoutServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session=request.getSession();
+		
+		HttpSession session = request.getSession();
+		
 		session.invalidate();
-		response.sendRedirect("/index.jsp");
+		
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
 	}
 
 	/**

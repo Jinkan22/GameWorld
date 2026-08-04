@@ -11,7 +11,7 @@
 
 	<form action="<%= request.getContextPath()%>/RegistrazioneServlet" method=post>
 	
-	<h1> Registrazione </h1>
+	<h1>Registrazione</h1>
 	
 	<%
 		String errore = (String) request.getAttribute("errore");
@@ -37,11 +37,11 @@
 	<label>Password</label><br>
 	<input type="password" name="password" required><br><br>
 	
-	<label>Indirizzo</label><br>
-	<input type="text" name="indirizzo" required><br><br>
+	<label>Data di nascita</label><br>
+	<input type="date" name="dataNascita" required><br><br>
 	
-	<label>Metodo di pagamento</label><br>
-	<input type="text" name="metodoPagamento" required><br><br>
+	<label>Numero di telefono</label><br>
+	<input type="tel" name="numeroTelefono" required><br><br>
 	
 	<input type="submit" value="Registrati">
 	

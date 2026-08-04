@@ -36,8 +36,8 @@ public class UtenteDAO {
     			utente.setCognome(rs.getString("cognome"));
     			utente.setEmail(rs.getString("email"));
     			utente.setPassword(rs.getString("password"));
-    			utente.setIndirizzo(rs.getString("indirizzo"));
-    			utente.setMetodoPagamento(rs.getString("metodoPagamento"));
+    			utente.setDataNascita(rs.getDate("dataNascita"));
+    			utente.setNumeroTelefono(rs.getString("numeroTelefono"));
     			utente.setRuolo(rs.getString("ruolo"));
     		}
     		rs.close();
@@ -69,8 +69,8 @@ public class UtenteDAO {
     			utente.setCognome(rs.getString("cognome"));
     			utente.setEmail(rs.getString("email"));
     			utente.setPassword(rs.getString("password"));
-    			utente.setIndirizzo(rs.getString("indirizzo"));
-    			utente.setMetodoPagamento(rs.getString("metodoPagamento"));
+    			utente.setDataNascita(rs.getDate("dataNascita"));
+    			utente.setNumeroTelefono(rs.getString("numeroTelefono"));
     			utente.setRuolo(rs.getString("ruolo"));
     			
     			list.add(utente);
@@ -90,7 +90,7 @@ public class UtenteDAO {
     	
     	try {
     		String sql = "INSERT INTO utente "
-    				+ "(nome, cognome, email, password, indirizzo, metodoPagamento, ruolo) "
+    				+ "(nome, cognome, email, password, dataNascita, numeroTelefono, ruolo) "
     				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -99,8 +99,8 @@ public class UtenteDAO {
     		ps.setString(2, utente.getCognome());
     		ps.setString(3, utente.getEmail());
     		ps.setString(4, utente.getPassword());
-    		ps.setString(5, utente.getIndirizzo());
-    		ps.setString(6, utente.getMetodoPagamento());
+    		ps.setDate(5, utente.getDataNascita());
+    		ps.setString(6, utente.getNumeroTelefono());
     		ps.setString(7, utente.getRuolo());
     		
     		int result = ps.executeUpdate();
@@ -118,7 +118,7 @@ public class UtenteDAO {
     public boolean doUpdate(UtenteBean utente) {
     	try {
     		String sql = "UPDATE utente "
-    				+ "SET nome=?, cognome=?, email=?, password=?, indirizzo=?, metodoPagamento=?, ruolo=? "
+    				+ "SET nome=?, cognome=?, email=?, password=?, dataNascita=?, numeroTelefono=?, ruolo=? "
     				+ "WHERE idUtente=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -127,8 +127,8 @@ public class UtenteDAO {
     		ps.setString(2, utente.getCognome());
     		ps.setString(3, utente.getEmail());
     		ps.setString(4, utente.getPassword());
-    		ps.setString(5, utente.getIndirizzo());
-    		ps.setString(6, utente.getMetodoPagamento());
+    		ps.setDate(5, utente.getDataNascita());
+    		ps.setString(6, utente.getNumeroTelefono());
     		ps.setString(7, utente.getRuolo());
     		ps.setInt(8, utente.getIdUtente());
     		
@@ -164,6 +164,7 @@ public class UtenteDAO {
     	}
     }
     
+    //lettura di un utente in base a email e password
     public UtenteBean doRetrieveByEmailAndPassword(String email, String password) {
     	UtenteBean utente = null;
     	
@@ -184,8 +185,8 @@ public class UtenteDAO {
     			utente.setCognome(rs.getString("cognome"));
     			utente.setEmail(rs.getString("email"));
     			utente.setPassword(rs.getString("password"));
-    			utente.setIndirizzo(rs.getString("indirizzo"));
-    			utente.setMetodoPagamento(rs.getString("metodoPagamento"));
+    			utente.setDataNascita(rs.getDate("dataNascita"));
+    			utente.setNumeroTelefono(rs.getString("numeroTelefono"));
     			utente.setRuolo(rs.getString("ruolo"));
     		}
     		rs.close();
@@ -198,6 +199,7 @@ public class UtenteDAO {
     	return utente;
     }
     
+    //lettura di un utente in base all'email
     public UtenteBean doRetrieveByEmail(String email) {
     	UtenteBean utente = null;
     	
@@ -218,8 +220,8 @@ public class UtenteDAO {
     			utente.setCognome(rs.getString("cognome"));
     			utente.setEmail(rs.getString("email"));
     			utente.setPassword(rs.getString("password"));
-    			utente.setIndirizzo(rs.getString("indirizzo"));
-    			utente.setMetodoPagamento(rs.getString("metodoPagamento"));
+    			utente.setDataNascita(rs.getDate("dataNascita"));
+    			utente.setNumeroTelefono(rs.getString("numeroTelefono"));
     			utente.setRuolo(rs.getString("ruolo"));
     		}
     		rs.close();

@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+
 import model.UtenteBean;
 
 import java.io.IOException;
@@ -40,16 +42,16 @@ public class ModificaProfiloServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String nome=request.getParameter("nome");
-		String cognome=request.getParameter("cognome");
-		String indirizzo=request.getParameter("indirizzo");
-		String metodoPagamento=request.getParameter("metodoPagamento");
+		String nome = request.getParameter("nome");
+		String cognome = request.getParameter("cognome");
+		Date dataNascita = Date.valueOf(request.getParameter("dataNascita"));
+		String numeroTelefono = request.getParameter("numeroTelefono");
 		
-		HttpSession session=request.getSession();
+		HttpSession session = request.getSession();
 		
-		UtenteBean utente=(UtenteBean)session.getAttribute("utente");
+		UtenteBean utente = (UtenteBean)session.getAttribute("utente");
 		
-		if(utente==null) {
+		if(utente == null) {
 			request.setAttribute("errore", "Login necessario per la modifica");
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
@@ -58,17 +60,17 @@ public class ModificaProfiloServlet extends HttpServlet {
 		}
 		
 		UtenteDAO dao=new UtenteDAO();
-		if(nome!="") {
+		if(nome != null && !nome.isEmpty()) {
 			utente.setNome(nome);
 		}
-		if(cognome!="") {
+		if(cognome != null && !cognome.isEmpty()) {
 			utente.setCognome(cognome);
 		}
-		if(indirizzo!="") {
-			utente.setIndirizzo(indirizzo);
+		if(dataNascita != null) {
+			utente.setDataNascita(dataNascita);
 		}
-		if(metodoPagamento!="") {
-			utente.setMetodoPagamento(metodoPagamento);
+		if(numeroTelefono != null && !numeroTelefono.isEmpty()) {
+			utente.setNumeroTelefono(numeroTelefono);
 		}
 		
 		dao.doUpdate(utente);

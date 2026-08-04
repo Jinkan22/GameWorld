@@ -14,13 +14,13 @@
 UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 %>
 
-<h1>Profilo utente</h1>
+<h1>Profilo</h1>
 
 <p><strong>Nome:</strong> <%= utente.getNome() %></p>
 <p><strong>Cognome:</strong> <%= utente.getCognome() %></p>
 <p><strong>Email:</strong> <%= utente.getEmail() %></p>
-<p><strong>Indirizzo:</strong> <%= utente.getIndirizzo() %></p>
-<p><strong>Metodo di pagamento:</strong> <%= utente.getMetodoPagamento() %></p>
+<p><strong>Data di nascita:</strong> <%= utente.getDataNascita() %></p>
+<p><strong>Numero di telefono:</strong> <%= utente.getNumeroTelefono() %></p>
 
 <a href="<%= request.getContextPath()%>/CarrelloServlet"><strong>Carrello</strong></a><br><br>
 

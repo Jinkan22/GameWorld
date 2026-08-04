@@ -34,20 +34,19 @@ public class StoricoOrdiniServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		HttpSession session=request.getSession();
+		HttpSession session = request.getSession();
 		
-		UtenteBean utente=(UtenteBean)session.getAttribute("utente");
+		UtenteBean utente = (UtenteBean)session.getAttribute("utente");
 		
-		if(utente==null) {
-			request.setAttribute("errore", "Login necessario per lo storico degli ordini");
+		if(utente == null) {
+			request.setAttribute("errore", "Login necessario per visualizzare lo storico degli ordini");
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
 		
-		OrdineDAO dao=new OrdineDAO();
+		OrdineDAO dao = new OrdineDAO();
 		
 		ArrayList<OrdineBean> ordini = dao.doRetrieveByIdUtente(utente.getIdUtente());
 		
