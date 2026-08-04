@@ -26,7 +26,9 @@ UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 
 <a href="<%= request.getContextPath()%>/StoricoOrdiniServlet"><strong>Storico ordini</strong></a><br><br>
 
-<a href="<%= request.getContextPath()%>/ModificaProfiloServlet"><strong>Modifica profilo</strong></a>
+<a href="<%= request.getContextPath()%>/ModificaProfiloServlet"><strong>Modifica profilo</strong></a><br><br>
+
+<a href="<%= request.getContextPath()%>/LogoutServlet"><strong>Logout</strong></a>
 
 </body>
 </html>
