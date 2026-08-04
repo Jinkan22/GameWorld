@@ -148,4 +148,68 @@ public class ElementoCarrelloDAO {
     		return false;
     	}
     }
+    
+    //lettura degli elementi del carrello in base a un idUtente
+    public ArrayList<ElementoCarrelloBean> doRetrieveByIdUtente(int idUtente) {
+    	ArrayList<ElementoCarrelloBean> list = new ArrayList<ElementoCarrelloBean>();
+    	
+    	try {
+    		String sql = "SELECT * FROM elementoCarrello WHERE idUtente=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idUtente);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			ElementoCarrelloBean elementoCarrello = new ElementoCarrelloBean();
+    			
+    			elementoCarrello.setIdElementoCarrello(rs.getInt("idElementoCarrello"));
+    			elementoCarrello.setQuantita(rs.getInt("quantita"));
+    			elementoCarrello.setIdUtente(rs.getInt("idUtente"));
+    			elementoCarrello.setIdProdotto(rs.getInt("idProdotto"));
+    			
+    			list.add(elementoCarrello);
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
+    
+    //lettura degli elementi del carrello in base a un idUtente e un idProdotto
+    public ElementoCarrelloBean doRetrieveByIdUtenteAndIdProdotto(int idUtente, int idProdotto) {
+    	ElementoCarrelloBean elementoCarrello = null;
+    	
+    	try {
+    		String sql = "SELECT * FROM elementoCarrello WHERE idUtente=? AND idProdotto=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idUtente);
+    		ps.setInt(2, idProdotto);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		if(rs.next()) {
+    			elementoCarrello = new ElementoCarrelloBean();
+    			
+    			elementoCarrello.setIdElementoCarrello(rs.getInt("idElementoCarrello"));
+    			elementoCarrello.setQuantita(rs.getInt("quantita"));
+    			elementoCarrello.setIdUtente(rs.getInt("idUtente"));
+    			elementoCarrello.setIdProdotto(rs.getInt("idProdotto"));
+    			
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return elementoCarrello;
+    }
 }

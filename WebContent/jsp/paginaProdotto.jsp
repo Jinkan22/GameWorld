@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title><%= prodotto.getNome() %></title>
+<title>GameWorld - <%= prodotto.getNome() %></title>
 </head>
 <body>
 
@@ -25,7 +25,13 @@
 
 <p>Data uscita: <%= prodotto.getDataUscita() %><br><br>
 
-<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200">
+<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200"><br><br>
+
+<form action="<%= request.getContextPath()%>/AggiungiAlCarrelloServlet" method="post">
+	<input type="hidden" name="idProdotto" value=<%= prodotto.getIdProdotto() %>>
+			
+	<input type="submit" value="Aggiungi al carrello">
+</form>
 
 </body>
 </html>

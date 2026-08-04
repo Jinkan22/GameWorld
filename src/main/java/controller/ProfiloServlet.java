@@ -35,11 +35,14 @@ public class ProfiloServlet extends HttpServlet {
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
 		if(utente == null) {
-			response.sendRedirect(request.getContextPath() + "/LoginServlet");
+			request.setAttribute("errore", "Effettuare il login per accedere al profilo");
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			dispatcher.forward(request, response);
 			return;
 		}
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/profilo.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/profilo.jsp");
 		dispatcher.forward(request, response);
 	}
 

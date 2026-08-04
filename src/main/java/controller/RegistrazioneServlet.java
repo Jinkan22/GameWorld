@@ -45,7 +45,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
 		String indirizzo=request.getParameter("indirizzo");
-		String metodoPagamento=request.getParameter("pagamento");
+		String metodoPagamento=request.getParameter("metodoPagamento");
 		
 		UtenteBean utente=new UtenteBean();
 		

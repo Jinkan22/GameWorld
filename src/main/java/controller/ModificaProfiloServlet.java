@@ -74,7 +74,7 @@ public class ModificaProfiloServlet extends HttpServlet {
 		dao.doUpdate(utente);
 		session.setAttribute("utente", utente);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/profilo.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/profilo.jsp");
 		dispatcher.forward(request, response);
 
 	}

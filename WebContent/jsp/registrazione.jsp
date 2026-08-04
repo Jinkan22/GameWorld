@@ -7,6 +7,8 @@
 <title>GameWorld - Registrazione</title>
 </head>
 <body>
+<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
+
 	<form action="<%= request.getContextPath()%>/RegistrazioneServlet" method=post>
 	
 	<h1> Registrazione </h1>
@@ -23,10 +25,10 @@
 		}
 	%>
 	
-	<label>Nome</label>
+	<label>Nome</label><br>
 	<input type="text" name="nome" required><br><br>
 	
-	<label>Cognome</label>
+	<label>Cognome</label><br>
 	<input type="text" name="cognome" required><br><br>
 	
 	<label>Email</label><br>
@@ -41,7 +43,7 @@
 	<label>Metodo di pagamento</label><br>
 	<input type="text" name="metodoPagamento" required><br><br>
 	
-	<input type="submit" name="Registrati">
+	<input type="submit" value="Registrati">
 	
 	</form>
 

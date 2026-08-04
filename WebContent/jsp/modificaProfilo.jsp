@@ -7,6 +7,8 @@
 <title>GameWorld - Modifica Profilo </title>
 </head>
 <body>
+<a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo</a><br>
+
 	<form action="<%= request.getContextPath()%>/ModificaProfiloServlet" method=post>
 	
 	<h1> Modifica Profilo </h1>
@@ -23,10 +25,10 @@
 		}
 	%>
 	
-	<label>Nome</label>
+	<label>Nome</label><br>
 	<input type="text" name="nome"><br><br>
 	
-	<label>Cognome</label>
+	<label>Cognome</label><br>
 	<input type="text" name="cognome"><br><br>
 	
 	<label>Indirizzo</label><br>
@@ -35,7 +37,7 @@
 	<label>Metodo di pagamento</label><br>
 	<input type="text" name="metodoPagamento"><br><br>
 	
-	<input type="submit" name="Modifica Profilo">
+	<input type="submit" value="Modifica Profilo">
 	
 	</form>
 

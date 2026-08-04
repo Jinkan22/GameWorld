@@ -10,23 +10,28 @@
 <title>GameWorld - Storico Ordini</title>
 </head>
 <body>
-<a href="<%= request.getContextPath() %>/jsp/profilo.jsp">Profilo</a><br><br>
+<a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo</a><br>
 
 <h1>Storico Ordini</h1>
 
 <%
     ArrayList<OrdineBean> ordini = (ArrayList<OrdineBean>) request.getAttribute("ordini");
 
-    if(ordini != null) {
+    if(!ordini.isEmpty() && ordini != null) {
         for(OrdineBean ordine : ordini) {
 %>
-			<p>Data dell'ordine: <%= ordine.getDataOrdine() %> €</p>
+			<p>Data dell'ordine: <%= ordine.getDataOrdine() %> </p>
 			<p>Totale: <%= ordine.getTotale() %></p>
 			<p>Stato dell'ordine: <%=ordine.getStatoOrdine() %></p>
 			<hr>
 <%
         }
     }
+    else{
+%>
+		<p>Non sono stati effettuati ordini</p>
+<%
+	}
 %>
 
 </body>

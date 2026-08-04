@@ -7,6 +7,7 @@
 <title>GameWorld - Login</title>
 </head>
 <body>
+<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
 
 <form action="<%= request.getContextPath()%>/LoginServlet" method=post>
 
@@ -31,7 +32,7 @@ if(errore != null){
 <label>Password</label><br>
 <input type="password" name="password" required><br><br>
 
-<input type="submit" name="accedi">
+<input type="submit" value="Accedi">
 
 
 </form>

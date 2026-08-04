@@ -9,8 +9,10 @@
 <title>GameWorld - Catalogo</title>
 </head>
 <body>
+<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
 
-<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br><br>
+<h1>Catalogo</h1>
+<hr>
 
 <%
     ArrayList<ProdottoBean> prodotti = (ArrayList<ProdottoBean>) request.getAttribute("prodotti");
@@ -18,10 +20,17 @@
     if(prodotti != null) {
         for(ProdottoBean prodotto : prodotti) {
 %>
-			<h2><%= prodotto.getNome() %></h2>
+			<a href="<%= request.getContextPath() %>/PaginaProdottoServlet?idProdotto=<%= prodotto.getIdProdotto() %>">
+				<h2><%= prodotto.getNome() %></h2></a>
+
 			<p>Prezzo: <%= prodotto.getPrezzo() %> €</p>
 			<p>Descrizione: <%= prodotto.getDescrizione() %></p>
-			<a href="PaginaProdottoServlet?idProdotto=<%= prodotto.getIdProdotto() %>">Visualizza prodotto</a>
+						
+			<form action="<%= request.getContextPath()%>/AggiungiAlCarrelloServlet" method="post">
+				<input type="hidden" name="idProdotto" value=<%= prodotto.getIdProdotto() %>>
+			
+				<input type="submit" value="Aggiungi al carrello">
+			</form>
 			<hr>
 <%
         }
