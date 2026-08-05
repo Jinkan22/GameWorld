@@ -29,6 +29,14 @@
 			<a href="<%= request.getContextPath() %>/PaginaProdottoServlet?idProdotto=<%= prodotto.getIdProdotto() %>"><%= prodotto.getNome() %></a>
 			<p>Prezzo: <%= prodotto.getPrezzo() %> €</p>
 			<p>Quantita: <%= elemento.getQuantita() %></p><br>
+			
+			<form action="<%= request.getContextPath()%>/ModificaCarrelloServlet" method=post>
+				<input type="hidden" name="idProdotto" value="<%=elemento.getProdotto().getIdProdotto() %>">
+				<input type="submit" name="azione" value="+">
+				<input type="submit" name="azione" value="-">
+				<input type="submit" name="azione" value="rimuovi">
+			</form>
+			
 			<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200">
 			
 			<hr>
