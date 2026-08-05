@@ -159,4 +159,39 @@ public class IndirizzoDAO {
     		return false;
     	}
     }
+    
+  //lettura di tutti gli indirizzi di un determinato utente
+    public ArrayList<IndirizzoBean> doRetrieveByIdUtente(int idUtente){
+    	ArrayList<IndirizzoBean> list = new ArrayList<IndirizzoBean>();
+    	
+    	try {
+    		String sql = "SELECT * FROM indirizzo WHERE idUtente=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idUtente);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			IndirizzoBean indirizzo = new IndirizzoBean();
+    			
+    			indirizzo.setIdIndirizzo(rs.getInt("idIndirizzo"));
+    			indirizzo.setVia(rs.getString("via"));
+    			indirizzo.setCitta(rs.getString("citta"));
+    			indirizzo.setCap(rs.getString("cap"));
+    			indirizzo.setProvincia(rs.getString("provincia"));
+    			indirizzo.setPaese(rs.getString("paese"));
+    			indirizzo.setIdUtente(rs.getInt("idUtente"));
+    			
+    			list.add(indirizzo);
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
 }

@@ -155,4 +155,38 @@ public class MetodoPagamentoDAO {
     		return false;
     	}
     }
+    
+  //lettura di tutti i metodi di pagamento di un determinato utente
+    public ArrayList<MetodoPagamentoBean> doRetrieveByIdUtente(int idUtente){
+    	ArrayList<MetodoPagamentoBean> list = new ArrayList<MetodoPagamentoBean>();
+    	
+    	try {
+    		String sql = "SELECT * FROM metodoPagamento WHERE idUtente=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idUtente);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			MetodoPagamentoBean metodoPagamento = new MetodoPagamentoBean();
+    			
+    			metodoPagamento.setIdMetodoPagamento(rs.getInt("idMetodoPagamento"));
+    			metodoPagamento.setNumeroCarta(rs.getString("numeroCarta"));
+    			metodoPagamento.setIntestatario(rs.getString("intestatario"));
+    			metodoPagamento.setDataScadenza(rs.getDate("dataScadenza"));
+    			metodoPagamento.setCircuito(rs.getString("circuito"));
+    			metodoPagamento.setIdUtente(rs.getInt("idUtente"));
+    			
+    			list.add(metodoPagamento);
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
 }

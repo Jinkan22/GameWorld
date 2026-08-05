@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.ProdottoBean" %>
-<%@ page import="model.CarrelloViewBean" %>
+<%@ page import="model.ElementoCarrelloViewBean" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,10 +19,10 @@
 <hr>
 
 <%
-    ArrayList<CarrelloViewBean> carrello = (ArrayList<CarrelloViewBean>) request.getAttribute("carrello");
+    ArrayList<ElementoCarrelloViewBean> carrello = (ArrayList<ElementoCarrelloViewBean>) request.getAttribute("carrello");
 
     if(!carrello.isEmpty() && carrello != null) {
-        for(CarrelloViewBean elemento : carrello) {
+        for(ElementoCarrelloViewBean elemento : carrello) {
         	
         	ProdottoBean prodotto = elemento.getProdotto();
 %>
@@ -32,6 +32,10 @@
 			<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200">
 			
 			<hr>
+			
+			<form action="<%= request.getContextPath()%>/CheckoutServlet" method=get>
+				<input type="submit" value="Procedi all'ordine">
+			</form>
 <%
         }
     }
@@ -41,6 +45,8 @@
 <%
 	}
 %>
+
+
 
 </body>
 </html>

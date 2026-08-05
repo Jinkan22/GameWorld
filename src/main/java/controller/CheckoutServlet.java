@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.ElementoCarrelloBean;
 import model.ElementoCarrelloViewBean;
+import model.IndirizzoBean;
+import model.MetodoPagamentoBean;
 import model.ProdottoBean;
 import model.UtenteBean;
 import utils.CarrelloUtils;
@@ -17,19 +19,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import dao.ElementoCarrelloDAO;
+import dao.IndirizzoDAO;
+import dao.MetodoPagamentoDAO;
 import dao.ProdottoDAO;
 
 /**
- * Servlet implementation class CarrelloServlet
+ * Servlet implementation class CheckoutServlet
  */
-@WebServlet("/CarrelloServlet")
-public class CarrelloServlet extends HttpServlet {
+@WebServlet("/CheckoutServlet")
+public class CheckoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CarrelloServlet() {
+    public CheckoutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,27 +42,37 @@ public class CarrelloServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		HttpSession session = request.getSession();
 		
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
-		ArrayList<ElementoCarrelloBean> carrello;
-		
 		if(utente == null) {
-			carrello = (ArrayList<ElementoCarrelloBean>) session.getAttribute("carrello");
-		}
-		else {
-			ElementoCarrelloDAO elementoCarrelloDAO = new ElementoCarrelloDAO();
+			request.setAttribute("errore", "Effettuare il login per finalizzare l'acquisto");
 			
-			carrello = elementoCarrelloDAO.doRetrieveByIdUtente(utente.getIdUtente());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			dispatcher.forward(request, response);
+			return;
 		}
 		
-		ArrayList<ElementoCarrelloViewBean> carrelloView = CarrelloUtils.creaCarrelloView(carrello);
+		ElementoCarrelloDAO elementoCarrelloDAO = new ElementoCarrelloDAO();
+		
+		ArrayList<ElementoCarrelloBean> carrelloDB = elementoCarrelloDAO.doRetrieveByIdUtente(utente.getIdUtente());
+		
+		ArrayList<ElementoCarrelloViewBean> carrelloView = CarrelloUtils.creaCarrelloView(carrelloDB);
+		
+		IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
+		
+		ArrayList<IndirizzoBean> indirizzi = indirizzoDAO.doRetrieveByIdUtente(utente.getIdUtente());
+		
+		MetodoPagamentoDAO metodoPagamentoDAO = new MetodoPagamentoDAO();
+		
+		ArrayList<MetodoPagamentoBean> metodiPagamento = metodoPagamentoDAO.doRetrieveByIdUtente(utente.getIdUtente());
 		
 		request.setAttribute("carrello", carrelloView);
+		request.setAttribute("indirizzi", indirizzi);
+		request.setAttribute("metodiPagamento", metodiPagamento);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/carrello.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/checkout.jsp");
 		dispatcher.forward(request, response);
 	}
 
