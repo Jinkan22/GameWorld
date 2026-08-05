@@ -7,12 +7,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.ElementoCarrelloBean;
+import model.ProdottoBean;
 import model.UtenteBean;
+import utils.CarrelloUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import dao.ElementoCarrelloDAO;
+import dao.ProdottoDAO;
 
 /**
  * Servlet implementation class ModificaCarrelloServlet
@@ -41,54 +44,86 @@ public class ModificaCarrelloServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String azione=request.getParameter("azione");
+		String azione = request.getParameter("azione");
 		
-		HttpSession session=request.getSession();
+		HttpSession session = request.getSession();
 		
-		UtenteBean utente=(UtenteBean)session.getAttribute("utente");
+		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
-		int idProdotto=Integer.parseInt(request.getParameter("idProdotto"));
+		int idProdotto = Integer.parseInt(request.getParameter("idProdotto"));
 		
-		if(utente==null) {
+		if(utente == null) {
 			
-			ArrayList<ElementoCarrelloBean>carrello=(ArrayList<ElementoCarrelloBean>)session.getAttribute("carrello");
+			ArrayList<ElementoCarrelloBean> carrello = (ArrayList<ElementoCarrelloBean>)session.getAttribute("carrello");
 			
-			ElementoCarrelloBean trovato=new ElementoCarrelloBean();
+			if(carrello == null || carrello.isEmpty()) {
+				response.sendRedirect(request.getContextPath() + "/CarrelloServlet");
+				return;
+			}
 			
-			for(ElementoCarrelloBean elemento:carrello) {
-				if(elemento.getIdProdotto()==idProdotto) {
-					trovato=elemento;
+			ElementoCarrelloBean trovato = null;
+			
+			for(ElementoCarrelloBean elemento : carrello) {
+				if(elemento.getIdProdotto() == idProdotto) {
+					trovato = elemento;
+					break;
 				}
 			}
 			
-			switch(azione) {
-			case"+":
-				trovato.setQuantita(trovato.getQuantita()+1);
-			case"-":
-				trovato.setQuantita(trovato.getQuantita()-1);
-			case"rimuovi":
-				carrello.remove(trovato);
+			if(trovato == null) {
+				response.sendRedirect(request.getContextPath() + "/CarrelloServlet");
+			    return;
 			}
-		}else {
-			
-			ElementoCarrelloDAO dao=new ElementoCarrelloDAO();
-			
-			ElementoCarrelloBean elemento=dao.doRetrieveByIdUtenteAndIdProdotto(utente.getIdUtente(),idProdotto);
 			
 			switch(azione) {
-			case"+":
-				elemento.setQuantita(elemento.getQuantita()+1);
-				dao.doUpdate(elemento);
-			case"-":
-				elemento.setQuantita(elemento.getQuantita()-1);
-				dao.doUpdate(elemento);
-			case"rimuovi":
-				dao.doDelete(elemento.getIdProdotto());
+			case "+":
+				if(CarrelloUtils.checkDisponibilita(trovato, 1)) {
+					trovato.setQuantita(trovato.getQuantita()+1);
+				}
+				break;
+			case "-":
+				trovato.setQuantita(trovato.getQuantita()-1);
+				if(trovato.getQuantita() <= 0)
+					carrello.remove(trovato);
+				break;
+			case "rimuovi":
+				carrello.remove(trovato);
+				break;
+			}
+			
+			session.setAttribute("carrello", carrello);
+		}
+		else {
+			
+			ElementoCarrelloDAO dao = new ElementoCarrelloDAO();
+			
+			ElementoCarrelloBean elemento = dao.doRetrieveByIdUtenteAndIdProdotto(utente.getIdUtente(), idProdotto);
+			
+			if(elemento == null) {
+				response.sendRedirect(request.getContextPath() + "/CarrelloServlet");
+				return;
+			}
+			
+			switch(azione) {
+			case "+":
+				if(CarrelloUtils.checkDisponibilita(elemento, 1)) {
+					elemento.setQuantita(elemento.getQuantita() + 1);
+					dao.doUpdate(elemento);
+				}
+				break;
+			case "-":
+				if(elemento.getQuantita() > 1) {
+					elemento.setQuantita(elemento.getQuantita() - 1);
+					dao.doUpdate(elemento);
+				}
+				else dao.doDelete(elemento.getIdElementoCarrello());
+				break;
+			case "rimuovi":
+				dao.doDelete(elemento.getIdElementoCarrello());
+				break;
 			}
 		}
 		
-		response.sendRedirect(request.getContextPath()+"/CarrelloServlet");
-		
+		response.sendRedirect(request.getContextPath() + "/CarrelloServlet");
 	}
-
 }
