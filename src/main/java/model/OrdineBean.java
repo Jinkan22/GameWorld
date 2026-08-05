@@ -1,10 +1,10 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class OrdineBean {
 	private int idOrdine;
-	private Date dataOrdine;
+	private Timestamp dataOrdine;
 	private float totale;
 	private String statoOrdine;
 	private int idUtente;
@@ -18,7 +18,7 @@ public class OrdineBean {
 	public int getIdOrdine() {
 		return idOrdine;
 	}
-	public Date getDataOrdine() {
+	public Timestamp getDataOrdine() {
 		return dataOrdine;
 	}
 	public float getTotale() {
@@ -35,7 +35,7 @@ public class OrdineBean {
 	public void setIdOrdine(int idOrdine) {
 		this.idOrdine = idOrdine;
 	}
-	public void setDataOrdine(Date dataOrdine) {
+	public void setDataOrdine(Timestamp dataOrdine) {
 		this.dataOrdine = dataOrdine;
 	}
 	public void setTotale(float totale) {

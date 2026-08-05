@@ -32,7 +32,7 @@ public class OrdineDAO {
     			ordine = new OrdineBean();
     			
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
-    			ordine.setDataOrdine(rs.getDate("dataOrdine"));
+    			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
     			ordine.setTotale(rs.getFloat("totale"));
     			ordine.setStatoOrdine(rs.getString("statoOrdine"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
@@ -62,7 +62,7 @@ public class OrdineDAO {
     			OrdineBean ordine = new OrdineBean();
     			
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
-    			ordine.setDataOrdine(rs.getDate("dataOrdine"));
+    			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
     			ordine.setTotale(rs.getFloat("totale"));
     			ordine.setStatoOrdine(rs.getString("statoOrdine"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
@@ -87,14 +87,22 @@ public class OrdineDAO {
     				+ "(dataOrdine, totale, statoOrdine, idUtente) "
     				+ "VALUES (?, ?, ?, ?)";
     		
-    		PreparedStatement ps = connection.prepareStatement(sql);
+    		PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
     		
-    		ps.setDate(1, ordine.getDataOrdine());
+    		ps.setTimestamp(1, ordine.getDataOrdine());
     		ps.setFloat(2, ordine.getTotale());
     		ps.setString(3, ordine.getStatoOrdine());
     		ps.setInt(4, ordine.getIdUtente());
     		
     		int result = ps.executeUpdate();
+    		
+    		ResultSet rs = ps.getGeneratedKeys();
+
+    		if(rs.next()) {
+    		    ordine.setIdOrdine(rs.getInt(1));
+    		}
+    		
+    		rs.close();
     		ps.close();
     		
     		return result > 0;
@@ -114,7 +122,7 @@ public class OrdineDAO {
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
     		
-    		ps.setDate(1, ordine.getDataOrdine());
+    		ps.setTimestamp(1, ordine.getDataOrdine());
     		ps.setFloat(2, ordine.getTotale());
     		ps.setString(3, ordine.getStatoOrdine());
     		ps.setInt(4, ordine.getIdUtente());
@@ -136,7 +144,7 @@ public class OrdineDAO {
     	ArrayList<OrdineBean> list = new ArrayList<OrdineBean>();
     	
     	try {
-    		String sql = "SELECT * FROM ordine WHERE idUtente=?";
+    		String sql = "SELECT * FROM ordine WHERE idUtente=? ORDER BY dataOrdine DESC";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
     		ps.setInt(1, idUtente);
@@ -147,7 +155,7 @@ public class OrdineDAO {
     			OrdineBean ordine = new OrdineBean();
     			
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
-    			ordine.setDataOrdine(rs.getDate("dataOrdine"));
+    			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
     			ordine.setTotale(rs.getFloat("totale"));
     			ordine.setStatoOrdine(rs.getString("statoOrdine"));
     			ordine.setIdUtente(rs.getInt("idUtente"));

@@ -44,17 +44,19 @@
 	<form action="<%= request.getContextPath()%>/CheckoutServlet" method="post">
 	<%
 	ArrayList<IndirizzoBean> indirizzi = (ArrayList<IndirizzoBean>) request.getAttribute("indirizzi");
-	for(IndirizzoBean indirizzo : indirizzi) {
-	%>
-		
-		<input type="radio" id="indirizzo<%= indirizzo.getIdIndirizzo() %>" name="indirizzo" value="<%= indirizzo.getIdIndirizzo() %>" required>
-		<%= indirizzo.getVia() %>, 
-		<%= indirizzo.getCap() %>, 
-		<%= indirizzo.getCitta() %>,
-		<%= indirizzo.getProvincia() %>,
-		<%= indirizzo.getPaese() %>
-		
-	<%
+	if(indirizzi != null && !indirizzi.isEmpty()){
+		for(IndirizzoBean indirizzo : indirizzi) {
+		%>
+			<input type="radio" id="indirizzo<%= indirizzo.getIdIndirizzo() %>" name="indirizzo" value="<%= indirizzo.getIdIndirizzo() %>" required>
+			<label for="indirizzo<%= indirizzo.getIdIndirizzo() %>">
+			<%= indirizzo.getVia() %>, 
+			<%= indirizzo.getCap() %>, 
+			<%= indirizzo.getCitta() %>,
+			<%= indirizzo.getProvincia() %>,
+			<%= indirizzo.getPaese() %>
+			</label>
+		<%
+		}
 	}
 	%>
 	
@@ -62,16 +64,18 @@
 	
 	<%
 	ArrayList<MetodoPagamentoBean> metodiPagamento = (ArrayList<MetodoPagamentoBean>) request.getAttribute("metodiPagamento");
-	for(MetodoPagamentoBean metodo : metodiPagamento) {
-	%>
-		
-		<input type="radio" id="indirizzo<%= metodo.getIdMetodoPagamento() %>" name="metodoPagamento" value="<%= metodo.getIdMetodoPagamento() %>" required>
-		<%= metodo.getCircuito() %>, 
-		<%= metodo.getNumeroCarta() %>, 
-		<%= metodo.getIntestatario() %>, 
-		<%= metodo.getDataScadenza() %>
-		
-	<%
+	if(metodiPagamento != null && !metodiPagamento.isEmpty()){
+		for(MetodoPagamentoBean metodo : metodiPagamento) {
+		%>
+			<input type="radio" id="metodoPagamento<%= metodo.getIdMetodoPagamento() %>" name="metodoPagamento" value="<%= metodo.getIdMetodoPagamento() %>" required>
+			<label for="metodoPagamento<%= metodo.getIdMetodoPagamento() %>">
+			<%= metodo.getCircuito() %>, 
+			<%= metodo.getNumeroCarta() %>, 
+			<%= metodo.getIntestatario() %>, 
+			<%= metodo.getDataScadenza() %>
+			</label>	
+		<%
+		}
 	}
 	%>
 	

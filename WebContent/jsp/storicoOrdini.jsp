@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.OrdineBean" %>
-
+<%@ page import="java.text.SimpleDateFormat" %>
+<%
+SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +23,7 @@
     if(!ordini.isEmpty() && ordini != null) {
         for(OrdineBean ordine : ordini) {
 %>
-			<p>Data dell'ordine: <%= ordine.getDataOrdine() %> </p>
+			<p>Data dell'ordine: <%= sdf.format(ordine.getDataOrdine()) %></p>
 			<p>Totale: <%= ordine.getTotale() %></p>
 			<p>Stato dell'ordine: <%=ordine.getStatoOrdine() %></p>
 			<hr>
