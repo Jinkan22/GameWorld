@@ -16,6 +16,16 @@
 
 <h1><%= prodotto.getNome() %></h1>
 
+<%
+	String errore = (String) request.getAttribute("errore");
+
+	if(errore != null) {
+%>
+	<p><%= errore %></p>
+<%
+	}
+%>
+
 <p>Prezzo: <%= prodotto.getPrezzo() %> €
 <p>Descrizione: <%= prodotto.getDescrizione() %>
 

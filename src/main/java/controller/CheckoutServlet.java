@@ -86,9 +86,9 @@ public class CheckoutServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
+		//errore se l'utente non ha effettuato il login
 		if(utente == null) {
 			request.setAttribute("errore", "Effettuare il login per completare l'acquisto");
 			
@@ -97,30 +97,51 @@ public class CheckoutServlet extends HttpServlet {
 			return;
 		}
 		
+		OrdineDAO ordineDAO = new OrdineDAO();
+		ProdottoDAO prodottoDAO = new ProdottoDAO();
 		ElementoCarrelloDAO elementoCarrelloDAO = new ElementoCarrelloDAO();
-		ArrayList<ElementoCarrelloBean> carrello = elementoCarrelloDAO.doRetrieveByIdUtente(utente.getIdUtente());
+		DettaglioOrdineDAO dettaglioOrdineDAO = new DettaglioOrdineDAO();
 		
+		ArrayList<ElementoCarrelloBean> carrello = elementoCarrelloDAO.doRetrieveByIdUtente(utente.getIdUtente());
+		OrdineBean ordine = new OrdineBean();
+		
+		//errore se il carrello è vuoto
 		if(carrello == null || carrello.isEmpty()) {
 			response.sendRedirect(request.getContextPath()+"/CarrelloServlet");
 			return;
 		}
 		
-		OrdineDAO ordineDAO = new OrdineDAO();
-		OrdineBean ordine = new OrdineBean();
+		//controlla che per ogni elemento del carrello ci sia la disponibilità del prodotto richiesta
+		for(ElementoCarrelloBean elemento : carrello) {
+			if(!CarrelloUtils.checkDisponibilita(elemento, elemento.getQuantita())) {
+				
+				ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(elemento.getIdProdotto());
+				
+				if(prodotto.getQuantitaDisponibile() <= 0)
+					elementoCarrelloDAO.doDelete(elemento.getIdElementoCarrello());
+				else {
+					elemento.setQuantita(prodotto.getQuantitaDisponibile());
+					elementoCarrelloDAO.doUpdate(elemento);
+				}
+				
+				request.setAttribute("errore", "La quantità di prodotti richiesta non è disponibile");
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/CarrelloServlet");
+				dispatcher.forward(request, response);
+				return;
+			}
+		}
 		
-		ProdottoDAO prodottoDAO = new ProdottoDAO();
-		
+		//crea l'ordine nel database
 		ordine.setDataOrdine(new Timestamp(System.currentTimeMillis()));
 		ordine.setStatoOrdine("IN ATTESA");
 		ordine.setIdUtente(utente.getIdUtente());
 		
 		ordineDAO.doSave(ordine);
-		System.out.println("ID ordine dopo save: " + ordine.getIdOrdine());
-		
-		DettaglioOrdineDAO elementoOrdineDAO = new DettaglioOrdineDAO();
 		
 		float totale = 0;
 		
+		//crea tutti i dettagli ordine nel database
 		for(ElementoCarrelloBean elemento : carrello) {
 			DettaglioOrdineBean dettaglioOrdine = new DettaglioOrdineBean();
 			
@@ -133,22 +154,20 @@ public class CheckoutServlet extends HttpServlet {
 			dettaglioOrdine.setIdOrdine(ordine.getIdOrdine());
 			dettaglioOrdine.setIdProdotto(elemento.getIdProdotto());
 			
-			elementoOrdineDAO.doSave(dettaglioOrdine);
+			dettaglioOrdineDAO.doSave(dettaglioOrdine);
+			
+			prodotto.setQuantitaDisponibile(prodotto.getQuantitaDisponibile() - elemento.getQuantita());
+			prodottoDAO.doUpdate(prodotto);
 		}
 		
 		ordine.setTotale(totale);
+		ordineDAO.doUpdate(ordine);
 		
-		boolean res = ordineDAO.doUpdate(ordine);
-		
-		System.out.println("ID ordine dopo update: " + ordine.getIdOrdine());
-		System.out.println("Totale update: " + ordine.getTotale());
-		System.out.println(res);
-		
+		//svuota il carrello dopo l'acquisto
 		for(ElementoCarrelloBean elemento : carrello) {
 			elementoCarrelloDAO.doDelete(elemento.getIdElementoCarrello());
 		}
 		
 		response.sendRedirect(request.getContextPath()+"/StoricoOrdiniServlet");
 	}
-
 }

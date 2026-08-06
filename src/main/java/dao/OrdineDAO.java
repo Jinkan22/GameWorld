@@ -139,6 +139,27 @@ public class OrdineDAO {
     	}
     }
     
+    //eliminazione di un ordine
+    public boolean doDelete(int idOrdine) {
+    	try {
+    		String sql = "DELETE FROM ordine WHERE idOrdine=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		
+    		ps.setInt(1, idOrdine);
+    		
+    		int result = ps.executeUpdate();
+    		ps.close();
+    		
+    		return result > 0;
+    		
+    	}
+    	catch(SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
+    
     //lettura di tutti gli ordini di un utente
     public ArrayList<OrdineBean> doRetrieveByIdUtente(int idUtente){
     	ArrayList<OrdineBean> list = new ArrayList<OrdineBean>();

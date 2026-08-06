@@ -19,6 +19,15 @@
 <hr>
 
 <%
+String errore = (String) request.getAttribute("errore");
+
+if(errore != null){
+%>
+
+<p><%= errore %><br><br>
+
+<% 
+}
     ArrayList<ElementoCarrelloViewBean> carrello = (ArrayList<ElementoCarrelloViewBean>) request.getAttribute("carrello");
 
     if(!carrello.isEmpty() && carrello != null) {

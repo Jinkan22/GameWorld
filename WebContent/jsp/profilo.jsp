@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="model.UtenteBean" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%
+SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +23,7 @@ UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 <p><strong>Nome:</strong> <%= utente.getNome() %></p>
 <p><strong>Cognome:</strong> <%= utente.getCognome() %></p>
 <p><strong>Email:</strong> <%= utente.getEmail() %></p>
-<p><strong>Data di nascita:</strong> <%= utente.getDataNascita() %></p>
+<p><strong>Data di nascita:</strong> <%= sdf.format(utente.getDataNascita()) %></p>
 <p><strong>Numero di telefono:</strong> <%= utente.getNumeroTelefono() %></p>
 
 <a href="<%= request.getContextPath()%>/CarrelloServlet"><strong>Carrello</strong></a><br><br>

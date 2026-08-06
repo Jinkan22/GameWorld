@@ -77,9 +77,9 @@ public class ModificaCarrelloServlet extends HttpServlet {
 			
 			switch(azione) {
 			case "+":
-				if(CarrelloUtils.checkDisponibilita(trovato, 1)) {
-					trovato.setQuantita(trovato.getQuantita()+1);
-				}
+				if(!CarrelloUtils.gestioneQuantitaNonDisponibile(request, response, trovato, trovato.getQuantita() + 1))
+					return;
+				trovato.setQuantita(trovato.getQuantita()+1);
 				break;
 			case "-":
 				trovato.setQuantita(trovato.getQuantita()-1);
@@ -106,10 +106,11 @@ public class ModificaCarrelloServlet extends HttpServlet {
 			
 			switch(azione) {
 			case "+":
-				if(CarrelloUtils.checkDisponibilita(elemento, 1)) {
-					elemento.setQuantita(elemento.getQuantita() + 1);
-					dao.doUpdate(elemento);
-				}
+				if(!CarrelloUtils.gestioneQuantitaNonDisponibile(request, response, elemento, elemento.getQuantita() + 1))
+					return;
+				
+				elemento.setQuantita(elemento.getQuantita() + 1);
+				dao.doUpdate(elemento);
 				break;
 			case "-":
 				if(elemento.getQuantita() > 1) {

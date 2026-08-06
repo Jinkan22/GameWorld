@@ -1,5 +1,6 @@
 package controller;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,11 +9,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.ElementoCarrelloBean;
 import model.UtenteBean;
+import utils.CarrelloUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import dao.ElementoCarrelloDAO;
+import dao.ProdottoDAO;
 
 /**
  * Servlet implementation class AggiungiAlCarrelloServlet
@@ -57,6 +60,10 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
 			boolean found = false;
 			for(ElementoCarrelloBean elemento : carrello) {
 				if(elemento.getIdProdotto() == idProdotto) {
+					
+					if(!CarrelloUtils.gestioneQuantitaNonDisponibile(request, response, elemento, elemento.getQuantita() + 1))
+						return;
+					
 					elemento.setQuantita(elemento.getQuantita() + 1);
 					
 					found = true;
@@ -67,6 +74,10 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
 				ElementoCarrelloBean elemento = new ElementoCarrelloBean();
 				
 				elemento.setIdProdotto(idProdotto);
+				
+				if(!CarrelloUtils.gestioneQuantitaNonDisponibile(request, response, elemento, 1))
+					return;
+				
 				elemento.setQuantita(1);
 				
 				carrello.add(elemento);
@@ -84,11 +95,18 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
 				
 				elemento.setIdProdotto(idProdotto);
 				elemento.setIdUtente(utente.getIdUtente());
+				
+				if(!CarrelloUtils.gestioneQuantitaNonDisponibile(request, response, elemento, 1))
+					return;
+				
 				elemento.setQuantita(1);
 				
 				dao.doSave(elemento);
 			}		
 			else {
+				if(!CarrelloUtils.gestioneQuantitaNonDisponibile(request, response, elemento, elemento.getQuantita() + 1))
+					return;
+				
 				elemento.setQuantita(elemento.getQuantita() + 1);
 				dao.doUpdate(elemento);
 			}
@@ -96,5 +114,7 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
 
 		response.sendRedirect("CarrelloServlet");
 	}
+	
+	
 
 }
