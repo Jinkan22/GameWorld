@@ -167,4 +167,40 @@ public class ProdottoDAO {
     		return false;
     	}
     }
+    
+    //lettura di tutti i prodotti disponibili
+    public ArrayList<ProdottoBean> doRetrieveDisponibili(){
+    	ArrayList<ProdottoBean> list = new ArrayList<ProdottoBean>();
+    	
+    	try {
+    		String sql = "SELECT * FROM prodotto WHERE quantitaDisponibile > 0";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			ProdottoBean prodotto = new ProdottoBean();
+    			
+    			prodotto.setIdProdotto(rs.getInt("idProdotto"));
+    			prodotto.setNome(rs.getString("nome"));
+    			prodotto.setDescrizione(rs.getString("descrizione"));
+    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setQuantitaDisponibile(rs.getInt("quantitaDisponibile"));
+    			prodotto.setImmagine(rs.getString("immagine"));
+    			prodotto.setDataUscita(rs.getDate("dataUscita"));
+    			prodotto.setSviluppatore(rs.getString("sviluppatore"));
+    			prodotto.setIdTipoProdotto(rs.getInt("idTipoProdotto"));
+    			
+    			list.add(prodotto);
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
 }

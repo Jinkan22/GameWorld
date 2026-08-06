@@ -18,13 +18,29 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 %>
 
-<h1>Profilo</h1>
+<h1>Profilo
+<%
+	if(utente != null && "ADMIN".equals(utente.getRuolo())) {
+%>
+ Admin
+<%
+	}
+%>
+</h1>
 
 <p><strong>Nome:</strong> <%= utente.getNome() %></p>
 <p><strong>Cognome:</strong> <%= utente.getCognome() %></p>
 <p><strong>Email:</strong> <%= utente.getEmail() %></p>
 <p><strong>Data di nascita:</strong> <%= sdf.format(utente.getDataNascita()) %></p>
 <p><strong>Numero di telefono:</strong> <%= utente.getNumeroTelefono() %></p>
+
+<%
+	if(utente != null && "ADMIN".equals(utente.getRuolo())) {
+%>
+	<a href="<%= request.getContextPath()%>/AdminDashboardServlet"><strong>Dashboard</strong></a><br><br>
+<%
+	}
+%>
 
 <a href="<%= request.getContextPath()%>/CarrelloServlet"><strong>Carrello</strong></a><br><br>
 

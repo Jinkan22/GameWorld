@@ -14,12 +14,17 @@
 <%
 UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 
-if(utente != null){
+if(utente != null) {
+	if("ADMIN".equals(utente.getRuolo())) {
 %>
-
-<a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo utente</a><br><br>
-
+		<a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo admin</a><br><br>
 <%
+	}
+	else {
+%>
+		<a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo utente</a><br><br>
+<% 
+	}
 }
 else{
 %>

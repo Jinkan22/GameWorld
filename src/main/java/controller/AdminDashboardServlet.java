@@ -6,24 +6,22 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.ProdottoBean;
+import jakarta.servlet.http.HttpSession;
+import model.UtenteBean;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import dao.ProdottoDAO;
 
 /**
- * Servlet implementation class CatalogoServlet
+ * Servlet implementation class AdminDashboardServlet
  */
-@WebServlet("/CatalogoServlet")
-public class CatalogoServlet extends HttpServlet {
+@WebServlet("/AdminDashboardServlet")
+public class AdminDashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CatalogoServlet() {
+    public AdminDashboardServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,14 +30,19 @@ public class CatalogoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProdottoDAO dao = new ProdottoDAO();
-
-		ArrayList<ProdottoBean> prodotti = dao.doRetrieveDisponibili();
-
-		request.setAttribute("prodotti", prodotti);
-
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/catalogo.jsp");
-
+		HttpSession session = request.getSession();
+		
+		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
+		
+		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
+			request.setAttribute("errore", "Effettuare il login come admin per accedere alla dashboard");
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/adminDashboard.jsp");
 		dispatcher.forward(request, response);
 	}
 

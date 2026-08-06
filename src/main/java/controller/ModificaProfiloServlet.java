@@ -44,7 +44,7 @@ public class ModificaProfiloServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
-		Date dataNascita = Date.valueOf(request.getParameter("dataNascita"));
+		String dataNascita = request.getParameter("dataNascita");
 		String numeroTelefono = request.getParameter("numeroTelefono");
 		
 		HttpSession session = request.getSession();
@@ -60,18 +60,18 @@ public class ModificaProfiloServlet extends HttpServlet {
 		}
 		
 		UtenteDAO dao=new UtenteDAO();
-		if(nome != null && !nome.isEmpty()) {
+		if(nome != null && !nome.isEmpty())
 			utente.setNome(nome);
-		}
-		if(cognome != null && !cognome.isEmpty()) {
+		
+		if(cognome != null && !cognome.isEmpty())
 			utente.setCognome(cognome);
-		}
-		if(dataNascita != null) {
-			utente.setDataNascita(dataNascita);
-		}
-		if(numeroTelefono != null && !numeroTelefono.isEmpty()) {
+		
+		if(dataNascita != null && !dataNascita.isEmpty())
+			utente.setDataNascita(Date.valueOf(dataNascita));
+		
+		if(numeroTelefono != null && !numeroTelefono.isEmpty())
 			utente.setNumeroTelefono(numeroTelefono);
-		}
+		
 		
 		dao.doUpdate(utente);
 		session.setAttribute("utente", utente);

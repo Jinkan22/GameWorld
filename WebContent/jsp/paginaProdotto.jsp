@@ -11,7 +11,7 @@
 <title>GameWorld - <%= prodotto.getNome() %></title>
 </head>
 <body>
-
+<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
 <a href="<%= request.getContextPath() %>/CatalogoServlet">Catalogo</a><br><br>
 
 <h1><%= prodotto.getNome() %></h1>

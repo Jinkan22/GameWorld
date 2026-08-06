@@ -10,9 +10,7 @@
 <title>GameWorld - Carrello</title>
 </head>
 <body>
-
 <a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
-
 <a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo</a><br>
 
 <h1>Carrello</h1>
