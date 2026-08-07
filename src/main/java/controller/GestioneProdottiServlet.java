@@ -58,11 +58,19 @@ public class GestioneProdottiServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		HttpSession session = request.getSession();
+		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
+		
+		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
+			request.setAttribute("errore", "Effettuare il login come admin per accedere alla dashboard");
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
 		String azione = request.getParameter("azione");
 		int idProdotto = Integer.parseInt(request.getParameter("idProdotto"));
-		
-		System.out.println("Azione: " + azione);
-		System.out.println("ID prodotto: " + idProdotto);
 		
 		ProdottoDAO dao = new ProdottoDAO();
 		ProdottoBean prodotto = dao.doRetrieveByKey(idProdotto);

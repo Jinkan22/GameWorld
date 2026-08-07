@@ -15,25 +15,36 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 </head>
 <body>
 <a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
-<a href="<%= request.getContextPath() %>/AdminDashboardServlet">Gestione prodotti</a><br>
+<a href="<%= request.getContextPath() %>/AdminDashboardServlet">Dashboard</a><br>
 
 <h1>Gestione ordini</h1>
 <hr>
 
 <%
+String errore = (String) request.getAttribute("errore");
+
+if(errore != null){
+%>
+
+<p><%= errore %><br><br>
+
+<% 
+}
     ArrayList<OrdineViewBean> ordini = (ArrayList<OrdineViewBean>) request.getAttribute("ordini");
 
     if(ordini != null) {
         for(OrdineViewBean ordine : ordini) {
 %>
-			<p>Ordine #<%= ordine.getOrdine().getIdOrdine() %></p><br>
-			<p>Utente: <%= ordine.getUtente().getNome() + " " + ordine.getUtente().getCognome() %></p>
-			<p>Data: <%= sdf.format(ordine.getOrdine().getDataOrdine()) %></p>
-			<p>Totale: <%= ordine.getOrdine().getTotale() %> €</p>
+			<p><strong>Ordine #<%= ordine.getOrdine().getIdOrdine() %></strong></p>
+			<p><strong>Utente:</strong> <%= ordine.getUtente().getNome() + " " + ordine.getUtente().getCognome() %></p>
+			<p><strong>Data:</strong> <%= sdf.format(ordine.getOrdine().getDataOrdine()) %></p>
+			<p><strong>Totale:</strong> <%= ordine.getOrdine().getTotale() %> €</p>
+			<a href="<%= request.getContextPath() %>/DettagliOrdineServlet?idOrdine=<%= ordine.getOrdine().getIdOrdine() %>">Visualizza ordine</a><br><br>
+			
 						
 			<form action="<%= request.getContextPath()%>/GestioneOrdiniServlet" method="post">
 			
-			<label>Stato:</label><br>
+			<label><strong>Stato:</strong></label><br>
 			<input type="radio" id="inAttesa<%= ordine.getOrdine().getIdOrdine() %>" name="statoOrdine" value="IN ATTESA" required
 			<%= ordine.getOrdine().getStatoOrdine().equals("IN ATTESA") ? "checked" : "" %>>
 			<label for="inAttesa<%= ordine.getOrdine().getIdOrdine() %>">In attesa</label><br>
@@ -53,7 +64,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			<input type="hidden" name="idOrdine" value="<%= ordine.getOrdine().getIdOrdine() %>">
 			<input type="submit" value="Aggiorna stato">
 			</form>
-			<hr>
+			<br><hr>
 <%	
         }
     }

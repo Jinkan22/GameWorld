@@ -7,27 +7,26 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.OrdineBean;
-import model.OrdineViewBean;
+import model.ProdottoBean;
 import model.UtenteBean;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import dao.OrdineDAO;
+import dao.ProdottoDAO;
 import dao.UtenteDAO;
 
 /**
- * Servlet implementation class GestioneOrdiniServlet
+ * Servlet implementation class GestioneUtentiServlet
  */
-@WebServlet("/GestioneOrdiniServlet")
-public class GestioneOrdiniServlet extends HttpServlet {
+@WebServlet("/GestioneUtentiServlet")
+public class GestioneUtentiServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GestioneOrdiniServlet() {
+    public GestioneUtentiServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,24 +46,12 @@ public class GestioneOrdiniServlet extends HttpServlet {
 			return;
 		}
 		
-		OrdineDAO ordineDAO = new OrdineDAO();
-		UtenteDAO utenteDAO = new UtenteDAO();
-		ArrayList<OrdineBean> ordini = ordineDAO.doRetrieveAll();
-		ArrayList<OrdineViewBean> ordiniView = new ArrayList<OrdineViewBean>();
+		UtenteDAO dao = new UtenteDAO();
+		ArrayList<UtenteBean> utenti = dao.doRetrieveAll();
 		
-		for(OrdineBean ordine : ordini) {
-			UtenteBean acquirente = utenteDAO.doRetrieveByKey(ordine.getIdUtente());
-			OrdineViewBean ordineView = new OrdineViewBean();
-			
-			ordineView.setOrdine(ordine);
-			ordineView.setUtente(acquirente);
-			
-			ordiniView.add(ordineView);
-		}
+		request.setAttribute("utenti", utenti);
 		
-		request.setAttribute("ordini", ordiniView);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneOrdini.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneUtenti.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -73,9 +60,9 @@ public class GestioneOrdiniServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
+		UtenteBean admin = (UtenteBean) session.getAttribute("utente");
 		
-		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
+		if(admin == null || !"ADMIN".equals(admin.getRuolo())) {
 			request.setAttribute("errore", "Effettuare il login come admin per accedere alla dashboard");
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
@@ -83,25 +70,36 @@ public class GestioneOrdiniServlet extends HttpServlet {
 			return;
 		}
 		
-		int idOrdine = Integer.parseInt(request.getParameter("idOrdine"));
-		String nuovoStato = request.getParameter("statoOrdine");
+		int idUtente = Integer.parseInt(request.getParameter("idUtente"));
 		
-		OrdineDAO dao = new OrdineDAO();
-		OrdineBean ordine = dao.doRetrieveByKey(idOrdine);
+		UtenteDAO dao = new UtenteDAO();
+		UtenteBean utente = dao.doRetrieveByKey(idUtente);
 		
-		//controlla se l'ordine non esiste
-		if(ordine == null) {
-			request.setAttribute("errore", "L'ordine selezionato non esiste");
+		//controlla se l'utente non esiste
+		if(utente == null) {
+			request.setAttribute("errore", "L'utente selezionato non esiste");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneOrdini.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneUtenti.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
 		
-		ordine.setStatoOrdine(nuovoStato);
-		dao.doUpdate(ordine);
+		//controlla se l'admin sta cercando di modificare il suo ruolo
+		if(utente.getIdUtente() == admin.getIdUtente()) {
+			request.setAttribute("errore", "Non puoi modificare il tuo stesso ruolo");
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneUtenti.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 		
-		response.sendRedirect(request.getContextPath() + "/GestioneOrdiniServlet");
+		if("ADMIN".equals(utente.getRuolo()))
+			utente.setRuolo("USER");
+		else utente.setRuolo("ADMIN");
+		
+		dao.doUpdate(utente);
+		
+		response.sendRedirect(request.getContextPath() + "/GestioneUtentiServlet");
 	}
 
 }

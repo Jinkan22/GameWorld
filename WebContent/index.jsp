@@ -39,7 +39,7 @@ else{
 
 <a href="<%= request.getContextPath() %>/CarrelloServlet">Carrello</a><br><br>
 
-<a href="<%= request.getContextPath() %>/CatalogoServlet">Catalogo prodotti</a>
+<a href="<%= request.getContextPath() %>/CatalogoServlet">Catalogo</a>
 
 </body>
 </html>

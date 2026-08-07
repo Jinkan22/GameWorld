@@ -31,7 +31,7 @@
 			
 				<input type="submit" value="Aggiungi al carrello">
 			</form>
-			<hr>
+			<br><hr>
 <%
         }
     }
