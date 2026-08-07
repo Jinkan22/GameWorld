@@ -28,15 +28,15 @@ ProdottoBean prodotto = (ProdottoBean) request.getAttribute("prodotto");
 	}
 %>
 
+<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200"><br>
+
 <p>Prezzo: <%= prodotto.getPrezzo() %> €
 <p>Descrizione: <%= prodotto.getDescrizione() %>
 
 <% if(prodotto.getSviluppatore() != null) %>
 <p>Sviluppatore: <%= prodotto.getSviluppatore() %>
 
-<p>Data uscita: <%= sdf.format(prodotto.getDataUscita()) %><br><br>
-
-<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200"><br><br>
+<p>Data uscita: <%= sdf.format(prodotto.getDataUscita()) %><br>
 
 <form action="<%= request.getContextPath()%>/AggiungiAlCarrelloServlet" method="post">
 	<input type="hidden" name="idProdotto" value=<%= prodotto.getIdProdotto() %>>

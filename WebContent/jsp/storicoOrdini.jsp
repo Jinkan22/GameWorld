@@ -13,6 +13,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 <title>GameWorld - Storico Ordini</title>
 </head>
 <body>
+<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
 <a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo</a><br>
 
 <h1>Storico Ordini</h1>
@@ -20,19 +21,20 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 <%
     ArrayList<OrdineBean> ordini = (ArrayList<OrdineBean>) request.getAttribute("ordini");
 
-    if(!ordini.isEmpty() && ordini != null) {
+    if(ordini != null && !ordini.isEmpty()) {
         for(OrdineBean ordine : ordini) {
 %>
 			<p>Data dell'ordine: <%= sdf.format(ordine.getDataOrdine()) %></p>
-			<p>Totale: <%= ordine.getTotale() %></p>
+			<p>Totale: <%= ordine.getTotale() %> €</p>
 			<p>Stato dell'ordine: <%=ordine.getStatoOrdine() %></p>
+			<a href="<%= request.getContextPath() %>/DettagliOrdineServlet?idOrdine=<%= ordine.getIdOrdine() %>">Visualizza ordine</a>
 			<hr>
 <%
         }
     }
     else{
 %>
-		<p>Non sono stati effettuati ordini</p>
+		<p>Non hai ancora effettuato ordini</p>
 <%
 	}
 %>
