@@ -9,7 +9,7 @@
 </head>
 <body>
 <a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
-<a href="<%= request.getContextPath() %>/GestioneProdottiServlet">Dashboard</a><br>
+<a href="<%= request.getContextPath() %>/GestioneProdottiServlet">Gestione prodotti</a><br>
 
 <h1>Modifica prodotto</h1>
 
