@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="model.ProdottoBean" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%
-    ProdottoBean prodotto = (ProdottoBean) request.getAttribute("prodotto");
+SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+ProdottoBean prodotto = (ProdottoBean) request.getAttribute("prodotto");
 %>
 <!DOCTYPE html>
 <html>
@@ -32,8 +34,7 @@
 <% if(prodotto.getSviluppatore() != null) %>
 <p>Sviluppatore: <%= prodotto.getSviluppatore() %>
 
-
-<p>Data uscita: <%= prodotto.getDataUscita() %><br><br>
+<p>Data uscita: <%= sdf.format(prodotto.getDataUscita()) %><br><br>
 
 <img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200"><br><br>
 

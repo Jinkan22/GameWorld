@@ -10,7 +10,7 @@
 </head>
 <body>
 <a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
-<a href="<%= request.getContextPath() %>/AdminDashboardServlet">Dashboard</a><br>
+<a href="<%= request.getContextPath() %>/AdminDashboardServlet">Gestione prodotti</a><br>
 
 <h1>Gestione prodotti</h1>
 <hr>
@@ -25,6 +25,12 @@ if(errore != null){
 
 <% 
 }
+%>
+
+	<a href="<%= request.getContextPath() %>/AggiungiProdottoServlet">Aggiungi un prodotto</a>
+	<hr>
+
+<%
     ArrayList<ProdottoBean> prodotti = (ArrayList<ProdottoBean>) request.getAttribute("prodotti");
 
     if(prodotti != null) {

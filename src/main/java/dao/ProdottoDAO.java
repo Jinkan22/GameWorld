@@ -39,7 +39,7 @@ public class ProdottoDAO {
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
-    			prodotto.setIdTipoProdotto(rs.getInt("idTipoProdotto"));
+    			prodotto.setTipoProdotto(rs.getString("tipoProdotto"));
     		}
     		rs.close();
     		ps.close();
@@ -73,7 +73,7 @@ public class ProdottoDAO {
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
-    			prodotto.setIdTipoProdotto(rs.getInt("idTipoProdotto"));
+    			prodotto.setTipoProdotto(rs.getString("tipoProdotto"));
     			
     			list.add(prodotto);
     		}
@@ -92,10 +92,10 @@ public class ProdottoDAO {
     	
     	try {
     		String sql = "INSERT INTO prodotto "
-    				+ "(nome, descrizione, prezzo, quantitaDisponibile, immagine, dataUscita, sviluppatore, idTipoProdotto) "
+    				+ "(nome, descrizione, prezzo, quantitaDisponibile, immagine, dataUscita, sviluppatore, tipoProdotto) "
     				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     		
-    		PreparedStatement ps = connection.prepareStatement(sql);
+    		PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
     		
     		ps.setString(1, prodotto.getNome());
     		ps.setString(2, prodotto.getDescrizione());
@@ -104,9 +104,17 @@ public class ProdottoDAO {
     		ps.setString(5, prodotto.getImmagine());
     		ps.setDate(6, prodotto.getDataUscita());
     		ps.setString(7, prodotto.getSviluppatore());
-    		ps.setInt(8, prodotto.getIdTipoProdotto());
+    		ps.setString(8, prodotto.getTipoProdotto());
     		
     		int result = ps.executeUpdate();
+    		
+    		ResultSet rs = ps.getGeneratedKeys();
+    		
+    		if(rs.next()) {
+    		    prodotto.setIdProdotto(rs.getInt(1));
+    		}
+    		
+    		rs.close();
     		ps.close();
     		
     		return result > 0;
@@ -121,7 +129,7 @@ public class ProdottoDAO {
     public boolean doUpdate(ProdottoBean prodotto) {
     	try {
     		String sql = "UPDATE prodotto "
-    				+ "SET nome=?, descrizione=?, prezzo=?, quantitaDisponibile=?, immagine=?, dataUscita=?, sviluppatore=?, idTipoProdotto=? "
+    				+ "SET nome=?, descrizione=?, prezzo=?, quantitaDisponibile=?, immagine=?, dataUscita=?, sviluppatore=?, tipoProdotto=? "
     				+ "WHERE idProdotto=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -133,7 +141,7 @@ public class ProdottoDAO {
     		ps.setString(5, prodotto.getImmagine());
     		ps.setDate(6, prodotto.getDataUscita());
     		ps.setString(7, prodotto.getSviluppatore());
-    		ps.setInt(8, prodotto.getIdTipoProdotto());
+    		ps.setString(8, prodotto.getTipoProdotto());
     		ps.setInt(9, prodotto.getIdProdotto());
     		
     		int result = ps.executeUpdate();
@@ -190,7 +198,7 @@ public class ProdottoDAO {
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
-    			prodotto.setIdTipoProdotto(rs.getInt("idTipoProdotto"));
+    			prodotto.setTipoProdotto(rs.getString("tipoProdotto"));
     			
     			list.add(prodotto);
     		}

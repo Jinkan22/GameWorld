@@ -34,8 +34,12 @@ if(errore != null){
         	ProdottoBean prodotto = elemento.getProdotto();
 %>
 			<a href="<%= request.getContextPath() %>/PaginaProdottoServlet?idProdotto=<%= prodotto.getIdProdotto() %>"><%= prodotto.getNome() %></a>
+			<br><br>
+			
+			<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200">
+			
 			<p>Prezzo: <%= prodotto.getPrezzo() %> €</p>
-			<p>Quantita: <%= elemento.getQuantita() %></p><br>
+			<p>Quantita: <%= elemento.getQuantita() %></p>
 			
 			<form action="<%= request.getContextPath()%>/ModificaCarrelloServlet" method=post>
 				<input type="hidden" name="idProdotto" value="<%=elemento.getProdotto().getIdProdotto() %>">
@@ -44,15 +48,16 @@ if(errore != null){
 				<input type="submit" name="azione" value="rimuovi">
 			</form>
 			
-			<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200">
+			
 			
 			<hr>
-			
-			<form action="<%= request.getContextPath()%>/CheckoutServlet" method=get>
-				<input type="submit" value="Procedi all'ordine">
-			</form>
 <%
         }
+%>     
+        <form action="<%= request.getContextPath()%>/CheckoutServlet" method=get>
+		<input type="submit" value="Procedi all'ordine">
+		</form>
+<%
     }
     else{
 %>

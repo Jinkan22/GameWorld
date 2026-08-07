@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - Modifica Profilo </title>
+<title>GameWorld - Modifica profilo</title>
 </head>
 <body>
 <a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo</a><br>

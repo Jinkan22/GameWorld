@@ -40,7 +40,6 @@ public class PaginaProdottoServlet extends HttpServlet {
 		request.setAttribute("prodotto", prodotto);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/paginaProdotto.jsp");
-
 		dispatcher.forward(request, response);
 	}
 
