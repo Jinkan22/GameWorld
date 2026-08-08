@@ -7,26 +7,28 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.OffertaBean;
+import model.OffertaViewBean;
 import model.ProdottoBean;
 import model.UtenteBean;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import dao.OffertaDAO;
 import dao.ProdottoDAO;
-import dao.UtenteDAO;
 
 /**
- * Servlet implementation class GestioneUtentiServlet
+ * Servlet implementation class GestioneOfferteServlet
  */
-@WebServlet("/GestioneUtentiServlet")
-public class GestioneUtentiServlet extends HttpServlet {
+@WebServlet("/GestioneOfferteServlet")
+public class GestioneOfferteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GestioneUtentiServlet() {
+    public GestioneOfferteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,12 +48,32 @@ public class GestioneUtentiServlet extends HttpServlet {
 			return;
 		}
 		
-		UtenteDAO dao = new UtenteDAO();
-		ArrayList<UtenteBean> utenti = dao.doRetrieveAll();
+		String errore = (String) session.getAttribute("errore");
+		if(errore != null) {
+			request.setAttribute("errore", errore);
+			session.removeAttribute("errore");
+		}
 		
-		request.setAttribute("utenti", utenti);
+		OffertaDAO offertaDAO = new OffertaDAO();
+		ProdottoDAO prodottoDAO = new ProdottoDAO();
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneUtenti.jsp");
+		ArrayList<OffertaBean> offerte = offertaDAO.doRetrieveAll();
+		ArrayList<OffertaViewBean> offerteView = new ArrayList<OffertaViewBean>();
+
+		for(OffertaBean offerta : offerte) {
+		    OffertaViewBean offertaView = new OffertaViewBean();
+		    ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(offerta.getIdProdotto());
+		    
+		    offertaView.setOfferta(offerta);
+		    offertaView.setProdotto(prodotto);
+		    offertaView.setPrezzoScontato(prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto()));
+
+		    offerteView.add(offertaView);
+		}
+
+		request.setAttribute("offerte", offerteView);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneOfferte.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -60,9 +82,9 @@ public class GestioneUtentiServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		UtenteBean admin = (UtenteBean) session.getAttribute("utente");
+		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
-		if(admin == null || !"ADMIN".equals(admin.getRuolo())) {
+		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
 			request.setAttribute("errore", "Effettuare il login come admin per accedere alla dashboard");
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
@@ -70,34 +92,12 @@ public class GestioneUtentiServlet extends HttpServlet {
 			return;
 		}
 		
-		int idUtente = Integer.parseInt(request.getParameter("idUtente"));
+		int idOfferta = Integer.parseInt(request.getParameter("idOfferta"));
+		OffertaDAO dao = new OffertaDAO();
 		
-		UtenteDAO dao = new UtenteDAO();
-		UtenteBean utente = dao.doRetrieveByKey(idUtente);
+		dao.doDelete(idOfferta);
 		
-		//controlla se l'utente non esiste
-		if(utente == null) {
-			session.setAttribute("errore", "L'utente selezionato non esiste");
-			
-			response.sendRedirect(request.getContextPath() + "/GestioneUtentiServlet");
-			return;
-		}
-		
-		//controlla se l'admin sta cercando di modificare il suo ruolo
-		if(utente.getIdUtente() == admin.getIdUtente()) {
-			session.setAttribute("errore", "Non puoi modificare il tuo stesso ruolo");
-			
-			response.sendRedirect(request.getContextPath() + "/GestioneUtentiServlet");
-			return;
-		}
-		
-		if("ADMIN".equals(utente.getRuolo()))
-			utente.setRuolo("USER");
-		else utente.setRuolo("ADMIN");
-		
-		dao.doUpdate(utente);
-		
-		response.sendRedirect(request.getContextPath() + "/GestioneUtentiServlet");
+		response.sendRedirect(request.getContextPath() + "/GestioneOfferteServlet");
 	}
 
 }

@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -151,5 +152,63 @@ public class OffertaDAO {
     		e.printStackTrace();
     		return false;
     	}
+    }
+    
+    //lettura di tutte le offerte di un determinato prodotto
+    public ArrayList<OffertaBean> doRetrieveByIdProdotto(int idProdotto){
+    	ArrayList<OffertaBean> list = new ArrayList<OffertaBean>();
+    	
+    	try {
+    		String sql = "SELECT * FROM offerta WHERE idProdotto=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idProdotto);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			OffertaBean offerta = new OffertaBean();
+    			
+    			offerta.setIdOfferta(rs.getInt("idOfferta"));
+    			offerta.setPercentualeSconto(rs.getInt("percentualeSconto"));
+    			offerta.setDataInizio(rs.getDate("dataInizio"));
+    			offerta.setDataFine(rs.getDate("dataFine"));
+    			offerta.setIdProdotto(rs.getInt("idProdotto"));
+    			
+    			list.add(offerta);
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
+    
+    //controlla se esistono offerte sovrapposte
+    public boolean esisteOffertaSovrapposta(int idProdotto, Date dataInizio, Date dataFine) {
+        try {
+            String sql = "SELECT * FROM offerta WHERE idProdotto=? AND dataInizio<=? AND dataFine>=?";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idProdotto);
+            ps.setDate(2, dataFine);
+            ps.setDate(3, dataInizio);
+
+            ResultSet rs = ps.executeQuery();
+
+            boolean esiste = rs.next();
+
+            rs.close();
+            ps.close();
+
+            return esiste;
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

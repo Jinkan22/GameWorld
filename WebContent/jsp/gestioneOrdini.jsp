@@ -69,6 +69,5 @@ if(errore != null){
         }
     }
 %>
-
 </body>
 </html>

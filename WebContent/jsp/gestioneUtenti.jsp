@@ -20,7 +20,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <hr>
 
 <%
-String errore = (String) request.getAttribute("errore");
+String errore = (String) session.getAttribute("errore");
 
 if(errore != null){
 %>
@@ -29,9 +29,6 @@ if(errore != null){
 
 <% 
 }
-%>
-
-<%
     ArrayList<UtenteBean> utenti = (ArrayList<UtenteBean>) request.getAttribute("utenti");
 
     if(utenti != null) {
@@ -47,7 +44,7 @@ if(errore != null){
 			<form action="<%= request.getContextPath()%>/GestioneUtentiServlet" method="post">
 			
 			<input type="hidden" name="idUtente" value="<%= utente.getIdUtente() %>">
-			<input type="submit" name="azione" value="Modifica ruolo">
+			<input type="submit" name="azione" value="<%= "ADMIN".equals(utente.getRuolo()) ? "Declassa a USER" : "Promuovi ad ADMIN" %>">
 			</form>
 			<br><hr>
 <%	

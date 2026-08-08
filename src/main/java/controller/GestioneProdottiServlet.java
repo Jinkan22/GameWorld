@@ -97,7 +97,14 @@ public class GestioneProdottiServlet extends HttpServlet {
 			dao.doUpdate(prodotto);
 			response.sendRedirect(request.getContextPath() + "/GestioneProdottiServlet");
 			break;
-			}	
+			}
+		case "Crea offerta": {
+			request.setAttribute("prodotto", prodotto);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/creazioneOfferta.jsp");
+			dispatcher.forward(request, response);
+			break;
+			}
 		}
 	}
 

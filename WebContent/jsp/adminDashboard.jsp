@@ -19,7 +19,7 @@
 
 <a href="<%= request.getContextPath()%>/GestioneUtentiServlet"><strong>Gestione utenti</strong></a><br><br>
 
-<a href="<%= request.getContextPath()%>/AdminDashboardServlet"><strong>Gestione offerte</strong></a>
+<a href="<%= request.getContextPath()%>/GestioneOfferteServlet"><strong>Gestione offerte</strong></a>
 
 </body>
 </html>

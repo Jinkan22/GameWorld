@@ -47,6 +47,7 @@ if(errore != null){
 			
 				<input type="submit" name="azione" value="Modifica">
 				<input type="submit" name="azione" value="Elimina">
+				<input type="submit" name="azione" value="Crea offerta">
 			</form>
 			<hr>
 <%
