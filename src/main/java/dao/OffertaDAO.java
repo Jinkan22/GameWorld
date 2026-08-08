@@ -211,4 +211,38 @@ public class OffertaDAO {
             return false;
         }
     }
+    
+    //lettura di un'offerta ATTIVA di un determinato prodotto
+    public OffertaBean doRetrieveAttivaByIdProdotto (int idProdotto){
+    	OffertaBean offerta = null;
+    	
+    	try {
+    		String sql = "SELECT * FROM offerta WHERE idProdotto=? "
+    				+ "AND dataInizio<=CURDATE() AND dataFine>=CURDATE()"
+    				+ "LIMIT 1";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idProdotto);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		if(rs.next()) {
+    			offerta = new OffertaBean();
+    			
+    			offerta.setIdOfferta(rs.getInt("idOfferta"));
+    			offerta.setPercentualeSconto(rs.getInt("percentualeSconto"));
+    			offerta.setDataInizio(rs.getDate("dataInizio"));
+    			offerta.setDataFine(rs.getDate("dataFine"));
+    			offerta.setIdProdotto(rs.getInt("idProdotto"));
+    			
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return offerta;
+    }
 }

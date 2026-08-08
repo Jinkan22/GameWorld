@@ -6,10 +6,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.GenereBean;
+import model.OffertaBean;
+import model.PiattaformaBean;
 import model.ProdottoBean;
+import model.ProdottoViewBean;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import dao.GenereDAO;
+import dao.OffertaDAO;
+import dao.PiattaformaDAO;
 import dao.ProdottoDAO;
 
 /**
@@ -31,13 +39,39 @@ public class PaginaProdottoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProdottoDAO dao = new ProdottoDAO();
-		
 		int idProdotto = Integer.parseInt(request.getParameter("idProdotto"));
 
-		ProdottoBean prodotto = dao.doRetrieveByKey(idProdotto);
+		ProdottoDAO prodottoDAO = new ProdottoDAO();
+		OffertaDAO offertaDAO = new OffertaDAO();
+		GenereDAO genereDAO = new GenereDAO();
+		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+		
+		ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(idProdotto);
+		
+		//controlla se l'ordine non esiste
+		if(prodotto == null) {
+			request.setAttribute("errore", "Il prodotto selezionato non esiste");
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/CatalogoServlet");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
+		OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
+		ArrayList<GenereBean> generi = genereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto());
+		ArrayList<PiattaformaBean> piattaforme = piattaformaDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto());
 
-		request.setAttribute("prodotto", prodotto);
+		ProdottoViewBean prodottoView = new ProdottoViewBean();
+		
+		prodottoView.setProdotto(prodotto);
+		prodottoView.setOfferta(offerta);
+		if(prodottoView.getOfferta() != null)
+			prodottoView.setPrezzoScontato(prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto()));
+		else prodottoView.setPrezzoScontato(0);
+		prodottoView.setGeneri(generi);
+		prodottoView.setPiattaforme(piattaforme);
+		
+		request.setAttribute("prodotto", prodottoView);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/paginaProdotto.jsp");
 		dispatcher.forward(request, response);

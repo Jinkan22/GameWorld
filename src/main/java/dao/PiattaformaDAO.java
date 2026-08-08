@@ -119,4 +119,34 @@ public class PiattaformaDAO {
     		return false;
     	}
     }
+    
+    //lettura di tutte le piattaforme per un determinato prodotto
+    public ArrayList<PiattaformaBean> doRetrieveByIdProdotto(int idProdotto){
+    	ArrayList<PiattaformaBean> list = new ArrayList<PiattaformaBean>();
+    	
+    	try {
+    		String sql = "SELECT * FROM piattaforma WHERE idProdotto=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		ps.setInt(1, idProdotto);
+    		
+    		while(rs.next()) {
+    			PiattaformaBean piattaforma = new PiattaformaBean();
+    			
+    			piattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));
+    			piattaforma.setNomePiattaforma(rs.getString("nomePiattaforma"));
+    			
+    			list.add(piattaforma);
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
 }
