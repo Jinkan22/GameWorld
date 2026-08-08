@@ -21,7 +21,7 @@ public class GenereDAO {
     	GenereBean genere = null;
     	
     	try {
-    		String sql = "SELECT * FROM genere WHERE idGenere = ?";
+    		String sql = "SELECT * FROM genere WHERE idGenere=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
     		ps.setInt(1, idGenere);
@@ -139,36 +139,6 @@ public class GenereDAO {
     		e.printStackTrace();
     		return false;
     	}
-    }
-    
-    //lettura di tutti i generi di un determinato prodotto
-    public ArrayList<GenereBean> doRetrieveByIdProdotto(int idProdotto){
-    	ArrayList<GenereBean> list = new ArrayList<GenereBean>();
-    	
-    	try {
-    		String sql = "SELECT * FROM genere WHERE idProdotto=?";
-    		
-    		PreparedStatement ps = connection.prepareStatement(sql);
-    		ps.setInt(1, idProdotto);
-    		
-    		ResultSet rs = ps.executeQuery();
-    		
-    		while(rs.next()) {
-    			GenereBean genere = new GenereBean();
-    			
-    			genere.setIdGenere(rs.getInt("idGenere"));
-    			genere.setNomeGenere(rs.getString("nomeGenere"));
-    			
-    			list.add(genere);
-    		}
-    		rs.close();
-    		ps.close();
-    	}
-    	catch (SQLException e){
-    		e.printStackTrace();
-    	}
-    	
-    	return list;
     }
     
     //controlla se il genere è utilizzato

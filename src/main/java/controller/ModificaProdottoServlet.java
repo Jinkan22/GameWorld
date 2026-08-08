@@ -84,7 +84,7 @@ public class ModificaProdottoServlet extends HttpServlet {
 		
 		dao.doUpdate(prodotto);
 		
-		response.sendRedirect(request.getContextPath() + "/GestioneProdottiServlet");
+		response.sendRedirect(request.getContextPath() + "/PaginaProdottoServlet?idProdotto=" + idProdotto);
 	}
 
 }

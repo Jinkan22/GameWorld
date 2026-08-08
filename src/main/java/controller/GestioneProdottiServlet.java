@@ -7,13 +7,24 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.GenereBean;
+import model.OffertaBean;
+import model.PiattaformaBean;
 import model.ProdottoBean;
+import model.ProdottoGenereBean;
+import model.ProdottoPiattaformaBean;
+import model.ProdottoViewBean;
 import model.UtenteBean;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import dao.GenereDAO;
+import dao.OffertaDAO;
+import dao.PiattaformaDAO;
 import dao.ProdottoDAO;
+import dao.ProdottoGenereDAO;
+import dao.ProdottoPiattaformaDAO;
 
 /**
  * Servlet implementation class GestioneProdottiServlet
@@ -45,10 +56,40 @@ public class GestioneProdottiServlet extends HttpServlet {
 			return;
 		}
 		
-		ProdottoDAO dao = new ProdottoDAO();
-		ArrayList<ProdottoBean> prodotti = dao.doRetrieveAll();
+		ProdottoDAO prodottoDAO = new ProdottoDAO();
+		OffertaDAO offertaDAO = new OffertaDAO();
+		ProdottoGenereDAO prodottoGenereDAO = new ProdottoGenereDAO();
+		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+		GenereDAO genereDAO = new GenereDAO();
+		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
 		
-		request.setAttribute("prodotti", prodotti);
+		ArrayList<ProdottoBean> prodotti = prodottoDAO.doRetrieveAll();
+		ArrayList<ProdottoViewBean> prodottiView = new ArrayList<ProdottoViewBean>();
+		
+		for(ProdottoBean prodotto : prodotti) {
+			OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
+			ArrayList<GenereBean> generiProdotto = prodottoGenereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto());
+			ArrayList<PiattaformaBean> piattaformeProdotto = prodottoPiattaformaDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto());
+
+			ProdottoViewBean prodottoView = new ProdottoViewBean();
+			
+			prodottoView.setProdotto(prodotto);
+			prodottoView.setOfferta(offerta);
+			if(prodottoView.getOfferta() != null)
+				prodottoView.setPrezzoScontato(prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto()));
+			else prodottoView.setPrezzoScontato(0);
+			prodottoView.setGeneri(generiProdotto);
+			prodottoView.setPiattaforme(piattaformeProdotto);
+			
+			prodottiView.add(prodottoView);
+		}
+		
+		ArrayList<GenereBean> generi = genereDAO.doRetrieveAll();
+		ArrayList<PiattaformaBean> piattaforme = piattaformaDAO.doRetrieveAll();
+		
+		request.setAttribute("prodotti", prodottiView);
+		request.setAttribute("generi", generi);
+		request.setAttribute("piattaforme", piattaforme);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneProdotti.jsp");
 		dispatcher.forward(request, response);
@@ -85,14 +126,14 @@ public class GestioneProdottiServlet extends HttpServlet {
 		}
 		
 		switch(azione) {
-		case "Modifica": {
+		case "Modifica prodotto": {
 			request.setAttribute("prodotto", prodotto);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/modificaProdotto.jsp");
 			dispatcher.forward(request, response);
 			break;
 			}
-		case "Elimina": {
+		case "Elimina prodotto": {
 			prodotto.setQuantitaDisponibile(0);
 			dao.doUpdate(prodotto);
 			response.sendRedirect(request.getContextPath() + "/GestioneProdottiServlet");
@@ -103,6 +144,56 @@ public class GestioneProdottiServlet extends HttpServlet {
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/creazioneOfferta.jsp");
 			dispatcher.forward(request, response);
+			break;
+			}
+		case "Aggiungi piattaforma": {
+			String idPiattaforma = request.getParameter("idPiattaforma");
+			
+			if(idPiattaforma == null || idPiattaforma.isEmpty()) {
+				response.sendRedirect(request.getContextPath() + "/GestioneProdottiServlet");
+				break;
+			}
+			
+			ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+			ProdottoPiattaformaBean prodottoPiattaforma = new ProdottoPiattaformaBean();
+			
+			prodottoPiattaforma.setIdProdotto(idProdotto);
+			prodottoPiattaforma.setIdPiattaforma(Integer.parseInt(idPiattaforma));
+			
+			//controlla se la relazione già esiste
+			if(prodottoPiattaformaDAO.esiste(prodottoPiattaforma.getIdProdotto(), prodottoPiattaforma.getIdPiattaforma())) {
+				response.sendRedirect(request.getContextPath() + "/GestioneProdottiServlet");
+				break;
+			}
+			
+			prodottoPiattaformaDAO.doSave(prodottoPiattaforma);
+			
+			response.sendRedirect(request.getContextPath() + "/PaginaProdottoServlet?idProdotto=" + idProdotto);
+			break;
+			}
+		case "Aggiungi genere": {
+			String idGenere = request.getParameter("idGenere");
+			
+			if(idGenere == null || idGenere.isEmpty()) {
+				response.sendRedirect(request.getContextPath() + "/GestioneProdottiServlet");
+				break;
+			}
+			
+			ProdottoGenereDAO prodottoGenereDAO = new ProdottoGenereDAO();
+			ProdottoGenereBean prodottoGenere = new ProdottoGenereBean();
+			
+			prodottoGenere.setIdProdotto(idProdotto);
+			prodottoGenere.setIdGenere(Integer.parseInt(idGenere));
+			
+			//controlla se la relazione già esiste
+			if(prodottoGenereDAO.esiste(prodottoGenere.getIdProdotto(), prodottoGenere.getIdGenere())) {
+				response.sendRedirect(request.getContextPath() + "/GestioneProdottiServlet");
+				break;
+			}
+			
+			prodottoGenereDAO.doSave(prodottoGenere);
+			
+			response.sendRedirect(request.getContextPath() + "/PaginaProdottoServlet?idProdotto=" + idProdotto);
 			break;
 			}
 		}

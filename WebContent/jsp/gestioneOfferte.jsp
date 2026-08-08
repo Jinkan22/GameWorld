@@ -51,7 +51,9 @@ if(errore != null){
 <%	
         }
     }
+    else
 %>
+	<p>Non sono presenti offerte</p>
 
 </body>
 </html>

@@ -6,11 +6,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.GenereBean;
 import model.OffertaBean;
 import model.PiattaformaBean;
 import model.ProdottoBean;
 import model.ProdottoViewBean;
+import model.UtenteBean;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import dao.GenereDAO;
 import dao.OffertaDAO;
 import dao.PiattaformaDAO;
 import dao.ProdottoDAO;
+import dao.ProdottoGenereDAO;
+import dao.ProdottoPiattaformaDAO;
 
 /**
  * Servlet implementation class PaginaProdottoServlet
@@ -43,6 +47,8 @@ public class PaginaProdottoServlet extends HttpServlet {
 
 		ProdottoDAO prodottoDAO = new ProdottoDAO();
 		OffertaDAO offertaDAO = new OffertaDAO();
+		ProdottoGenereDAO prodottoGenereDAO = new ProdottoGenereDAO();
+		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
 		GenereDAO genereDAO = new GenereDAO();
 		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
 		
@@ -57,9 +63,20 @@ public class PaginaProdottoServlet extends HttpServlet {
 			return;
 		}
 		
+		//se l'utente è admin imposta generi e piattaforme come attributi della request
+		HttpSession session = request.getSession();
+		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
+		if(utente != null && "ADMIN".equals(utente.getRuolo())) {
+			ArrayList<GenereBean> generi = genereDAO.doRetrieveAll();
+			ArrayList<PiattaformaBean> piattaforme = piattaformaDAO.doRetrieveAll();
+			
+			request.setAttribute("generi", generi);
+			request.setAttribute("piattaforme", piattaforme);
+		}
+		
 		OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
-		ArrayList<GenereBean> generi = genereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto());
-		ArrayList<PiattaformaBean> piattaforme = piattaformaDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto());
+		ArrayList<GenereBean> generiProdotto = prodottoGenereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto());
+		ArrayList<PiattaformaBean> piattaformeProdotto = prodottoPiattaformaDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto());
 
 		ProdottoViewBean prodottoView = new ProdottoViewBean();
 		
@@ -68,8 +85,8 @@ public class PaginaProdottoServlet extends HttpServlet {
 		if(prodottoView.getOfferta() != null)
 			prodottoView.setPrezzoScontato(prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto()));
 		else prodottoView.setPrezzoScontato(0);
-		prodottoView.setGeneri(generi);
-		prodottoView.setPiattaforme(piattaforme);
+		prodottoView.setGeneri(generiProdotto);
+		prodottoView.setPiattaforme(piattaformeProdotto);
 		
 		request.setAttribute("prodotto", prodottoView);
 
