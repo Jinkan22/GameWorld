@@ -50,7 +50,7 @@ public class GenereDAO {
     	ArrayList<GenereBean> list = new ArrayList<GenereBean>();
     	
     	try {
-    		String sql = "SELECT * FROM genere";
+    		String sql = "SELECT * FROM genere ORDER BY nomeGenere ASC";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
     		
@@ -120,7 +120,28 @@ public class GenereDAO {
     	}
     }
     
-    //lettura di tutti i generi
+    //eliminazione di un genere
+    public boolean doDelete(int idGenere) {
+    	try {
+    		String sql = "DELETE FROM genere WHERE idGenere=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		
+    		ps.setInt(1, idGenere);
+    		
+    		int result = ps.executeUpdate();
+    		ps.close();
+    		
+    		return result > 0;
+    		
+    	}
+    	catch(SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
+    
+    //lettura di tutti i generi di un determinato prodotto
     public ArrayList<GenereBean> doRetrieveByIdProdotto(int idProdotto){
     	ArrayList<GenereBean> list = new ArrayList<GenereBean>();
     	
@@ -148,5 +169,28 @@ public class GenereDAO {
     	}
     	
     	return list;
+    }
+    
+    //controlla se il genere è utilizzato
+    public boolean isUtilizzato(int idGenere) {
+        try {
+            String sql = "SELECT * FROM prodottoGenere WHERE idGenere=? LIMIT 1";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idGenere);
+
+            ResultSet rs = ps.executeQuery();
+
+            boolean utilizzata = rs.next();
+
+            rs.close();
+            ps.close();
+
+            return utilizzata;
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

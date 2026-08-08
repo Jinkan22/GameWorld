@@ -50,7 +50,7 @@ public class PiattaformaDAO {
     	ArrayList<PiattaformaBean> list = new ArrayList<PiattaformaBean>();
     	
     	try {
-    		String sql = "SELECT * FROM piattaforma";
+    		String sql = "SELECT * FROM piattaforma ORDER BY nomePiattaforma ASC";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
     		
@@ -120,6 +120,27 @@ public class PiattaformaDAO {
     	}
     }
     
+    //eliminazione di una piattaforma
+    public boolean doDelete(int idPiattaforma) {
+    	try {
+    		String sql = "DELETE FROM piattaforma WHERE idPiattaforma=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		
+    		ps.setInt(1, idPiattaforma);
+    		
+    		int result = ps.executeUpdate();
+    		ps.close();
+    		
+    		return result > 0;
+    		
+    	}
+    	catch(SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
+    
     //lettura di tutte le piattaforme per un determinato prodotto
     public ArrayList<PiattaformaBean> doRetrieveByIdProdotto(int idProdotto){
     	ArrayList<PiattaformaBean> list = new ArrayList<PiattaformaBean>();
@@ -148,5 +169,28 @@ public class PiattaformaDAO {
     	}
     	
     	return list;
+    }
+    
+    //controlla se la piattaforma è utilizzata
+    public boolean isUtilizzata(int idPiattaforma) {
+        try {
+            String sql = "SELECT * FROM prodottoPiattaforma WHERE idPiattaforma=? LIMIT 1";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idPiattaforma);
+
+            ResultSet rs = ps.executeQuery();
+
+            boolean utilizzata = rs.next();
+
+            rs.close();
+            ps.close();
+
+            return utilizzata;
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
