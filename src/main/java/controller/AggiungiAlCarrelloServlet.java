@@ -44,11 +44,10 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		int idProdotto = Integer.parseInt(request.getParameter("idProdotto"));
+		int idPiattaforma = Integer.parseInt(request.getParameter("idPiattaforma"));
 		
 		HttpSession session = request.getSession();
-		
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");	
 		
 		if(utente == null) {
@@ -59,7 +58,7 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
 			
 			boolean found = false;
 			for(ElementoCarrelloBean elemento : carrello) {
-				if(elemento.getIdProdotto() == idProdotto) {
+				if(elemento.getIdProdotto() == idProdotto && elemento.getIdPiattaforma() == idPiattaforma) {
 					
 					if(!CarrelloUtils.gestioneQuantitaNonDisponibile(request, response, elemento, elemento.getQuantita() + 1))
 						return;
@@ -74,6 +73,7 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
 				ElementoCarrelloBean elemento = new ElementoCarrelloBean();
 				
 				elemento.setIdProdotto(idProdotto);
+				elemento.setIdPiattaforma(idPiattaforma);
 				
 				if(!CarrelloUtils.gestioneQuantitaNonDisponibile(request, response, elemento, 1))
 					return;
@@ -88,12 +88,13 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
 		else {
 			ElementoCarrelloDAO dao = new ElementoCarrelloDAO();
 			
-			ElementoCarrelloBean elemento = dao.doRetrieveByIdUtenteAndIdProdotto(utente.getIdUtente(), idProdotto);
+			ElementoCarrelloBean elemento = dao.doRetrieveByIdUtenteIdProdottoIdPiattaforma(utente.getIdUtente(), idProdotto, idPiattaforma);
 			
 			if(elemento == null) {
 				elemento = new ElementoCarrelloBean();
 				
 				elemento.setIdProdotto(idProdotto);
+				elemento.setIdPiattaforma(idPiattaforma);
 				elemento.setIdUtente(utente.getIdUtente());
 				
 				if(!CarrelloUtils.gestioneQuantitaNonDisponibile(request, response, elemento, 1))
@@ -114,7 +115,4 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
 
 		response.sendRedirect("CarrelloServlet");
 	}
-	
-	
-
 }

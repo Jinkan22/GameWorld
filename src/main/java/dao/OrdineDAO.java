@@ -86,10 +86,9 @@ public class OrdineDAO {
     				+ "VALUES (?, ?, ?)";
     		
     		PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-    		
     		ps.setTimestamp(1, ordine.getDataOrdine());
     		ps.setFloat(2, ordine.getTotale());
-    		ps.setInt(4, ordine.getIdUtente());
+    		ps.setInt(3, ordine.getIdUtente());
     		
     		int result = ps.executeUpdate();
     		
@@ -121,8 +120,8 @@ public class OrdineDAO {
     		
     		ps.setTimestamp(1, ordine.getDataOrdine());
     		ps.setFloat(2, ordine.getTotale());
-    		ps.setInt(4, ordine.getIdUtente());
-    		ps.setInt(5, ordine.getIdOrdine());
+    		ps.setInt(3, ordine.getIdUtente());
+    		ps.setInt(4, ordine.getIdOrdine());
     		
     		int result = ps.executeUpdate();
     		ps.close();

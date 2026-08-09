@@ -163,4 +163,76 @@ public class PiattaformaDAO {
             return false;
         }
     }
+    
+    //lettura di tutte le piattaforme di un determinato prodotto
+    public ArrayList<PiattaformaBean> doRetrieveByIdProdotto(int idProdotto) {
+    	ArrayList<PiattaformaBean> list = new ArrayList<PiattaformaBean>();
+    	
+    	try {
+    		String sql = "SELECT p.* "
+    				+ "FROM piattaforma p "
+    				+ "JOIN prodottoPiattaforma pp "
+    				+ "ON p.idPiattaforma = pp.idPiattaforma "
+    				+ "WHERE pp.idProdotto=? "
+    				+ "ORDER BY p.nomePiattaforma ASC";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idProdotto);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			PiattaformaBean piattaforma = new PiattaformaBean();
+    			
+    			piattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));
+    			piattaforma.setNomePiattaforma(rs.getString("nomePiattaforma"));
+    			
+    			list.add(piattaforma);
+    		}
+    		
+    		rs.close();
+    		ps.close();
+    	}
+    	catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
+    
+    //lettura di tutte le piattaforme di un determinato prodotto che siano disponibili all'acquistp
+    public ArrayList<PiattaformaBean> doRetrieveDisponibiliByIdProdotto(int idProdotto){
+    	ArrayList<PiattaformaBean> list = new ArrayList<PiattaformaBean>();
+    	
+    	try {
+    		String sql = "SELECT p.* "
+    				+ "FROM piattaforma p "
+    				+ "JOIN prodottoPiattaforma pp "
+    				+ "ON p.idPiattaforma = pp.idPiattaforma "
+    				+ "WHERE pp.idProdotto=? "
+    				+ "AND pp.quantitaDisponibile > 0 "
+    				+ "ORDER BY p.nomePiattaforma ASC";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idProdotto);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			PiattaformaBean piattaforma = new PiattaformaBean();
+    			
+    			piattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));
+    			piattaforma.setNomePiattaforma(rs.getString("nomePiattaforma"));
+    			
+    			list.add(piattaforma);
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
 }

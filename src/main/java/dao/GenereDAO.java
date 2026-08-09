@@ -163,4 +163,40 @@ public class GenereDAO {
             return false;
         }
     }
+    
+    //lettura di tutti i generi di un determinato prodotto
+    public ArrayList<GenereBean> doRetrieveByIdProdotto(int idProdotto) {
+    	ArrayList<GenereBean> list = new ArrayList<GenereBean>();
+    	
+    	try {
+    		String sql = "SELECT g.* "
+    				+ "FROM genere g "
+    				+ "JOIN prodottoGenere pg "
+    				+ "ON g.idGenere = pg.idGenere "
+    				+ "WHERE pg.idProdotto=? "
+    				+ "ORDER BY g.nomeGenere ASC";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idProdotto);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			GenereBean genere = new GenereBean();
+    			
+    			genere.setIdGenere(rs.getInt("idGenere"));
+    			genere.setNomeGenere(rs.getString("nomeGenere"));
+    			
+    			list.add(genere);
+    		}
+    		
+    		rs.close();
+    		ps.close();
+    	}
+    	catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
 }

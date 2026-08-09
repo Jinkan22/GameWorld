@@ -46,48 +46,32 @@ public class PaginaProdottoServlet extends HttpServlet {
 		int idProdotto = Integer.parseInt(request.getParameter("idProdotto"));
 
 		ProdottoDAO prodottoDAO = new ProdottoDAO();
-		OffertaDAO offertaDAO = new OffertaDAO();
-		ProdottoGenereDAO prodottoGenereDAO = new ProdottoGenereDAO();
-		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
-		GenereDAO genereDAO = new GenereDAO();
-		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
-		
-		ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(idProdotto);
-		
-		//controlla se l'ordine non esiste
-		if(prodotto == null) {
+		ProdottoViewBean prodottoView = prodottoDAO.doRetrieveViewDisponibileByKey(idProdotto);
+
+		// controlla se il prodotto non esiste
+		if(prodottoView == null) {
 			request.setAttribute("errore", "Il prodotto selezionato non esiste");
-			
+
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/CatalogoServlet");
 			dispatcher.forward(request, response);
 			return;
 		}
-		
+
 		//se l'utente è admin imposta generi e piattaforme come attributi della request
 		HttpSession session = request.getSession();
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
+
 		if(utente != null && "ADMIN".equals(utente.getRuolo())) {
+			GenereDAO genereDAO = new GenereDAO();
+			PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+
 			ArrayList<GenereBean> generi = genereDAO.doRetrieveAll();
 			ArrayList<PiattaformaBean> piattaforme = piattaformaDAO.doRetrieveAll();
-			
+
 			request.setAttribute("generi", generi);
 			request.setAttribute("piattaforme", piattaforme);
 		}
-		
-		OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
-		ArrayList<GenereBean> generiProdotto = prodottoGenereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto());
-		ArrayList<PiattaformaBean> piattaformeProdotto = prodottoPiattaformaDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto());
 
-		ProdottoViewBean prodottoView = new ProdottoViewBean();
-		
-		prodottoView.setProdotto(prodotto);
-		prodottoView.setOfferta(offerta);
-		if(prodottoView.getOfferta() != null)
-			prodottoView.setPrezzoScontato(prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto()));
-		else prodottoView.setPrezzoScontato(0);
-		prodottoView.setGeneri(generiProdotto);
-		prodottoView.setPiattaforme(piattaformeProdotto);
-		
 		request.setAttribute("prodotto", prodottoView);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/paginaProdotto.jsp");

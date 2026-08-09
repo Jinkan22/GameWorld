@@ -31,7 +31,7 @@ if(errore != null){
 }
     ArrayList<OffertaViewBean> offerte = (ArrayList<OffertaViewBean>) request.getAttribute("offerte");
 
-    if(offerte != null) {
+    if(offerte != null && !offerte.isEmpty()) {
         for(OffertaViewBean offerta : offerte) {
 %>
 			<p><strong>Offerta #<%= offerta.getOfferta().getIdOfferta() %></strong></p>
@@ -51,9 +51,11 @@ if(errore != null){
 <%	
         }
     }
-    else
+    else {
 %>
 	<p>Non sono presenti offerte</p>
-
+<%
+    }
+%>
 </body>
 </html>

@@ -38,27 +38,23 @@ public class CarrelloServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		HttpSession session = request.getSession();
-		
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
-		
-		ArrayList<ElementoCarrelloBean> carrello;
-		
+
+		ArrayList<ElementoCarrelloViewBean> carrelloView;
+
 		if(utente == null) {
-			carrello = (ArrayList<ElementoCarrelloBean>) session.getAttribute("carrello");
+			ArrayList<ElementoCarrelloBean> carrello = (ArrayList<ElementoCarrelloBean>) session.getAttribute("carrello");
+			carrelloView = CarrelloUtils.creaCarrelloView(carrello);
 		}
 		else {
 			ElementoCarrelloDAO elementoCarrelloDAO = new ElementoCarrelloDAO();
-			
-			carrello = elementoCarrelloDAO.doRetrieveByIdUtente(utente.getIdUtente());
+			carrelloView = elementoCarrelloDAO.doRetrieveViewByIdUtente(utente.getIdUtente());
 		}
-		
-		ArrayList<ElementoCarrelloViewBean> carrelloView = CarrelloUtils.creaCarrelloView(carrello);
-		
+
 		request.setAttribute("carrello", carrelloView);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/carrello.jsp");
+
+		RequestDispatcher dispatcher =request.getRequestDispatcher("/jsp/carrello.jsp");
 		dispatcher.forward(request, response);
 	}
 

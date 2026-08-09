@@ -44,7 +44,6 @@ if(errore != null){
 				<h2><%= prodotto.getProdotto().getNome() %></h2></a>
 
 			<p>Prezzo: <%= prodotto.getProdotto().getPrezzo() %> €</p>
-			<p>Quantità disponibile: <%= prodotto.getProdotto().getQuantitaDisponibile() %></p>
 			<p>Piattaforme:</p>
 			<ul>
 			<%
@@ -66,43 +65,10 @@ if(errore != null){
 			%>
 			</ul>
 						
-			<form action="<%= request.getContextPath()%>/GestioneProdottiServlet" method="post">
+			<form action="<%= request.getContextPath()%>/ModificaProdottoServlet" method="get">
 				<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
-				
-				<select name="idPiattaforma">
-				<option value="">Seleziona piattaforma</option>
-
-				<%
-				for(PiattaformaBean piattaforma : piattaforme) {
-				%>
-        			<option value="<%= piattaforma.getIdPiattaforma() %>">
-            		<%= piattaforma.getNomePiattaforma() %>
-        			</option>
-    			<%
-    			}
-    			%>
-				</select>
-				
-				<input type="submit" name="azione" value="Aggiungi piattaforma"><br>
-				
-				<select name="idGenere">
-				<option value="">Seleziona genere</option>
-
-				<%
-				for(GenereBean genere : generi) {
-				%>
-        			<option value="<%= genere.getIdGenere() %>">
-            		<%= genere.getNomeGenere() %>
-        			</option>
-    			<%
-    			}
-    			%>
-				</select>
-				<input type="submit" name="azione" value="Aggiungi genere"><br>
 			
-				<input type="submit" name="azione" value="Modifica prodotto">
-				<input type="submit" name="azione" value="Elimina prodotto">
-				<input type="submit" name="azione" value="Crea offerta">
+				<input type="submit" name="azione" value="Gestisci prodotto">
 			</form>
 			<hr>
 <%

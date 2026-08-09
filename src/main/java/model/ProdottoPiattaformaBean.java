@@ -3,6 +3,7 @@ package model;
 public class ProdottoPiattaformaBean {
 	private int idProdotto;
 	private int idPiattaforma;
+	private int quantitaDisponibile;
 	
 	//empty constructor
 	public ProdottoPiattaformaBean() {
@@ -16,6 +17,9 @@ public class ProdottoPiattaformaBean {
 	public int getIdPiattaforma() {
 		return idPiattaforma;
 	}
+	public int getQuantitaDisponibile() {
+		return quantitaDisponibile;
+	}
 	
 	//setters
 	public void setIdProdotto(int idProdotto) {
@@ -23,5 +27,8 @@ public class ProdottoPiattaformaBean {
 	}
 	public void setIdPiattaforma(int idPiattaforma) {
 		this.idPiattaforma = idPiattaforma;
+	}
+	public void setQuantitaDisponibile(int quantitaDisponibile) {
+		this.quantitaDisponibile = quantitaDisponibile;
 	}
 }

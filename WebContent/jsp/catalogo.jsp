@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="model.ProdottoBean" %>
+<%@ page import="model.ProdottoViewBean" %>
+<%@ page import="model.PiattaformaBean" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,19 +16,34 @@
 <hr>
 
 <%
-    ArrayList<ProdottoBean> prodotti = (ArrayList<ProdottoBean>) request.getAttribute("prodotti");
+    ArrayList<ProdottoViewBean> prodotti = (ArrayList<ProdottoViewBean>) request.getAttribute("prodotti");
 
     if(prodotti != null) {
-        for(ProdottoBean prodotto : prodotti) {
+        for(ProdottoViewBean prodotto : prodotti) {
 %>
-			<a href="<%= request.getContextPath() %>/PaginaProdottoServlet?idProdotto=<%= prodotto.getIdProdotto() %>">
-				<h2><%= prodotto.getNome() %></h2></a>
+			<a href="<%= request.getContextPath() %>/PaginaProdottoServlet?idProdotto=<%= prodotto.getProdotto().getIdProdotto() %>">
+				<h2><%= prodotto.getProdotto().getNome() %></h2></a>
 
-			<p>Prezzo: <%= prodotto.getPrezzo() %> €</p>
-			<p>Descrizione: <%= prodotto.getDescrizione() %></p>
+			<p>Prezzo: <%= prodotto.getProdotto().getPrezzo() %> €</p>
+			<p>Descrizione: <%= prodotto.getProdotto().getDescrizione() %></p>
 						
 			<form action="<%= request.getContextPath()%>/AggiungiAlCarrelloServlet" method="post">
-				<input type="hidden" name="idProdotto" value="<%= prodotto.getIdProdotto() %>">
+				<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
+				
+				<select name="idPiattaforma" required>
+					<option value="">Seleziona piattaforma</option>
+
+					<%
+					for(PiattaformaBean piattaforma : prodotto.getPiattaforme()) {
+					%>
+						<option value="<%= piattaforma.getIdPiattaforma() %>">
+							<%= piattaforma.getNomePiattaforma() %>
+						</option>
+					<%
+					}
+					%>
+
+				</select>
 			
 				<input type="submit" value="Aggiungi al carrello">
 			</form>

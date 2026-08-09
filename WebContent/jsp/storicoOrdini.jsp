@@ -16,7 +16,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 <a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
 <a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo</a><br>
 
-<h1>Storico Ordini</h1>
+<h1>Storico ordini</h1>
 
 <%
     ArrayList<OrdineBean> ordini = (ArrayList<OrdineBean>) request.getAttribute("ordini");
@@ -26,7 +26,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 %>
 			<p>Data dell'ordine: <%= sdf.format(ordine.getDataOrdine()) %></p>
 			<p>Totale: <%= ordine.getTotale() %> €</p>
-			<p>Stato dell'ordine: <%=ordine.getStatoOrdine() %></p>
 			<a href="<%= request.getContextPath() %>/DettagliOrdineServlet?idOrdine=<%= ordine.getIdOrdine() %>">Visualizza ordine</a>
 			<hr>
 <%

@@ -6,6 +6,7 @@ public class DettaglioOrdineBean {
 	private float prezzoAcquisto;
 	private int idOrdine;
 	private int idProdotto;
+	private int idPiattaforma;
 	
 	//empty constructor
 	public DettaglioOrdineBean() {
@@ -28,6 +29,9 @@ public class DettaglioOrdineBean {
 	public int getIdProdotto() {
 		return idProdotto;
 	}
+	public int getIdPiattaforma() {
+		return idPiattaforma;
+	}
 	
 	//setters
 	public void setIdDettaglio(int idDettaglio) {
@@ -44,5 +48,8 @@ public class DettaglioOrdineBean {
 	}
 	public void setIdProdotto(int idProdotto) {
 		this.idProdotto = idProdotto;
+	}
+	public void setIdPiattaforma(int idPiattaforma) {
+		this.idPiattaforma = idPiattaforma;
 	}
 }

@@ -79,7 +79,7 @@ public class LoginServlet extends HttpServlet {
 		ElementoCarrelloDAO dao = new ElementoCarrelloDAO();
 		
 		for(ElementoCarrelloBean elemento : carrello) {
-			ElementoCarrelloBean elementoDB = dao.doRetrieveByIdUtenteAndIdProdotto(utente.getIdUtente(),elemento.getIdProdotto());
+			ElementoCarrelloBean elementoDB = dao.doRetrieveByIdUtenteIdProdottoIdPiattaforma(utente.getIdUtente(), elemento.getIdProdotto(), elemento.getIdPiattaforma());
 			
 			if(elementoDB != null) {
 				elementoDB.setQuantita(elementoDB.getQuantita()+elemento.getQuantita());

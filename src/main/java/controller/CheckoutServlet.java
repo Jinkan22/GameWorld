@@ -14,6 +14,7 @@ import model.IndirizzoBean;
 import model.MetodoPagamentoBean;
 import model.OrdineBean;
 import model.ProdottoBean;
+import model.ProdottoPiattaformaBean;
 import model.UtenteBean;
 import utils.CarrelloUtils;
 
@@ -27,6 +28,7 @@ import dao.IndirizzoDAO;
 import dao.MetodoPagamentoDAO;
 import dao.OrdineDAO;
 import dao.ProdottoDAO;
+import dao.ProdottoPiattaformaDAO;
 
 /**
  * Servlet implementation class CheckoutServlet
@@ -48,7 +50,6 @@ public class CheckoutServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
 		if(utente == null) {
@@ -60,17 +61,11 @@ public class CheckoutServlet extends HttpServlet {
 		}
 		
 		ElementoCarrelloDAO elementoCarrelloDAO = new ElementoCarrelloDAO();
-		
-		ArrayList<ElementoCarrelloBean> carrelloDB = elementoCarrelloDAO.doRetrieveByIdUtente(utente.getIdUtente());
-		
-		ArrayList<ElementoCarrelloViewBean> carrelloView = CarrelloUtils.creaCarrelloView(carrelloDB);
-		
 		IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
-		
-		ArrayList<IndirizzoBean> indirizzi = indirizzoDAO.doRetrieveByIdUtente(utente.getIdUtente());
-		
 		MetodoPagamentoDAO metodoPagamentoDAO = new MetodoPagamentoDAO();
-		
+
+		ArrayList<ElementoCarrelloViewBean> carrelloView = elementoCarrelloDAO.doRetrieveViewByIdUtente(utente.getIdUtente());
+		ArrayList<IndirizzoBean> indirizzi = indirizzoDAO.doRetrieveByIdUtente(utente.getIdUtente());
 		ArrayList<MetodoPagamentoBean> metodiPagamento = metodoPagamentoDAO.doRetrieveByIdUtente(utente.getIdUtente());
 		
 		request.setAttribute("carrello", carrelloView);
@@ -99,6 +94,7 @@ public class CheckoutServlet extends HttpServlet {
 		
 		OrdineDAO ordineDAO = new OrdineDAO();
 		ProdottoDAO prodottoDAO = new ProdottoDAO();
+		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
 		ElementoCarrelloDAO elementoCarrelloDAO = new ElementoCarrelloDAO();
 		DettaglioOrdineDAO dettaglioOrdineDAO = new DettaglioOrdineDAO();
 		
@@ -115,12 +111,12 @@ public class CheckoutServlet extends HttpServlet {
 		for(ElementoCarrelloBean elemento : carrello) {
 			if(!CarrelloUtils.checkDisponibilita(elemento, elemento.getQuantita())) {
 				
-				ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(elemento.getIdProdotto());
+				ProdottoPiattaformaBean prodottoPiattaforma = prodottoPiattaformaDAO.doRetrieveByKey(elemento.getIdProdotto(), elemento.getIdPiattaforma());
 				
-				if(prodotto.getQuantitaDisponibile() <= 0)
+				if(prodottoPiattaforma.getQuantitaDisponibile() <= 0)
 					elementoCarrelloDAO.doDelete(elemento.getIdElementoCarrello());
 				else {
-					elemento.setQuantita(prodotto.getQuantitaDisponibile());
+					elemento.setQuantita(prodottoPiattaforma.getQuantitaDisponibile());
 					elementoCarrelloDAO.doUpdate(elemento);
 				}
 				
@@ -145,6 +141,7 @@ public class CheckoutServlet extends HttpServlet {
 			DettaglioOrdineBean dettaglioOrdine = new DettaglioOrdineBean();
 			
 			ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(elemento.getIdProdotto());
+			ProdottoPiattaformaBean prodottoPiattaforma = prodottoPiattaformaDAO.doRetrieveByKey(elemento.getIdProdotto(), elemento.getIdPiattaforma());
 			
 			totale += prodotto.getPrezzo() * elemento.getQuantita();
 			
@@ -152,11 +149,12 @@ public class CheckoutServlet extends HttpServlet {
 			dettaglioOrdine.setPrezzoAcquisto(prodotto.getPrezzo());
 			dettaglioOrdine.setIdOrdine(ordine.getIdOrdine());
 			dettaglioOrdine.setIdProdotto(elemento.getIdProdotto());
+			dettaglioOrdine.setIdPiattaforma(elemento.getIdPiattaforma());
 			
 			dettaglioOrdineDAO.doSave(dettaglioOrdine);
 			
-			prodotto.setQuantitaDisponibile(prodotto.getQuantitaDisponibile() - elemento.getQuantita());
-			prodottoDAO.doUpdate(prodotto);
+			prodottoPiattaforma.setQuantitaDisponibile(prodottoPiattaforma.getQuantitaDisponibile() - elemento.getQuantita());
+			prodottoPiattaformaDAO.doUpdate(prodottoPiattaforma);
 		}
 		
 		ordine.setTotale(totale);

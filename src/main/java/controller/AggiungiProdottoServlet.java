@@ -58,7 +58,6 @@ public class AggiungiProdottoServlet extends HttpServlet {
 		String nome = request.getParameter("nome");
 		String descrizione = request.getParameter("descrizione");
 		String prezzo = request.getParameter("prezzo");
-		String quantitaDisponibile = request.getParameter("quantitaDisponibile");
 		String immagine = request.getParameter("immagine");
 		String dataUscita = request.getParameter("dataUscita");
 		String sviluppatore = request.getParameter("sviluppatore");
@@ -66,7 +65,6 @@ public class AggiungiProdottoServlet extends HttpServlet {
 		prodotto.setNome(nome);
 		prodotto.setDescrizione(descrizione);
 		prodotto.setPrezzo(Float.parseFloat(prezzo));
-		prodotto.setQuantitaDisponibile(Integer.parseInt(quantitaDisponibile));
 		prodotto.setImmagine(immagine);
 		prodotto.setDataUscita(Date.valueOf(dataUscita));
 		

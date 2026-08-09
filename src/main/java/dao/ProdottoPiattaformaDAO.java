@@ -34,7 +34,8 @@ public class ProdottoPiattaformaDAO {
     			prodottoPiattaforma = new ProdottoPiattaformaBean();
     			
     			prodottoPiattaforma.setIdProdotto(rs.getInt("idProdotto"));
-    			prodottoPiattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));    			
+    			prodottoPiattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));  
+    			prodottoPiattaforma.setQuantitaDisponibile(rs.getInt("quantitaDisponibile"));
     		}
     		rs.close();
     		ps.close();
@@ -51,12 +52,36 @@ public class ProdottoPiattaformaDAO {
     	
     	try {
     		String sql = "INSERT INTO prodottoPiattaforma "
-    				+ "(idProdotto, idPiattaforma) "
-    				+ "VALUES (?, ?)";
+    				+ "(idProdotto, idPiattaforma, quantitaDisponibile) "
+    				+ "VALUES (?, ?, ?)";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
     		ps.setInt(1, prodottoPiattaforma.getIdProdotto());
     		ps.setInt(2, prodottoPiattaforma.getIdPiattaforma());
+    		ps.setInt(3, prodottoPiattaforma.getQuantitaDisponibile());
+    		
+    		int result = ps.executeUpdate();
+    		ps.close();
+    		
+    		return result > 0;
+    	}
+    	catch(SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    }
+    
+    //modifica di una relazione prodottoPiattaforma
+    public boolean doUpdate(ProdottoPiattaformaBean prodottoPiattaforma) {
+    	try {
+    		String sql = "UPDATE prodottoPiattaforma "
+    				+ "SET quantitaDisponibile=? "
+    				+ "WHERE idProdotto=? AND idPiattaforma=?";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, prodottoPiattaforma.getQuantitaDisponibile());
+    		ps.setInt(2, prodottoPiattaforma.getIdProdotto());
+    		ps.setInt(3, prodottoPiattaforma.getIdPiattaforma());
     		
     		int result = ps.executeUpdate();
     		ps.close();
@@ -91,11 +116,11 @@ public class ProdottoPiattaformaDAO {
     }
     
     //lettura di tutte le piattaforme di un determinato prodotto
-    public ArrayList<PiattaformaBean> doRetrieveByIdProdotto(int idProdotto){
-    	ArrayList<PiattaformaBean> list = new ArrayList<PiattaformaBean>();
+    public ArrayList<ProdottoPiattaformaBean> doRetrieveByIdProdotto(int idProdotto){
+    	ArrayList<ProdottoPiattaformaBean> list = new ArrayList<ProdottoPiattaformaBean>();
     	
     	try {
-    		String sql = "SELECT p.* "
+    		String sql = "SELECT pp.* "
     				+ "FROM piattaforma p "
     				+ "JOIN prodottoPiattaforma pp "
     				+ "ON p.idPiattaforma = pp.idPiattaforma "
@@ -108,12 +133,50 @@ public class ProdottoPiattaformaDAO {
     		ResultSet rs = ps.executeQuery();
     		
     		while(rs.next()) {
-    			PiattaformaBean piattaforma = new PiattaformaBean();
+    			ProdottoPiattaformaBean prodottoPiattaforma = new ProdottoPiattaformaBean();
     			
-    			piattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));
-    			piattaforma.setNomePiattaforma(rs.getString("nomePiattaforma"));
+    			prodottoPiattaforma.setIdProdotto(rs.getInt("idProdotto"));
+    			prodottoPiattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));  
+    			prodottoPiattaforma.setQuantitaDisponibile(rs.getInt("quantitaDisponibile"));
     			
-    			list.add(piattaforma);
+    			list.add(prodottoPiattaforma);
+    		}
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return list;
+    }
+    
+    //lettura di tutte le piattaforme di un determinato prodotto che siano disponibili all'acquistp
+    public ArrayList<ProdottoPiattaformaBean> doRetrieveDisponibiliByIdProdotto(int idProdotto){
+    	ArrayList<ProdottoPiattaformaBean> list = new ArrayList<ProdottoPiattaformaBean>();
+    	
+    	try {
+    		String sql = "SELECT pp.* "
+    				+ "FROM piattaforma p "
+    				+ "JOIN prodottoPiattaforma pp "
+    				+ "ON p.idPiattaforma = pp.idPiattaforma "
+    				+ "WHERE pp.idProdotto=? "
+    				+ "AND pp.quantitaDisponibile > 0 "
+    				+ "ORDER BY p.nomePiattaforma ASC";
+    		
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idProdotto);
+    		
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			ProdottoPiattaformaBean prodottoPiattaforma = new ProdottoPiattaformaBean();
+    			
+    			prodottoPiattaforma.setIdProdotto(rs.getInt("idProdotto"));
+    			prodottoPiattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));  
+    			prodottoPiattaforma.setQuantitaDisponibile(rs.getInt("quantitaDisponibile"));
+    			
+    			list.add(prodottoPiattaforma);
     		}
     		rs.close();
     		ps.close();

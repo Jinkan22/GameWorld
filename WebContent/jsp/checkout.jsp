@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.ProdottoBean" %>
+<%@ page import="model.PiattaformaBean" %>
 <%@ page import="model.ElementoCarrelloViewBean" %>
 <%@ page import="model.IndirizzoBean" %>
 <%@ page import="model.MetodoPagamentoBean" %>
@@ -24,10 +25,12 @@
 	for(ElementoCarrelloViewBean elemento : carrello) {
 		
 		ProdottoBean prodotto = elemento.getProdotto();
+		PiattaformaBean piattaforma = elemento.getPiattaforma();
 	%>
-		<p>Nome: <%= prodotto.getNome() %></p>
-		<p>Prezzo: <%= prodotto.getPrezzo() %> €</p>
-		<p>Quantita: <%= elemento.getQuantita() %></p>
+		<p><strong>Nome:</strong> <%= prodotto.getNome() %></p>
+		<p><strong>Piattaforma:</strong> <%= piattaforma.getNomePiattaforma() %>
+		<p><strong>Prezzo:</strong> <%= prodotto.getPrezzo() %> €</p>
+		<p><strong>Quantita:</strong> <%= elemento.getQuantita() %></p>
 		
 		<hr>
 		

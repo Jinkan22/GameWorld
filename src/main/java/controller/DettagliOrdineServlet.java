@@ -53,27 +53,15 @@ public class DettagliOrdineServlet extends HttpServlet {
 		
 		OrdineDAO ordineDAO = new OrdineDAO();
 		DettaglioOrdineDAO dettaglioOrdineDAO = new DettaglioOrdineDAO();
-		ProdottoDAO prodottoDAO = new ProdottoDAO();
 		
 		OrdineBean ordine = ordineDAO.doRetrieveByKey(idOrdine);
-		ArrayList<DettaglioOrdineBean> dettagliOrdine = dettaglioOrdineDAO.doRetrieveByIdOrdine(idOrdine);
 		
 		if(ordine == null || utente.getIdUtente() != ordine.getIdUtente()) {
 			response.sendRedirect(request.getContextPath() + "/StoricoOrdiniServlet");
 			return;
 		}
 		
-		ArrayList<DettaglioOrdineViewBean> dettagliOrdineView = new ArrayList<DettaglioOrdineViewBean>();
-		
-		for(DettaglioOrdineBean dettaglio : dettagliOrdine) {
-			DettaglioOrdineViewBean dettaglioView = new DettaglioOrdineViewBean();
-			
-			dettaglioView.setProdotto(prodottoDAO.doRetrieveByKey(dettaglio.getIdProdotto()));
-			dettaglioView.setQuantita(dettaglio.getQuantita());
-			dettaglioView.setPrezzoAcquisto(dettaglio.getPrezzoAcquisto());
-			
-			dettagliOrdineView.add(dettaglioView);
-		}
+		ArrayList<DettaglioOrdineViewBean> dettagliOrdineView = dettaglioOrdineDAO.doRetrieveViewByIdOrdine(idOrdine);
 		
 		request.setAttribute("ordine", ordine);
 		request.setAttribute("dettagliOrdine", dettagliOrdineView);

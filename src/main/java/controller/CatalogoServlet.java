@@ -6,7 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.ProdottoBean;
+import model.ProdottoViewBean;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class CatalogoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProdottoDAO dao = new ProdottoDAO();
 
-		ArrayList<ProdottoBean> prodotti = dao.doRetrieveDisponibili();
+		ArrayList<ProdottoViewBean> prodotti = dao.doRetrieveViewDisponibili();
 
 		request.setAttribute("prodotti", prodotti);
 

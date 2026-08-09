@@ -7,7 +7,6 @@ public class ProdottoBean {
 	private String nome;
 	private String descrizione;
 	private float prezzo;
-	private int quantitaDisponibile;
 	private String immagine;
 	private Date dataUscita;
 	private String sviluppatore;
@@ -29,9 +28,6 @@ public class ProdottoBean {
 	}
 	public float getPrezzo() {
 		return prezzo;
-	}
-	public int getQuantitaDisponibile() {
-		return quantitaDisponibile;
 	}
 	public String getImmagine() {
 		return immagine;
@@ -55,9 +51,6 @@ public class ProdottoBean {
 	}
 	public void setPrezzo(float prezzo) {
 		this.prezzo = prezzo;
-	}
-	public void setQuantitaDisponibile(int quantitaDisponibile) {
-		this.quantitaDisponibile = quantitaDisponibile;
 	}
 	public void setImmagine(String immagine) {
 		this.immagine = immagine;

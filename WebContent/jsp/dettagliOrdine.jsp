@@ -32,6 +32,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         for(DettaglioOrdineViewBean dettaglio : dettagliOrdine) {
 %>
 			<p>Prodotto: <%= dettaglio.getProdotto().getNome() %></p>
+			<p>Piattaforma: <%=dettaglio.getPiattaforma().getNomePiattaforma() %></p>
 			<p>Quantità:<%= dettaglio.getQuantita() %></p>
 			<p>Prezzo: <%= dettaglio.getPrezzoAcquisto() %> €</p>
 			<hr>

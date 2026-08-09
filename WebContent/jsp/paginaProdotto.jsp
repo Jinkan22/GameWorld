@@ -42,7 +42,7 @@ UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 <%
 	if(prodotto.getOfferta() != null) {
 %>
-<p><strong>IN OFFERTA A: <%= prodotto.getPrezzoScontato() %> € fino al <%= sdf.format(prodotto.getOfferta().getDataFine()) %></strong></p>
+<p style="color:red"><strong>IN OFFERTA A <%= prodotto.getPrezzoScontato() %> € FINO AL <%= sdf.format(prodotto.getOfferta().getDataFine()) %>!</strong></p>
 
 <%
 	}
@@ -75,64 +75,28 @@ UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 	}
 %>
 
-<% if(prodotto.getProdotto().getSviluppatore() != null) %>
-<p><strong>Sviluppatore:</strong> <%= prodotto.getProdotto().getSviluppatore() %>
+	<p><strong>Sviluppatore:</strong> <%= prodotto.getProdotto().getSviluppatore() %>
+	<p><strong>Data di uscita:</strong> <%= sdf.format(prodotto.getProdotto().getDataUscita()) %><br>
 
-<p><strong>Data di uscita:</strong> <%= sdf.format(prodotto.getProdotto().getDataUscita()) %><br>
-
-<form action="<%= request.getContextPath()%>/AggiungiAlCarrelloServlet" method="post">
-	<input type="hidden" name="idProdotto" value=<%= prodotto.getProdotto().getIdProdotto() %>>
-			
-	<input type="submit" value="Aggiungi al carrello">
-</form>
-
-<%	
-	if(utente != null && "ADMIN".equals(utente.getRuolo())) {
-%>
-		<hr>
-		<h3>Operazioni admin</h3>
-		<form action="<%= request.getContextPath()%>/GestioneProdottiServlet" method="post">
-			<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
-			
-			<select name="idPiattaforma">
-			<option value="">Seleziona piattaforma</option>
+	<form action="<%= request.getContextPath()%>/AggiungiAlCarrelloServlet" method="post">
+		<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
 		
-			<%
-			for(PiattaformaBean piattaforma : piattaforme) {
-			%>
-        		<option value="<%= piattaforma.getIdPiattaforma() %>">
-            	<%= piattaforma.getNomePiattaforma() %>
-        		</option>
-    		<%
-    		}
-    		%>
-			</select>
-			
-			<input type="submit" name="azione" value="Aggiungi piattaforma"><br>
-			
-			<select name="idGenere">
-			<option value="">Seleziona genere</option>
+		<select name="idPiattaforma" required>
+			<option value="">Seleziona piattaforma</option>
 
 			<%
-			for(GenereBean genere : generi) {
+			for(PiattaformaBean piattaforma : prodotto.getPiattaforme()) {
 			%>
-       			<option value="<%= genere.getIdGenere() %>">
-           		<%= genere.getNomeGenere() %>
-       			</option>
-    		<%
-    		}
-    		%>
-			</select>
-			<input type="submit" name="azione" value="Aggiungi genere"><br>
-			
-			<input type="submit" name="azione" value="Modifica prodotto">
-			<input type="submit" name="azione" value="Elimina prodotto">
-			<input type="submit" name="azione" value="Crea offerta">
-		</form>
-
-<%
-	}
-%>
+				<option value="<%= piattaforma.getIdPiattaforma() %>">
+					<%= piattaforma.getNomePiattaforma() %>
+				</option>
+			<%
+			}
+			%>
+		</select>
+	
+		<input type="submit" value="Aggiungi al carrello">
+	</form>
 
 </body>
 </html>

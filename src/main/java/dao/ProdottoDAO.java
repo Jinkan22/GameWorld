@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.OffertaBean;
 import model.ProdottoBean;
+import model.ProdottoViewBean;
 import utils.DBConnection;
 
 public class ProdottoDAO {
@@ -35,7 +37,6 @@ public class ProdottoDAO {
     			prodotto.setNome(rs.getString("nome"));
     			prodotto.setDescrizione(rs.getString("descrizione"));
     			prodotto.setPrezzo(rs.getFloat("prezzo"));
-    			prodotto.setQuantitaDisponibile(rs.getInt("quantitaDisponibile"));
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -68,7 +69,6 @@ public class ProdottoDAO {
     			prodotto.setNome(rs.getString("nome"));
     			prodotto.setDescrizione(rs.getString("descrizione"));
     			prodotto.setPrezzo(rs.getFloat("prezzo"));
-    			prodotto.setQuantitaDisponibile(rs.getInt("quantitaDisponibile"));
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -90,18 +90,17 @@ public class ProdottoDAO {
     	
     	try {
     		String sql = "INSERT INTO prodotto "
-    				+ "(nome, descrizione, prezzo, quantitaDisponibile, immagine, dataUscita, sviluppatore) "
-    				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    				+ "(nome, descrizione, prezzo, immagine, dataUscita, sviluppatore) "
+    				+ "VALUES (?, ?, ?, ?, ?, ?)";
     		
     		PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
     		
     		ps.setString(1, prodotto.getNome());
     		ps.setString(2, prodotto.getDescrizione());
     		ps.setFloat(3, prodotto.getPrezzo());
-    		ps.setInt(4, prodotto.getQuantitaDisponibile());
-    		ps.setString(5, prodotto.getImmagine());
-    		ps.setDate(6, prodotto.getDataUscita());
-    		ps.setString(7, prodotto.getSviluppatore());
+    		ps.setString(4, prodotto.getImmagine());
+    		ps.setDate(5, prodotto.getDataUscita());
+    		ps.setString(6, prodotto.getSviluppatore());
     		
     		int result = ps.executeUpdate();
     		
@@ -126,7 +125,7 @@ public class ProdottoDAO {
     public boolean doUpdate(ProdottoBean prodotto) {
     	try {
     		String sql = "UPDATE prodotto "
-    				+ "SET nome=?, descrizione=?, prezzo=?, quantitaDisponibile=?, immagine=?, dataUscita=?, sviluppatore=? "
+    				+ "SET nome=?, descrizione=?, prezzo=?, immagine=?, dataUscita=?, sviluppatore=? "
     				+ "WHERE idProdotto=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -134,11 +133,10 @@ public class ProdottoDAO {
     		ps.setString(1, prodotto.getNome());
     		ps.setString(2, prodotto.getDescrizione());
     		ps.setFloat(3, prodotto.getPrezzo());
-    		ps.setInt(4, prodotto.getQuantitaDisponibile());
-    		ps.setString(5, prodotto.getImmagine());
-    		ps.setDate(6, prodotto.getDataUscita());
-    		ps.setString(7, prodotto.getSviluppatore());
-    		ps.setInt(8, prodotto.getIdProdotto());
+    		ps.setString(4, prodotto.getImmagine());
+    		ps.setDate(5, prodotto.getDataUscita());
+    		ps.setString(6, prodotto.getSviluppatore());
+    		ps.setInt(7, prodotto.getIdProdotto());
     		
     		int result = ps.executeUpdate();
     		ps.close();
@@ -190,7 +188,6 @@ public class ProdottoDAO {
     			prodotto.setNome(rs.getString("nome"));
     			prodotto.setDescrizione(rs.getString("descrizione"));
     			prodotto.setPrezzo(rs.getFloat("prezzo"));
-    			prodotto.setQuantitaDisponibile(rs.getInt("quantitaDisponibile"));
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -204,6 +201,225 @@ public class ProdottoDAO {
     		e.printStackTrace();
     	}
     	
+    	return list;
+    }
+    
+  //lettura di un prodotto view in base alla chiave primaria
+    public ProdottoViewBean doRetrieveViewByKey(int idProdotto) {
+    	ProdottoViewBean prodottoView = null;
+
+    	try {
+    		String sql = "SELECT * FROM prodotto WHERE idProdotto = ?";
+
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idProdotto);
+
+    		ResultSet rs = ps.executeQuery();
+
+    		if(rs.next()) {
+    			ProdottoBean prodotto = new ProdottoBean();
+
+    			prodotto.setIdProdotto(rs.getInt("idProdotto"));
+    			prodotto.setNome(rs.getString("nome"));
+    			prodotto.setDescrizione(rs.getString("descrizione"));
+    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setImmagine(rs.getString("immagine"));
+    			prodotto.setDataUscita(rs.getDate("dataUscita"));
+    			prodotto.setSviluppatore(rs.getString("sviluppatore"));
+
+    			prodottoView = new ProdottoViewBean();
+    			prodottoView.setProdotto(prodotto);
+
+    			GenereDAO genereDAO = new GenereDAO();
+    			PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+    			ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+    			OffertaDAO offertaDAO = new OffertaDAO();
+
+    			prodottoView.setGeneri(genereDAO.doRetrieveByIdProdotto(idProdotto));
+    			prodottoView.setPiattaforme(piattaformaDAO.doRetrieveByIdProdotto(idProdotto));
+    			prodottoView.setProdottoPiattaforme(prodottoPiattaformaDAO.doRetrieveByIdProdotto(idProdotto));
+
+    			OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(idProdotto);
+    			prodottoView.setOfferta(offerta);
+
+    			if(offerta != null) {
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo() - (prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto())));
+    			}
+    		}
+
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+
+    	return prodottoView;
+    }
+    
+  //lettura di un prodotto view in base alla chiave primaria con le piattaforme disponibili
+    public ProdottoViewBean doRetrieveViewDisponibileByKey(int idProdotto) {
+    	ProdottoViewBean prodottoView = null;
+
+    	try {
+    		String sql = "SELECT * FROM prodotto WHERE idProdotto = ?";
+
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, idProdotto);
+
+    		ResultSet rs = ps.executeQuery();
+
+    		if(rs.next()) {
+    			ProdottoBean prodotto = new ProdottoBean();
+
+    			prodotto.setIdProdotto(rs.getInt("idProdotto"));
+    			prodotto.setNome(rs.getString("nome"));
+    			prodotto.setDescrizione(rs.getString("descrizione"));
+    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setImmagine(rs.getString("immagine"));
+    			prodotto.setDataUscita(rs.getDate("dataUscita"));
+    			prodotto.setSviluppatore(rs.getString("sviluppatore"));
+
+    			prodottoView = new ProdottoViewBean();
+    			prodottoView.setProdotto(prodotto);
+
+    			GenereDAO genereDAO = new GenereDAO();
+    			PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+    			ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+    			OffertaDAO offertaDAO = new OffertaDAO();
+
+    			prodottoView.setGeneri(genereDAO.doRetrieveByIdProdotto(idProdotto));
+    			prodottoView.setPiattaforme(piattaformaDAO.doRetrieveDisponibiliByIdProdotto(idProdotto));
+    			prodottoView.setProdottoPiattaforme(prodottoPiattaformaDAO.doRetrieveDisponibiliByIdProdotto(idProdotto));
+
+    			OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(idProdotto);
+    			prodottoView.setOfferta(offerta);
+
+    			if(offerta != null) {
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo() - (prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto())));
+    			}
+    		}
+
+    		rs.close();
+    		ps.close();
+    	}
+    	catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+
+    	return prodottoView;
+    }
+    
+  //lettura di tutti i prodotti view
+    public ArrayList<ProdottoViewBean> doRetrieveAllView() {
+    	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
+
+    	try {
+    		String sql = "SELECT * FROM prodotto ORDER BY nome ASC";
+
+    		PreparedStatement ps = connection.prepareStatement(sql);
+
+    		ResultSet rs = ps.executeQuery();
+
+    		GenereDAO genereDAO = new GenereDAO();
+    		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+    		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+    		OffertaDAO offertaDAO = new OffertaDAO();
+
+    		while(rs.next()) {
+    			ProdottoBean prodotto = new ProdottoBean();
+
+    			prodotto.setIdProdotto(rs.getInt("idProdotto"));
+    			prodotto.setNome(rs.getString("nome"));
+    			prodotto.setDescrizione(rs.getString("descrizione"));
+    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setImmagine(rs.getString("immagine"));
+    			prodotto.setDataUscita(rs.getDate("dataUscita"));
+    			prodotto.setSviluppatore(rs.getString("sviluppatore"));
+
+    			ProdottoViewBean prodottoView = new ProdottoViewBean();
+    			prodottoView.setProdotto(prodotto);
+
+    			prodottoView.setGeneri(genereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setPiattaforme(piattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setProdottoPiattaforme(prodottoPiattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+
+    			OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
+    			prodottoView.setOfferta(offerta);
+
+    			if(offerta != null) {
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo() - (prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto())));
+    			}
+
+    			list.add(prodottoView);
+    		}
+
+    		rs.close();
+    		ps.close();
+    	}
+    	catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+
+    	return list;
+    }
+    
+  //lettura di tutti i prodotti view disponibili
+    public ArrayList<ProdottoViewBean> doRetrieveViewDisponibili() {
+    	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
+
+    	try {
+    		String sql = "SELECT * FROM prodotto "
+    				+ "WHERE EXISTS ("
+    				+ "SELECT 1 FROM prodottoPiattaforma pp "
+    				+ "WHERE pp.idProdotto = prodotto.idProdotto "
+    				+ "AND pp.quantitaDisponibile > 0) "
+    				+ "ORDER BY nome ASC";
+
+    		PreparedStatement ps = connection.prepareStatement(sql);
+
+    		ResultSet rs = ps.executeQuery();
+
+    		GenereDAO genereDAO = new GenereDAO();
+    		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+    		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+    		OffertaDAO offertaDAO = new OffertaDAO();
+
+    		while(rs.next()) {
+    			ProdottoBean prodotto = new ProdottoBean();
+
+    			prodotto.setIdProdotto(rs.getInt("idProdotto"));
+    			prodotto.setNome(rs.getString("nome"));
+    			prodotto.setDescrizione(rs.getString("descrizione"));
+    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setImmagine(rs.getString("immagine"));
+    			prodotto.setDataUscita(rs.getDate("dataUscita"));
+    			prodotto.setSviluppatore(rs.getString("sviluppatore"));
+
+    			ProdottoViewBean prodottoView = new ProdottoViewBean();
+    			prodottoView.setProdotto(prodotto);
+
+    			prodottoView.setGeneri(genereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setPiattaforme(piattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setProdottoPiattaforme(prodottoPiattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+
+    			OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
+    			prodottoView.setOfferta(offerta);
+
+    			if(offerta != null) {
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo() - (prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto())));
+    			}
+
+    			list.add(prodottoView);
+    		}
+
+    		rs.close();
+    		ps.close();
+    	}
+    	catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+
     	return list;
     }
 }

@@ -7,6 +7,7 @@ public class ProdottoViewBean {
 	private OffertaBean offerta;
 	private float prezzoScontato;
 	private ArrayList<GenereBean> generi;
+	private ArrayList<ProdottoPiattaformaBean> prodottoPiattaforme;
 	private ArrayList<PiattaformaBean> piattaforme;
 	
 	//empty constructor
@@ -24,10 +25,13 @@ public class ProdottoViewBean {
 	public float getPrezzoScontato() {
 		return prezzoScontato;
 	}
-	public ArrayList<GenereBean> getGeneri(){
+	public ArrayList<GenereBean> getGeneri() {
 		return generi;
 	}
-	public ArrayList<PiattaformaBean> getPiattaforme(){
+	public ArrayList<ProdottoPiattaformaBean> getProdottoPiattaforme() {
+		return prodottoPiattaforme;
+	}
+	public ArrayList<PiattaformaBean> getPiattaforme() {
 		return piattaforme;
 	}
 	
@@ -43,6 +47,9 @@ public class ProdottoViewBean {
 	}
 	public void setGeneri(ArrayList<GenereBean> generi) {
 		this.generi = generi;
+	}
+	public void setProdottoPiattaforme(ArrayList<ProdottoPiattaformaBean> prodottoPiattaforme) {
+		this.prodottoPiattaforme = prodottoPiattaforme;
 	}
 	public void setPiattaforme(ArrayList<PiattaformaBean> piattaforme) {
 		this.piattaforme = piattaforme;

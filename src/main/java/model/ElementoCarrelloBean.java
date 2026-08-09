@@ -5,6 +5,7 @@ public class ElementoCarrelloBean {
 	private int quantita;
 	private int idUtente;
 	private int idProdotto;
+	private int idPiattaforma;
 	
 	//empty constructor
 	public ElementoCarrelloBean() {
@@ -24,6 +25,9 @@ public class ElementoCarrelloBean {
 	public int getIdProdotto() {
 		return idProdotto;
 	}
+	public int getIdPiattaforma() {
+		return idPiattaforma;
+	}
 	
 	//setters
 	public void setIdElementoCarrello(int idElementoCarrello) {
@@ -37,5 +41,8 @@ public class ElementoCarrelloBean {
 	}
 	public void setIdProdotto(int idProdotto) {
 		this.idProdotto = idProdotto;
+	}
+	public void setIdPiattaforma(int idPiattaforma) {
+		this.idPiattaforma = idPiattaforma;
 	}
 }

@@ -23,9 +23,6 @@
 	<label>Prezzo</label><br>
 	<input type="number" name="prezzo" min="0" step="0.01" required><br><br>
 	
-	<label>Quantità disponibile</label><br>
-	<input type="number" name="quantitaDisponibile" min="0" required><br><br>
-	
 	<label>Immagine</label><br>
 	<input type="text" name="immagine" required><br><br>
 	
@@ -33,13 +30,7 @@
 	<input type="date" name="dataUscita" required><br><br>
 	
 	<label>Sviluppatore</label><br>
-	<input type="text" name="sviluppatore"><br><br>
-
-	<input type="radio" id="console" name="tipoProdotto" value="CONSOLE">
-	<label for="console">Console</label><br>
-	
-	<input type="radio" id="gadget" name="tipoProdotto" value="GADGET">
-	<label for="gadget">Gadget</label><br><br>
+	<input type="text" name="sviluppatore" required><br><br>
 	
 	<input type="submit" value="Aggiungi prodotto">
 
