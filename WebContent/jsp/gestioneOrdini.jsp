@@ -41,29 +41,6 @@ if(errore != null){
 			<p><strong>Totale:</strong> <%= ordine.getOrdine().getTotale() %> €</p>
 			<a href="<%= request.getContextPath() %>/DettagliOrdineServlet?idOrdine=<%= ordine.getOrdine().getIdOrdine() %>">Visualizza ordine</a><br><br>
 			
-						
-			<form action="<%= request.getContextPath()%>/GestioneOrdiniServlet" method="post">
-			
-			<label><strong>Stato:</strong></label><br>
-			<input type="radio" id="inAttesa<%= ordine.getOrdine().getIdOrdine() %>" name="statoOrdine" value="IN ATTESA" required
-			<%= ordine.getOrdine().getStatoOrdine().equals("IN ATTESA") ? "checked" : "" %>>
-			<label for="inAttesa<%= ordine.getOrdine().getIdOrdine() %>">In attesa</label><br>
-		
-			<input type="radio" id="spedito<%= ordine.getOrdine().getIdOrdine() %>" name="statoOrdine" value="SPEDITO"
-			<%= ordine.getOrdine().getStatoOrdine().equals("SPEDITO") ? "checked" : "" %>>
-			<label for="spedito<%= ordine.getOrdine().getIdOrdine() %>">Spedito</label><br>
-			
-			<input type="radio" id="consegnato<%= ordine.getOrdine().getIdOrdine() %>" name="statoOrdine" value="CONSEGNATO"
-			<%= ordine.getOrdine().getStatoOrdine().equals("CONSEGNATO") ? "checked" : "" %>>
-			<label for="consegnato<%= ordine.getOrdine().getIdOrdine() %>">Consegnato</label><br>
-			
-			<input type="radio" id="annullato<%= ordine.getOrdine().getIdOrdine() %>" name="statoOrdine" value="ANNULLATO"
-			<%= ordine.getOrdine().getStatoOrdine().equals("ANNULLATO") ? "checked" : "" %>>
-			<label for="annullato<%= ordine.getOrdine().getIdOrdine() %>">Annullato</label><br><br>
-			
-			<input type="hidden" name="idOrdine" value="<%= ordine.getOrdine().getIdOrdine() %>">
-			<input type="submit" value="Aggiorna stato">
-			</form>
 			<br><hr>
 <%	
         }

@@ -11,7 +11,6 @@ public class ProdottoBean {
 	private String immagine;
 	private Date dataUscita;
 	private String sviluppatore;
-	private String tipoProdotto;
 	
 	//empty constructor
 	public ProdottoBean() {
@@ -43,9 +42,6 @@ public class ProdottoBean {
 	public String getSviluppatore() {
 		return sviluppatore;
 	}
-	public String getTipoProdotto() {
-		return tipoProdotto;
-	}
 	
 	//setters
 	public void setIdProdotto(int idProdotto) {
@@ -71,8 +67,5 @@ public class ProdottoBean {
 	}
 	public void setSviluppatore(String sviluppatore) {
 		this.sviluppatore = sviluppatore;
-	}
-	public void setTipoProdotto(String tipoProdotto) {
-		this.tipoProdotto = tipoProdotto;
 	}
 }

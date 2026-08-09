@@ -34,7 +34,6 @@ public class OrdineDAO {
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
     			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
     			ordine.setTotale(rs.getFloat("totale"));
-    			ordine.setStatoOrdine(rs.getString("statoOrdine"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
     		}
     		rs.close();
@@ -64,7 +63,6 @@ public class OrdineDAO {
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
     			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
     			ordine.setTotale(rs.getFloat("totale"));
-    			ordine.setStatoOrdine(rs.getString("statoOrdine"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
     			
     			list.add(ordine);
@@ -84,14 +82,13 @@ public class OrdineDAO {
     	
     	try {
     		String sql = "INSERT INTO ordine "
-    				+ "(dataOrdine, totale, statoOrdine, idUtente) "
-    				+ "VALUES (?, ?, ?, ?)";
+    				+ "(dataOrdine, totale, idUtente) "
+    				+ "VALUES (?, ?, ?)";
     		
     		PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
     		
     		ps.setTimestamp(1, ordine.getDataOrdine());
     		ps.setFloat(2, ordine.getTotale());
-    		ps.setString(3, ordine.getStatoOrdine());
     		ps.setInt(4, ordine.getIdUtente());
     		
     		int result = ps.executeUpdate();
@@ -117,14 +114,13 @@ public class OrdineDAO {
     public boolean doUpdate(OrdineBean ordine) {
     	try {
     		String sql = "UPDATE ordine "
-    				+ "SET dataOrdine=?, totale=?, statoOrdine=?, idUtente=? "
+    				+ "SET dataOrdine=?, totale=?, idUtente=? "
     				+ "WHERE idOrdine=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
     		
     		ps.setTimestamp(1, ordine.getDataOrdine());
     		ps.setFloat(2, ordine.getTotale());
-    		ps.setString(3, ordine.getStatoOrdine());
     		ps.setInt(4, ordine.getIdUtente());
     		ps.setInt(5, ordine.getIdOrdine());
     		
@@ -178,7 +174,6 @@ public class OrdineDAO {
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
     			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
     			ordine.setTotale(rs.getFloat("totale"));
-    			ordine.setStatoOrdine(rs.getString("statoOrdine"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
     			
     			list.add(ordine);

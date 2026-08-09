@@ -25,7 +25,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 %>
 	<p><strong>Data dell'ordine:</strong> <%= sdf.format(ordine.getDataOrdine()) %></p>
 	<p><strong>Totale:</strong> <%= ordine.getTotale() %> €</p>
-	<p><strong>Stato dell'ordine:</strong> <%=ordine.getStatoOrdine() %></p>
 	<hr>
 <%
 

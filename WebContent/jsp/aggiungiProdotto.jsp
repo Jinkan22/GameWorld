@@ -34,10 +34,6 @@
 	
 	<label>Sviluppatore</label><br>
 	<input type="text" name="sviluppatore"><br><br>
-	
-	<label>Tipo prodotto</label><br>
-	<input type="radio" id="videogioco" name="tipoProdotto" value="VIDEOGIOCO" required>
-	<label for="videogioco">Videogioco</label><br>
 
 	<input type="radio" id="console" name="tipoProdotto" value="CONSOLE">
 	<label for="console">Console</label><br>

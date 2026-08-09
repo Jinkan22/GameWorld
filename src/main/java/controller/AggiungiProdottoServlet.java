@@ -62,7 +62,6 @@ public class AggiungiProdottoServlet extends HttpServlet {
 		String immagine = request.getParameter("immagine");
 		String dataUscita = request.getParameter("dataUscita");
 		String sviluppatore = request.getParameter("sviluppatore");
-		String tipoProdotto = request.getParameter("tipoProdotto");
 		
 		prodotto.setNome(nome);
 		prodotto.setDescrizione(descrizione);
@@ -70,7 +69,6 @@ public class AggiungiProdottoServlet extends HttpServlet {
 		prodotto.setQuantitaDisponibile(Integer.parseInt(quantitaDisponibile));
 		prodotto.setImmagine(immagine);
 		prodotto.setDataUscita(Date.valueOf(dataUscita));
-		prodotto.setTipoProdotto(tipoProdotto);
 		
 		if(sviluppatore != null && !sviluppatore.isEmpty())
 			prodotto.setSviluppatore(sviluppatore);

@@ -72,36 +72,7 @@ public class GestioneOrdiniServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
-		
-		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
-			request.setAttribute("errore", "Effettuare il login come admin per accedere alla dashboard");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
-			dispatcher.forward(request, response);
-			return;
-		}
-		
-		int idOrdine = Integer.parseInt(request.getParameter("idOrdine"));
-		String nuovoStato = request.getParameter("statoOrdine");
-		
-		OrdineDAO dao = new OrdineDAO();
-		OrdineBean ordine = dao.doRetrieveByKey(idOrdine);
-		
-		//controlla se l'ordine non esiste
-		if(ordine == null) {
-			request.setAttribute("errore", "L'ordine selezionato non esiste");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneOrdini.jsp");
-			dispatcher.forward(request, response);
-			return;
-		}
-		
-		ordine.setStatoOrdine(nuovoStato);
-		dao.doUpdate(ordine);
-		
-		response.sendRedirect(request.getContextPath() + "/GestioneOrdiniServlet");
+		doGet(request, response);
 	}
 
 }

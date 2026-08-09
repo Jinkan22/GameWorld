@@ -134,7 +134,6 @@ public class CheckoutServlet extends HttpServlet {
 		
 		//crea l'ordine nel database
 		ordine.setDataOrdine(new Timestamp(System.currentTimeMillis()));
-		ordine.setStatoOrdine("IN ATTESA");
 		ordine.setIdUtente(utente.getIdUtente());
 		
 		ordineDAO.doSave(ordine);

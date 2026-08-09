@@ -6,7 +6,6 @@ public class OrdineBean {
 	private int idOrdine;
 	private Timestamp dataOrdine;
 	private float totale;
-	private String statoOrdine;
 	private int idUtente;
 	
 	//empty constructor
@@ -24,9 +23,6 @@ public class OrdineBean {
 	public float getTotale() {
 		return totale;
 	}
-	public String getStatoOrdine() {
-		return statoOrdine;
-	}
 	public int getIdUtente() {
 		return idUtente;
 	}
@@ -40,9 +36,6 @@ public class OrdineBean {
 	}
 	public void setTotale(float totale) {
 		this.totale = totale;
-	}
-	public void setStatoOrdine(String statoOrdine) {
-		this.statoOrdine = statoOrdine;
 	}
 	public void setIdUtente(int idUtente) {
 		this.idUtente = idUtente;
