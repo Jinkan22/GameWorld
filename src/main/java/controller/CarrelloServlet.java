@@ -51,6 +51,13 @@ public class CarrelloServlet extends HttpServlet {
 			ElementoCarrelloDAO elementoCarrelloDAO = new ElementoCarrelloDAO();
 			carrelloView = elementoCarrelloDAO.doRetrieveViewByIdUtente(utente.getIdUtente());
 		}
+		
+		//sposta l'eventuale errore dalla session alla request
+		String errore = (String) session.getAttribute("errore");
+		if(errore != null) {
+			request.setAttribute("errore", errore);
+			session.removeAttribute("errore");
+		}
 
 		request.setAttribute("carrello", carrelloView);
 

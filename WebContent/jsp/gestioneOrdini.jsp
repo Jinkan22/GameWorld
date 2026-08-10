@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="model.OrdineViewBean" %>
+<%@ page import="model.OrdineBean" %>
 <%@ page import="model.UtenteBean" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
@@ -30,16 +30,17 @@ if(errore != null){
 
 <% 
 }
-    ArrayList<OrdineViewBean> ordini = (ArrayList<OrdineViewBean>) request.getAttribute("ordini");
+    ArrayList<OrdineBean> ordini = (ArrayList<OrdineBean>) request.getAttribute("ordini");
 
     if(ordini != null) {
-        for(OrdineViewBean ordine : ordini) {
+        for(OrdineBean ordine : ordini) {
 %>
-			<p><strong>Ordine #<%= ordine.getOrdine().getIdOrdine() %></strong></p>
-			<p><strong>Utente:</strong> <%= ordine.getUtente().getNome() + " " + ordine.getUtente().getCognome() %></p>
-			<p><strong>Data:</strong> <%= sdf.format(ordine.getOrdine().getDataOrdine()) %></p>
-			<p><strong>Totale:</strong> <%= ordine.getOrdine().getTotale() %> €</p>
-			<a href="<%= request.getContextPath() %>/DettagliOrdineServlet?idOrdine=<%= ordine.getOrdine().getIdOrdine() %>">Visualizza ordine</a><br><br>
+			<p><strong>Ordine #<%= ordine.getIdOrdine() %></strong></p>
+			<p><strong>Acquirente:</strong> <%= ordine.getAcquirente() %></p>
+			<p><strong>Indirizzo di fatturazione:</strong> <%= ordine.getIndirizzoFatturazione() %></p>
+			<p><strong>Data:</strong> <%= sdf.format(ordine.getDataOrdine()) %></p>
+			<p><strong>Totale:</strong> <%= ordine.getTotale() %> €</p>
+			<a href="<%= request.getContextPath() %>/DettagliOrdineServlet?idOrdine=<%= ordine.getIdOrdine() %>">Visualizza ordine</a><br><br>
 			
 			<br><hr>
 <%	

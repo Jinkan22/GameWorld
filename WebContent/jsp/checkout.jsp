@@ -6,6 +6,10 @@
 <%@ page import="model.ElementoCarrelloViewBean" %>
 <%@ page import="model.IndirizzoBean" %>
 <%@ page import="model.MetodoPagamentoBean" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%
+SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,7 +46,7 @@
 	<p><strong>Totale:</strong> <%= totale %> €</p>
 	<hr>
 	
-	<h3>Indirizzo di spedizione</h3>
+	<h3>Indirizzo di fatturazione</h3>
 	
 	<form action="<%= request.getContextPath()%>/CheckoutServlet" method="post">
 	<%
@@ -50,12 +54,12 @@
 	if(indirizzi != null && !indirizzi.isEmpty()){
 		for(IndirizzoBean indirizzo : indirizzi) {
 		%>
-			<input type="radio" id="indirizzo<%= indirizzo.getIdIndirizzo() %>" name="indirizzo" value="<%= indirizzo.getIdIndirizzo() %>" required>
+			<input type="radio" name="indirizzo" id="indirizzo<%= indirizzo.getIdIndirizzo() %>" name="indirizzo" value="<%= indirizzo.getIdIndirizzo() %>" required>
 			<label for="indirizzo<%= indirizzo.getIdIndirizzo() %>">
-			<%= indirizzo.getVia() %>, 
-			<%= indirizzo.getCap() %>, 
-			<%= indirizzo.getCitta() %>,
-			<%= indirizzo.getProvincia() %>,
+			<%= indirizzo.getVia() + ", "%>
+			<%= indirizzo.getCap() + ", "%>
+			<%= indirizzo.getCitta() + ", "%>
+			<%= indirizzo.getProvincia() + ", "%>
 			<%= indirizzo.getPaese() %>
 			</label>
 		<%
@@ -75,7 +79,7 @@
 			<%= metodo.getCircuito() %>, 
 			<%= metodo.getNumeroCarta() %>, 
 			<%= metodo.getIntestatario() %>, 
-			<%= metodo.getDataScadenza() %>
+			<%= sdf.format(metodo.getDataScadenza()) %>
 			</label>	
 		<%
 		}

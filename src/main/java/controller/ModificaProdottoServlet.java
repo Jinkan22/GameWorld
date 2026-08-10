@@ -55,7 +55,7 @@ public class ModificaProdottoServlet extends HttpServlet {
 			return;
 		}
 		
-		//sposta l'eventuale errore dalla session alla request
+		//sposta l'eventuale messaggio dalla session alla request
 		String messaggio = (String) session.getAttribute("messaggio");
 		if(messaggio != null) {
 			request.setAttribute("messaggio", messaggio);

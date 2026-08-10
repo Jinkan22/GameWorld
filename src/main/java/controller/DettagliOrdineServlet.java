@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.DettaglioOrdineBean;
 import model.DettaglioOrdineViewBean;
 import model.OrdineBean;
 import model.UtenteBean;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 
 import dao.DettaglioOrdineDAO;
 import dao.OrdineDAO;
-import dao.ProdottoDAO;
 
 /**
  * Servlet implementation class DettaglioOrdineServlet

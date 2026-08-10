@@ -23,7 +23,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	OrdineBean ordine = (OrdineBean) request.getAttribute("ordine");
 	ArrayList<DettaglioOrdineViewBean> dettagliOrdine = (ArrayList<DettaglioOrdineViewBean>) request.getAttribute("dettagliOrdine");
 %>
+	<p><strong>Acquirente:</strong> <%= ordine.getAcquirente() %></p>
 	<p><strong>Data dell'ordine:</strong> <%= sdf.format(ordine.getDataOrdine()) %></p>
+	<p><strong>Indirizzo di fatturazione:</strong> <%= ordine.getIndirizzoFatturazione() %></p>
 	<p><strong>Totale:</strong> <%= ordine.getTotale() %> €</p>
 	<hr>
 <%

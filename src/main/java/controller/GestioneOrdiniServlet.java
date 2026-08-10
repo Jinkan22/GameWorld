@@ -8,14 +8,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.OrdineBean;
-import model.OrdineViewBean;
 import model.UtenteBean;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import dao.OrdineDAO;
-import dao.UtenteDAO;
 
 /**
  * Servlet implementation class GestioneOrdiniServlet
@@ -48,21 +46,9 @@ public class GestioneOrdiniServlet extends HttpServlet {
 		}
 		
 		OrdineDAO ordineDAO = new OrdineDAO();
-		UtenteDAO utenteDAO = new UtenteDAO();
 		ArrayList<OrdineBean> ordini = ordineDAO.doRetrieveAll();
-		ArrayList<OrdineViewBean> ordiniView = new ArrayList<OrdineViewBean>();
 		
-		for(OrdineBean ordine : ordini) {
-			UtenteBean acquirente = utenteDAO.doRetrieveByKey(ordine.getIdUtente());
-			OrdineViewBean ordineView = new OrdineViewBean();
-			
-			ordineView.setOrdine(ordine);
-			ordineView.setUtente(acquirente);
-			
-			ordiniView.add(ordineView);
-		}
-		
-		request.setAttribute("ordini", ordiniView);
+		request.setAttribute("ordini", ordini);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneOrdini.jsp");
 		dispatcher.forward(request, response);

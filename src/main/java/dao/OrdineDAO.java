@@ -32,8 +32,10 @@ public class OrdineDAO {
     			ordine = new OrdineBean();
     			
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
+    			ordine.setAcquirente(rs.getString("acquirente"));
     			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
     			ordine.setTotale(rs.getFloat("totale"));
+    			ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
     		}
     		rs.close();
@@ -61,8 +63,10 @@ public class OrdineDAO {
     			OrdineBean ordine = new OrdineBean();
     			
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
+    			ordine.setAcquirente(rs.getString("acquirente"));
     			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
     			ordine.setTotale(rs.getFloat("totale"));
+    			ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
     			
     			list.add(ordine);
@@ -82,13 +86,15 @@ public class OrdineDAO {
     	
     	try {
     		String sql = "INSERT INTO ordine "
-    				+ "(dataOrdine, totale, idUtente) "
-    				+ "VALUES (?, ?, ?)";
+    				+ "(acquirente, dataOrdine, totale, indirizzoFatturazione, idUtente) "
+    				+ "VALUES (?, ?, ?, ?, ?)";
     		
     		PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-    		ps.setTimestamp(1, ordine.getDataOrdine());
-    		ps.setFloat(2, ordine.getTotale());
-    		ps.setInt(3, ordine.getIdUtente());
+    		ps.setString(1, ordine.getAcquirente());
+    		ps.setTimestamp(2, ordine.getDataOrdine());
+    		ps.setFloat(3, ordine.getTotale());
+    		ps.setString(4, ordine.getIndirizzoFatturazione());
+    		ps.setInt(5, ordine.getIdUtente());
     		
     		int result = ps.executeUpdate();
     		
@@ -113,15 +119,17 @@ public class OrdineDAO {
     public boolean doUpdate(OrdineBean ordine) {
     	try {
     		String sql = "UPDATE ordine "
-    				+ "SET dataOrdine=?, totale=?, idUtente=? "
+    				+ "SET acquirente=?, dataOrdine=?, totale=?, indirizzoFatturazione=?, idUtente=? "
     				+ "WHERE idOrdine=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
     		
-    		ps.setTimestamp(1, ordine.getDataOrdine());
-    		ps.setFloat(2, ordine.getTotale());
-    		ps.setInt(3, ordine.getIdUtente());
-    		ps.setInt(4, ordine.getIdOrdine());
+    		ps.setString(1, ordine.getAcquirente());
+    		ps.setTimestamp(2, ordine.getDataOrdine());
+    		ps.setFloat(3, ordine.getTotale());
+    		ps.setInt(4, ordine.getIdUtente());
+    		ps.setString(5, ordine.getIndirizzoFatturazione());
+    		ps.setInt(6, ordine.getIdOrdine());
     		
     		int result = ps.executeUpdate();
     		ps.close();
@@ -171,8 +179,10 @@ public class OrdineDAO {
     			OrdineBean ordine = new OrdineBean();
     			
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
+    			ordine.setAcquirente(rs.getString("acquirente"));
     			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
     			ordine.setTotale(rs.getFloat("totale"));
+    			ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
     			
     			list.add(ordine);

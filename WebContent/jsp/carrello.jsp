@@ -26,9 +26,7 @@ if(errore != null){
 <p><%= errore %><br><br>
 
 <%
-}
-else {
-	
+}	
 	ArrayList<ElementoCarrelloViewBean> carrello = (ArrayList<ElementoCarrelloViewBean>) request.getAttribute("carrello");
 
 	if(carrello != null && !carrello.isEmpty()) {
@@ -70,7 +68,6 @@ else {
 		<p>Il carrello è vuoto</p>
 	<%
 	}
-}
 %>
 	
 </body>

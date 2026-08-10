@@ -120,21 +120,39 @@ public class CheckoutServlet extends HttpServlet {
 					elementoCarrelloDAO.doUpdate(elemento);
 				}
 				
-				request.setAttribute("errore", "La quantità di prodotti richiesta non è disponibile");
+				session.setAttribute("errore", "La quantità di prodotti richiesta non è disponibile");
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/CarrelloServlet");
-				dispatcher.forward(request, response);
+				response.sendRedirect(request.getContextPath() + "/CarrelloServlet");
 				return;
 			}
 		}
 		
+		//ricava il totale
+		float totale = 0;
+		for(ElementoCarrelloBean elemento : carrello) {
+			ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(elemento.getIdProdotto());
+		    totale += prodotto.getPrezzo() * elemento.getQuantita();
+		}
+		
+		//ricava l'indirizzo di fatturazione
+		int idIndirizzo = Integer.parseInt(request.getParameter("indirizzo"));
+		IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
+		IndirizzoBean indirizzo = indirizzoDAO.doRetrieveByKey(idIndirizzo);
+		String indirizzoFatturazione = 
+				indirizzo.getVia() + ", " +
+				indirizzo.getCap() + ", " +
+				indirizzo.getCitta() + ", " +
+				indirizzo.getProvincia() + ", " +
+				indirizzo.getPaese();
+		
 		//crea l'ordine nel database
+		ordine.setAcquirente(utente.getNome() + " " +  utente.getCognome());
 		ordine.setDataOrdine(new Timestamp(System.currentTimeMillis()));
+		ordine.setTotale(totale);
+		ordine.setIndirizzoFatturazione(indirizzoFatturazione);
 		ordine.setIdUtente(utente.getIdUtente());
 		
 		ordineDAO.doSave(ordine);
-		
-		float totale = 0;
 		
 		//crea tutti i dettagli ordine nel database
 		for(ElementoCarrelloBean elemento : carrello) {
@@ -142,8 +160,6 @@ public class CheckoutServlet extends HttpServlet {
 			
 			ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(elemento.getIdProdotto());
 			ProdottoPiattaformaBean prodottoPiattaforma = prodottoPiattaformaDAO.doRetrieveByKey(elemento.getIdProdotto(), elemento.getIdPiattaforma());
-			
-			totale += prodotto.getPrezzo() * elemento.getQuantita();
 			
 			dettaglioOrdine.setQuantita(elemento.getQuantita());
 			dettaglioOrdine.setPrezzoAcquisto(prodotto.getPrezzo());
@@ -156,9 +172,6 @@ public class CheckoutServlet extends HttpServlet {
 			prodottoPiattaforma.setQuantitaDisponibile(prodottoPiattaforma.getQuantitaDisponibile() - elemento.getQuantita());
 			prodottoPiattaformaDAO.doUpdate(prodottoPiattaforma);
 		}
-		
-		ordine.setTotale(totale);
-		ordineDAO.doUpdate(ordine);
 		
 		//svuota il carrello dopo l'acquisto
 		for(ElementoCarrelloBean elemento : carrello) {
