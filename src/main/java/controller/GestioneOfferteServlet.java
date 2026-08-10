@@ -13,6 +13,8 @@ import model.ProdottoBean;
 import model.UtenteBean;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import dao.OffertaDAO;
@@ -66,7 +68,10 @@ public class GestioneOfferteServlet extends HttpServlet {
 		    
 		    offertaView.setOfferta(offerta);
 		    offertaView.setProdotto(prodotto);
-		    offertaView.setPrezzoScontato(prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto()));
+		    offertaView.setPrezzoScontato(prodotto.getPrezzo().multiply(
+					BigDecimal.ONE.subtract(
+					BigDecimal.valueOf(offerta.getPercentualeSconto()).
+					divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
 
 		    offerteView.add(offertaView);
 		}

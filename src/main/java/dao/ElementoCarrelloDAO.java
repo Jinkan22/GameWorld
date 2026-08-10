@@ -1,5 +1,7 @@
 package dao;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,9 +10,9 @@ import java.util.ArrayList;
 
 import model.ElementoCarrelloBean;
 import model.ElementoCarrelloViewBean;
+import model.OffertaBean;
 import model.PiattaformaBean;
 import model.ProdottoBean;
-import model.ProdottoPiattaformaBean;
 import utils.DBConnection;
 
 public class ElementoCarrelloDAO {
@@ -222,59 +224,74 @@ public class ElementoCarrelloDAO {
     	return elementoCarrello;
     }
     
-    //lettura di utti gli elementi carrello view di un determinato utente
+    // lettura di tutti gli elementi carrello view di un determinato utente
     public ArrayList<ElementoCarrelloViewBean> doRetrieveViewByIdUtente(int idUtente) {
-    	ArrayList<ElementoCarrelloViewBean> list = new ArrayList<ElementoCarrelloViewBean>();
 
-    	try {
-    		String sql = "SELECT p.*, pi.idPiattaforma, pi.nomePiattaforma, ec.quantita "
-    				+ "FROM elementoCarrello ec "
-    				+ "JOIN prodotto p "
-    				+ "ON ec.idProdotto = p.idProdotto "
-    				+ "JOIN prodottoPiattaforma pp "
-    				+ "ON ec.idProdotto = pp.idProdotto "
-    				+ "AND ec.idPiattaforma = pp.idPiattaforma "
-    				+ "JOIN piattaforma pi "
-    				+ "ON pp.idPiattaforma = pi.idPiattaforma "
-    				+ "WHERE ec.idUtente=?";
+        ArrayList<ElementoCarrelloViewBean> list = new ArrayList<>();
 
-    		PreparedStatement ps = connection.prepareStatement(sql);
-    		ps.setInt(1, idUtente);
+        try {
+            String sql = "SELECT p.*, pi.idPiattaforma, pi.nomePiattaforma, ec.quantita "
+                    + "FROM elementoCarrello ec "
+                    + "JOIN prodotto p "
+                    + "ON ec.idProdotto = p.idProdotto "
+                    + "JOIN prodottoPiattaforma pp "
+                    + "ON ec.idProdotto = pp.idProdotto "
+                    + "AND ec.idPiattaforma = pp.idPiattaforma "
+                    + "JOIN piattaforma pi "
+                    + "ON pp.idPiattaforma = pi.idPiattaforma "
+                    + "WHERE ec.idUtente=?";
 
-    		ResultSet rs = ps.executeQuery();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idUtente);
 
-    		while(rs.next()) {
-    			ProdottoBean prodotto = new ProdottoBean();
+            ResultSet rs = ps.executeQuery();
 
-    			prodotto.setIdProdotto(rs.getInt("idProdotto"));
-    			prodotto.setNome(rs.getString("nome"));
-    			prodotto.setDescrizione(rs.getString("descrizione"));
-    			prodotto.setPrezzo(rs.getFloat("prezzo"));
-    			prodotto.setImmagine(rs.getString("immagine"));
-    			prodotto.setDataUscita(rs.getDate("dataUscita"));
-    			prodotto.setSviluppatore(rs.getString("sviluppatore"));
+            OffertaDAO offertaDAO = new OffertaDAO();
 
-    			PiattaformaBean piattaforma = new PiattaformaBean();
+            while(rs.next()) {
+                ProdottoBean prodotto = new ProdottoBean();
 
-    			piattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));
-    			piattaforma.setNomePiattaforma(rs.getString("nomePiattaforma"));
+                prodotto.setIdProdotto(rs.getInt("idProdotto"));
+                prodotto.setNome(rs.getString("nome"));
+                prodotto.setDescrizione(rs.getString("descrizione"));
+                prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
+                prodotto.setImmagine(rs.getString("immagine"));
+                prodotto.setDataUscita(rs.getDate("dataUscita"));
+                prodotto.setSviluppatore(rs.getString("sviluppatore"));
 
-    			ElementoCarrelloViewBean elementoView = new ElementoCarrelloViewBean();
+                PiattaformaBean piattaforma = new PiattaformaBean();
 
-    			elementoView.setProdotto(prodotto);
-    			elementoView.setPiattaforma(piattaforma);
-    			elementoView.setQuantita(rs.getInt("quantita"));
+                piattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));
+                piattaforma.setNomePiattaforma(rs.getString("nomePiattaforma"));
 
-    			list.add(elementoView);
-    		}
+                OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
 
-    		rs.close();
-    		ps.close();
-    	}
-    	catch(SQLException e) {
-    		e.printStackTrace();
-    	}
+                BigDecimal prezzoScontato = null;
 
-    	return list;
+                if(offerta != null) {
+                    prezzoScontato = prodotto.getPrezzo().multiply(BigDecimal.ONE.subtract(
+                    		BigDecimal.valueOf(offerta.getPercentualeSconto()).divide(
+                            BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP);
+                }
+
+                ElementoCarrelloViewBean elementoView = new ElementoCarrelloViewBean();
+
+                elementoView.setProdotto(prodotto);
+                elementoView.setPiattaforma(piattaforma);
+                elementoView.setQuantita(rs.getInt("quantita"));
+                elementoView.setOfferta(offerta);
+                elementoView.setPrezzoScontato(prezzoScontato);
+
+                list.add(elementoView);
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }

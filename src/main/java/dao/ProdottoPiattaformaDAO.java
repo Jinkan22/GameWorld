@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.PiattaformaBean;
 import model.ProdottoPiattaformaBean;
 import utils.DBConnection;
 

@@ -1,12 +1,13 @@
 package model;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 public class ProdottoBean {
 	private int idProdotto;
 	private String nome;
 	private String descrizione;
-	private float prezzo;
+	private BigDecimal prezzo;
 	private String immagine;
 	private Date dataUscita;
 	private String sviluppatore;
@@ -26,7 +27,7 @@ public class ProdottoBean {
 	public String getDescrizione() {
 		return descrizione;
 	}
-	public float getPrezzo() {
+	public BigDecimal getPrezzo() {
 		return prezzo;
 	}
 	public String getImmagine() {
@@ -49,7 +50,7 @@ public class ProdottoBean {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
-	public void setPrezzo(float prezzo) {
+	public void setPrezzo(BigDecimal prezzo) {
 		this.prezzo = prezzo;
 	}
 	public void setImmagine(String immagine) {

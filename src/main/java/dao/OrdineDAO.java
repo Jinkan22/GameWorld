@@ -34,7 +34,7 @@ public class OrdineDAO {
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
     			ordine.setAcquirente(rs.getString("acquirente"));
     			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
-    			ordine.setTotale(rs.getFloat("totale"));
+    			ordine.setTotale(rs.getBigDecimal("totale"));
     			ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
     		}
@@ -65,7 +65,7 @@ public class OrdineDAO {
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
     			ordine.setAcquirente(rs.getString("acquirente"));
     			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
-    			ordine.setTotale(rs.getFloat("totale"));
+    			ordine.setTotale(rs.getBigDecimal("totale"));
     			ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
     			
@@ -92,7 +92,7 @@ public class OrdineDAO {
     		PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
     		ps.setString(1, ordine.getAcquirente());
     		ps.setTimestamp(2, ordine.getDataOrdine());
-    		ps.setFloat(3, ordine.getTotale());
+    		ps.setBigDecimal(3, ordine.getTotale());
     		ps.setString(4, ordine.getIndirizzoFatturazione());
     		ps.setInt(5, ordine.getIdUtente());
     		
@@ -126,7 +126,7 @@ public class OrdineDAO {
     		
     		ps.setString(1, ordine.getAcquirente());
     		ps.setTimestamp(2, ordine.getDataOrdine());
-    		ps.setFloat(3, ordine.getTotale());
+    		ps.setBigDecimal(3, ordine.getTotale());
     		ps.setInt(4, ordine.getIdUtente());
     		ps.setString(5, ordine.getIndirizzoFatturazione());
     		ps.setInt(6, ordine.getIdOrdine());
@@ -181,7 +181,7 @@ public class OrdineDAO {
     			ordine.setIdOrdine(rs.getInt("idOrdine"));
     			ordine.setAcquirente(rs.getString("acquirente"));
     			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
-    			ordine.setTotale(rs.getFloat("totale"));
+    			ordine.setTotale(rs.getBigDecimal("totale"));
     			ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
     			ordine.setIdUtente(rs.getInt("idUtente"));
     			

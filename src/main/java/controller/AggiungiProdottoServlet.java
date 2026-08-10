@@ -11,6 +11,8 @@ import model.ProdottoBean;
 import model.UtenteBean;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 
 import dao.ProdottoDAO;
@@ -64,7 +66,7 @@ public class AggiungiProdottoServlet extends HttpServlet {
 		
 		prodotto.setNome(nome);
 		prodotto.setDescrizione(descrizione);
-		prodotto.setPrezzo(Float.parseFloat(prezzo));
+		prodotto.setPrezzo(new BigDecimal(prezzo).setScale(2, RoundingMode.HALF_UP));
 		prodotto.setImmagine(immagine);
 		prodotto.setDataUscita(Date.valueOf(dataUscita));
 		

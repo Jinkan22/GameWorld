@@ -1,10 +1,12 @@
 package model;
 
+import java.math.BigDecimal;
+
 public class DettaglioOrdineViewBean {
 	private ProdottoBean prodotto;
 	private PiattaformaBean piattaforma;
 	private int quantita;
-	private float prezzoAcquisto;
+	private BigDecimal prezzoAcquisto;
 	
 	//empty constructor
 	public DettaglioOrdineViewBean() {
@@ -21,7 +23,7 @@ public class DettaglioOrdineViewBean {
 	public int getQuantita() {
 		return quantita;
 	}
-	public float getPrezzoAcquisto() {
+	public BigDecimal getPrezzoAcquisto() {
 		return prezzoAcquisto;
 	}
 	
@@ -35,7 +37,7 @@ public class DettaglioOrdineViewBean {
 	public void setQuantita(int quantita) {
 		this.quantita = quantita;
 	}
-	public void setPrezzoAcquisto(float prezzoAcquisto) {
+	public void setPrezzoAcquisto(BigDecimal prezzoAcquisto) {
 		this.prezzoAcquisto = prezzoAcquisto;
 	}
 }

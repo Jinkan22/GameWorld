@@ -1,12 +1,13 @@
 package model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class OrdineBean {
 	private int idOrdine;
 	private String acquirente;
 	private Timestamp dataOrdine;
-	private float totale;
+	private BigDecimal totale;
 	private String indirizzoFatturazione;
 	private int idUtente;
 	
@@ -25,7 +26,7 @@ public class OrdineBean {
 	public Timestamp getDataOrdine() {
 		return dataOrdine;
 	}
-	public float getTotale() {
+	public BigDecimal getTotale() {
 		return totale;
 	}
 	public String getIndirizzoFatturazione() {
@@ -45,7 +46,7 @@ public class OrdineBean {
 	public void setDataOrdine(Timestamp dataOrdine) {
 		this.dataOrdine = dataOrdine;
 	}
-	public void setTotale(float totale) {
+	public void setTotale(BigDecimal totale) {
 		this.totale = totale;
 	}
 	public void setIndirizzoFatturazione(String indirizzoFatturazione) {

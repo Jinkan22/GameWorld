@@ -36,7 +36,7 @@ private Connection connection;
     			
     			dettaglioOrdine.setIdDettaglio(rs.getInt("idDettaglio"));
     			dettaglioOrdine.setQuantita(rs.getInt("quantita"));
-    			dettaglioOrdine.setPrezzoAcquisto(rs.getFloat("prezzoAcquisto"));
+    			dettaglioOrdine.setPrezzoAcquisto(rs.getBigDecimal("prezzoAcquisto"));
     			dettaglioOrdine.setIdOrdine(rs.getInt("idOrdine"));
     			dettaglioOrdine.setIdProdotto(rs.getInt("idProdotto"));
     			dettaglioOrdine.setIdPiattaforma(rs.getInt("idPiattaforma"));
@@ -67,7 +67,7 @@ private Connection connection;
     			
     			dettaglioOrdine.setIdDettaglio(rs.getInt("idDettaglio"));
     			dettaglioOrdine.setQuantita(rs.getInt("quantita"));
-    			dettaglioOrdine.setPrezzoAcquisto(rs.getFloat("prezzoAcquisto"));
+    			dettaglioOrdine.setPrezzoAcquisto(rs.getBigDecimal("prezzoAcquisto"));
     			dettaglioOrdine.setIdOrdine(rs.getInt("idOrdine"));
     			dettaglioOrdine.setIdProdotto(rs.getInt("idProdotto"));
     			dettaglioOrdine.setIdPiattaforma(rs.getInt("idPiattaforma"));
@@ -95,7 +95,7 @@ private Connection connection;
     		PreparedStatement ps = connection.prepareStatement(sql);
     		
     		ps.setInt(1, dettaglioOrdine.getQuantita());
-    		ps.setFloat(2, dettaglioOrdine.getPrezzoAcquisto());
+    		ps.setBigDecimal(2, dettaglioOrdine.getPrezzoAcquisto());
     		ps.setInt(3, dettaglioOrdine.getIdOrdine());
     		ps.setInt(4,  dettaglioOrdine.getIdProdotto());
     		ps.setInt(5, dettaglioOrdine.getIdPiattaforma());
@@ -149,7 +149,7 @@ private Connection connection;
     			
     			dettaglioOrdine.setIdDettaglio(rs.getInt("idDettaglio"));
     			dettaglioOrdine.setQuantita(rs.getInt("quantita"));
-    			dettaglioOrdine.setPrezzoAcquisto(rs.getFloat("prezzoAcquisto"));
+    			dettaglioOrdine.setPrezzoAcquisto(rs.getBigDecimal("prezzoAcquisto"));
     			dettaglioOrdine.setIdOrdine(rs.getInt("idOrdine"));
     			dettaglioOrdine.setIdProdotto(rs.getInt("idProdotto"));
     			dettaglioOrdine.setIdPiattaforma(rs.getInt("idPiattaforma"));
@@ -190,7 +190,7 @@ private Connection connection;
 				prodotto.setIdProdotto(rs.getInt("idProdotto"));
 				prodotto.setNome(rs.getString("nome"));
 				prodotto.setDescrizione(rs.getString("descrizione"));
-				prodotto.setPrezzo(rs.getFloat("prezzo"));
+				prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
 				prodotto.setImmagine(rs.getString("immagine"));
 				prodotto.setDataUscita(rs.getDate("dataUscita"));
 				prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -205,7 +205,7 @@ private Connection connection;
 				dettaglioOrdine.setProdotto(prodotto);
 				dettaglioOrdine.setPiattaforma(piattaforma);
 				dettaglioOrdine.setQuantita(rs.getInt("quantita"));
-				dettaglioOrdine.setPrezzoAcquisto(rs.getFloat("prezzoAcquisto"));
+				dettaglioOrdine.setPrezzoAcquisto(rs.getBigDecimal("prezzoAcquisto"));
 
 				list.add(dettaglioOrdine);
 			}

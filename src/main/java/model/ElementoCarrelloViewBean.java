@@ -1,8 +1,12 @@
 package model;
 
+import java.math.BigDecimal;
+
 public class ElementoCarrelloViewBean {
 	private ProdottoBean prodotto;
 	private PiattaformaBean piattaforma;
+	private OffertaBean offerta;
+	private BigDecimal prezzoScontato;
 	private int quantita;
 	
 	//empty constructor
@@ -17,6 +21,12 @@ public class ElementoCarrelloViewBean {
 	public PiattaformaBean getPiattaforma() {
 		return piattaforma;
 	}
+	public OffertaBean getOfferta() {
+		return offerta;
+	}
+	public BigDecimal getPrezzoScontato() {
+		return prezzoScontato;
+	}
 	public int getQuantita() {
 		return quantita;
 	}
@@ -27,6 +37,12 @@ public class ElementoCarrelloViewBean {
 	}
 	public void setPiattaforma(PiattaformaBean piattaforma) {
 		this.piattaforma = piattaforma;
+	}
+	public void setOfferta(OffertaBean offerta) {
+		this.offerta = offerta;
+	}
+	public void setPrezzoScontato(BigDecimal prezzoScontato) {
+		this.prezzoScontato = prezzoScontato;
 	}
 	public void setQuantita(int quantita) {
 		this.quantita = quantita;

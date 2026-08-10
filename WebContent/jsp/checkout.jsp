@@ -6,6 +6,7 @@
 <%@ page import="model.ElementoCarrelloViewBean" %>
 <%@ page import="model.IndirizzoBean" %>
 <%@ page import="model.MetodoPagamentoBean" %>
+<%@ page import="java.math.BigDecimal" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
@@ -25,7 +26,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
 	<%
     ArrayList<ElementoCarrelloViewBean> carrello = (ArrayList<ElementoCarrelloViewBean>) request.getAttribute("carrello");
 
-	float totale = 0;
+	BigDecimal totale = BigDecimal.ZERO;
 	for(ElementoCarrelloViewBean elemento : carrello) {
 		
 		ProdottoBean prodotto = elemento.getProdotto();
@@ -34,12 +35,25 @@ SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
 		<p><strong>Nome:</strong> <%= prodotto.getNome() %></p>
 		<p><strong>Piattaforma:</strong> <%= piattaforma.getNomePiattaforma() %>
 		<p><strong>Prezzo:</strong> <%= prodotto.getPrezzo() %> €</p>
+		<%
+			if(elemento.getOfferta() != null) {
+		%>
+				<p style="color:red"><strong>IN OFFERTA A <%= elemento.getPrezzoScontato() %> € FINO AL <%= sdf.format(elemento.getOfferta().getDataFine()) %>!</strong></p>
+
+		<%
+			}
+		%>
 		<p><strong>Quantita:</strong> <%= elemento.getQuantita() %></p>
 		
 		<hr>
 		
 	<%
-		totale += prodotto.getPrezzo() * elemento.getQuantita();
+		if(elemento.getOfferta() != null) {
+			totale = totale.add(elemento.getPrezzoScontato().multiply(BigDecimal.valueOf(elemento.getQuantita())));
+		}
+		else{
+			totale = totale.add(prodotto.getPrezzo().multiply(BigDecimal.valueOf(elemento.getQuantita())));
+		}
 	}
 	%>
 	

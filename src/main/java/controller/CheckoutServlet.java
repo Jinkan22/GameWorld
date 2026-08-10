@@ -12,6 +12,7 @@ import model.ElementoCarrelloBean;
 import model.ElementoCarrelloViewBean;
 import model.IndirizzoBean;
 import model.MetodoPagamentoBean;
+import model.OffertaBean;
 import model.OrdineBean;
 import model.ProdottoBean;
 import model.ProdottoPiattaformaBean;
@@ -19,6 +20,8 @@ import model.UtenteBean;
 import utils.CarrelloUtils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -26,6 +29,7 @@ import dao.DettaglioOrdineDAO;
 import dao.ElementoCarrelloDAO;
 import dao.IndirizzoDAO;
 import dao.MetodoPagamentoDAO;
+import dao.OffertaDAO;
 import dao.OrdineDAO;
 import dao.ProdottoDAO;
 import dao.ProdottoPiattaformaDAO;
@@ -94,6 +98,7 @@ public class CheckoutServlet extends HttpServlet {
 		
 		OrdineDAO ordineDAO = new OrdineDAO();
 		ProdottoDAO prodottoDAO = new ProdottoDAO();
+		OffertaDAO offertaDAO = new OffertaDAO();
 		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
 		ElementoCarrelloDAO elementoCarrelloDAO = new ElementoCarrelloDAO();
 		DettaglioOrdineDAO dettaglioOrdineDAO = new DettaglioOrdineDAO();
@@ -128,11 +133,23 @@ public class CheckoutServlet extends HttpServlet {
 		}
 		
 		//ricava il totale
-		float totale = 0;
+		BigDecimal totale = BigDecimal.ZERO;
 		for(ElementoCarrelloBean elemento : carrello) {
 			ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(elemento.getIdProdotto());
-		    totale += prodotto.getPrezzo() * elemento.getQuantita();
-		}
+
+	        BigDecimal prezzo = prodotto.getPrezzo();
+
+	        // controlla se esiste un'offerta attiva
+	        OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(elemento.getIdProdotto());
+
+	        if(offerta != null) {
+	            prezzo = prezzo.multiply(BigDecimal.ONE.subtract(
+                    	BigDecimal.valueOf(offerta.getPercentualeSconto()).divide(
+                    	BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP);   
+	        }
+	        
+	        totale = totale.add(prezzo.multiply(BigDecimal.valueOf(elemento.getQuantita())));
+	    }
 		
 		//ricava l'indirizzo di fatturazione
 		int idIndirizzo = Integer.parseInt(request.getParameter("indirizzo"));
@@ -148,9 +165,11 @@ public class CheckoutServlet extends HttpServlet {
 		//crea l'ordine nel database
 		ordine.setAcquirente(utente.getNome() + " " +  utente.getCognome());
 		ordine.setDataOrdine(new Timestamp(System.currentTimeMillis()));
-		ordine.setTotale(totale);
 		ordine.setIndirizzoFatturazione(indirizzoFatturazione);
 		ordine.setIdUtente(utente.getIdUtente());
+		
+		totale = totale.setScale(2, RoundingMode.HALF_UP);
+		ordine.setTotale(totale);
 		
 		ordineDAO.doSave(ordine);
 		
@@ -162,10 +181,22 @@ public class CheckoutServlet extends HttpServlet {
 			ProdottoPiattaformaBean prodottoPiattaforma = prodottoPiattaformaDAO.doRetrieveByKey(elemento.getIdProdotto(), elemento.getIdPiattaforma());
 			
 			dettaglioOrdine.setQuantita(elemento.getQuantita());
-			dettaglioOrdine.setPrezzoAcquisto(prodotto.getPrezzo());
 			dettaglioOrdine.setIdOrdine(ordine.getIdOrdine());
 			dettaglioOrdine.setIdProdotto(elemento.getIdProdotto());
 			dettaglioOrdine.setIdPiattaforma(elemento.getIdPiattaforma());
+			
+			BigDecimal prezzo = prodotto.getPrezzo();
+
+	        // controlla se esiste un'offerta attiva
+	        OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(elemento.getIdProdotto());
+
+	        if(offerta != null) {
+	            prezzo = prezzo.multiply(BigDecimal.ONE.subtract(
+                    	BigDecimal.valueOf(offerta.getPercentualeSconto()).divide(
+                    	BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP);   
+	        }
+	        
+	        dettaglioOrdine.setPrezzoAcquisto(prezzo);
 			
 			dettaglioOrdineDAO.doSave(dettaglioOrdine);
 			

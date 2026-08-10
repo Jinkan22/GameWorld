@@ -31,9 +31,6 @@ UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 	<p><%= errore %></p>
 <%
 	}
-	
-	ArrayList<PiattaformaBean> piattaforme = (ArrayList<PiattaformaBean>) request.getAttribute("piattaforme");
-	ArrayList<GenereBean> generi = (ArrayList<GenereBean>) request.getAttribute("generi");
 %>
 
 <img src="<%= request.getContextPath() + "/images/products/" + prodotto.getProdotto().getImmagine() %>" width="200"><br>

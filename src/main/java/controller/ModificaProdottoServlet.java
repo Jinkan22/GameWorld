@@ -16,6 +16,7 @@ import model.ProdottoViewBean;
 import model.UtenteBean;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -127,7 +128,7 @@ public class ModificaProdottoServlet extends HttpServlet {
 				prodotto.setDescrizione(descrizione);
 			
 			if(prezzo != null && !prezzo.isEmpty())
-				prodotto.setPrezzo(Float.parseFloat(prezzo));
+				prodotto.setPrezzo(new BigDecimal(prezzo));
 			
 			if(immagine != null && !immagine.isEmpty())
 				prodotto.setImmagine(immagine);

@@ -1,9 +1,11 @@
 package model;
 
+import java.math.BigDecimal;
+
 public class OffertaViewBean {
 	private OffertaBean offerta;
 	private ProdottoBean prodotto;
-	private float prezzoScontato;
+	private BigDecimal prezzoScontato;
 	
 	//empty constructor
 	public OffertaViewBean() {
@@ -16,7 +18,7 @@ public class OffertaViewBean {
 	public ProdottoBean getProdotto() {
 		return prodotto;
 	}
-	public float getPrezzoScontato() {
+	public BigDecimal getPrezzoScontato() {
 		return prezzoScontato;
 	}
 
@@ -27,7 +29,7 @@ public class OffertaViewBean {
 	public void setProdotto(ProdottoBean prodotto) {
 		this.prodotto = prodotto;
 	}
-	public void setPrezzoScontato(float prezzoScontato) {
+	public void setPrezzoScontato(BigDecimal prezzoScontato) {
 		this.prezzoScontato = prezzoScontato;
 	}
 }

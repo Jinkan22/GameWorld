@@ -1,11 +1,12 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class ProdottoViewBean {
 	private ProdottoBean prodotto;
 	private OffertaBean offerta;
-	private float prezzoScontato;
+	private BigDecimal prezzoScontato;
 	private ArrayList<GenereBean> generi;
 	private ArrayList<ProdottoPiattaformaBean> prodottoPiattaforme;
 	private ArrayList<PiattaformaBean> piattaforme;
@@ -22,7 +23,7 @@ public class ProdottoViewBean {
 	public OffertaBean getOfferta() {
 		return offerta;
 	}
-	public float getPrezzoScontato() {
+	public BigDecimal getPrezzoScontato() {
 		return prezzoScontato;
 	}
 	public ArrayList<GenereBean> getGeneri() {
@@ -42,7 +43,7 @@ public class ProdottoViewBean {
 	public void setOfferta(OffertaBean offerta) {
 		this.offerta = offerta;
 	}
-	public void setPrezzoScontato(float prezzoScontato) {
+	public void setPrezzoScontato(BigDecimal prezzoScontato) {
 		this.prezzoScontato = prezzoScontato;
 	}
 	public void setGeneri(ArrayList<GenereBean> generi) {

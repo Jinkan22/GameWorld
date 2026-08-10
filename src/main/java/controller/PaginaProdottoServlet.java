@@ -57,21 +57,6 @@ public class PaginaProdottoServlet extends HttpServlet {
 			return;
 		}
 
-		//se l'utente è admin imposta generi e piattaforme come attributi della request
-		HttpSession session = request.getSession();
-		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
-
-		if(utente != null && "ADMIN".equals(utente.getRuolo())) {
-			GenereDAO genereDAO = new GenereDAO();
-			PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
-
-			ArrayList<GenereBean> generi = genereDAO.doRetrieveAll();
-			ArrayList<PiattaformaBean> piattaforme = piattaformaDAO.doRetrieveAll();
-
-			request.setAttribute("generi", generi);
-			request.setAttribute("piattaforme", piattaforme);
-		}
-
 		request.setAttribute("prodotto", prodottoView);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/paginaProdotto.jsp");

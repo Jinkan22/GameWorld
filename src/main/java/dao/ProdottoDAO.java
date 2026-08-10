@@ -1,5 +1,7 @@
 package dao;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,7 +38,7 @@ public class ProdottoDAO {
     			prodotto.setIdProdotto(rs.getInt("idProdotto"));
     			prodotto.setNome(rs.getString("nome"));
     			prodotto.setDescrizione(rs.getString("descrizione"));
-    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -68,7 +70,7 @@ public class ProdottoDAO {
     			prodotto.setIdProdotto(rs.getInt("idProdotto"));
     			prodotto.setNome(rs.getString("nome"));
     			prodotto.setDescrizione(rs.getString("descrizione"));
-    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -97,7 +99,7 @@ public class ProdottoDAO {
     		
     		ps.setString(1, prodotto.getNome());
     		ps.setString(2, prodotto.getDescrizione());
-    		ps.setFloat(3, prodotto.getPrezzo());
+    		ps.setBigDecimal(3, prodotto.getPrezzo());
     		ps.setString(4, prodotto.getImmagine());
     		ps.setDate(5, prodotto.getDataUscita());
     		ps.setString(6, prodotto.getSviluppatore());
@@ -132,7 +134,7 @@ public class ProdottoDAO {
     		
     		ps.setString(1, prodotto.getNome());
     		ps.setString(2, prodotto.getDescrizione());
-    		ps.setFloat(3, prodotto.getPrezzo());
+    		ps.setBigDecimal(3, prodotto.getPrezzo());
     		ps.setString(4, prodotto.getImmagine());
     		ps.setDate(5, prodotto.getDataUscita());
     		ps.setString(6, prodotto.getSviluppatore());
@@ -187,7 +189,7 @@ public class ProdottoDAO {
     			prodotto.setIdProdotto(rs.getInt("idProdotto"));
     			prodotto.setNome(rs.getString("nome"));
     			prodotto.setDescrizione(rs.getString("descrizione"));
-    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -204,7 +206,7 @@ public class ProdottoDAO {
     	return list;
     }
     
-  //lettura di un prodotto view in base alla chiave primaria
+    //lettura di un prodotto view in base alla chiave primaria
     public ProdottoViewBean doRetrieveViewByKey(int idProdotto) {
     	ProdottoViewBean prodottoView = null;
 
@@ -222,7 +224,7 @@ public class ProdottoDAO {
     			prodotto.setIdProdotto(rs.getInt("idProdotto"));
     			prodotto.setNome(rs.getString("nome"));
     			prodotto.setDescrizione(rs.getString("descrizione"));
-    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -243,7 +245,10 @@ public class ProdottoDAO {
     			prodottoView.setOfferta(offerta);
 
     			if(offerta != null) {
-    				prodottoView.setPrezzoScontato(prodotto.getPrezzo() - (prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto())));
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
+    						BigDecimal.ONE.subtract(
+    						BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
     			}
     		}
 
@@ -257,7 +262,7 @@ public class ProdottoDAO {
     	return prodottoView;
     }
     
-  //lettura di un prodotto view in base alla chiave primaria con le piattaforme disponibili
+    //lettura di un prodotto view in base alla chiave primaria con le piattaforme disponibili
     public ProdottoViewBean doRetrieveViewDisponibileByKey(int idProdotto) {
     	ProdottoViewBean prodottoView = null;
 
@@ -275,7 +280,7 @@ public class ProdottoDAO {
     			prodotto.setIdProdotto(rs.getInt("idProdotto"));
     			prodotto.setNome(rs.getString("nome"));
     			prodotto.setDescrizione(rs.getString("descrizione"));
-    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -296,7 +301,10 @@ public class ProdottoDAO {
     			prodottoView.setOfferta(offerta);
 
     			if(offerta != null) {
-    				prodottoView.setPrezzoScontato(prodotto.getPrezzo() - (prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto())));
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
+    						BigDecimal.ONE.subtract(
+    						BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
     			}
     		}
 
@@ -310,7 +318,7 @@ public class ProdottoDAO {
     	return prodottoView;
     }
     
-  //lettura di tutti i prodotti view
+    //lettura di tutti i prodotti view
     public ArrayList<ProdottoViewBean> doRetrieveAllView() {
     	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
 
@@ -332,7 +340,7 @@ public class ProdottoDAO {
     			prodotto.setIdProdotto(rs.getInt("idProdotto"));
     			prodotto.setNome(rs.getString("nome"));
     			prodotto.setDescrizione(rs.getString("descrizione"));
-    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -348,7 +356,10 @@ public class ProdottoDAO {
     			prodottoView.setOfferta(offerta);
 
     			if(offerta != null) {
-    				prodottoView.setPrezzoScontato(prodotto.getPrezzo() - (prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto())));
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
+    						BigDecimal.ONE.subtract(
+    						BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
     			}
 
     			list.add(prodottoView);
@@ -364,7 +375,7 @@ public class ProdottoDAO {
     	return list;
     }
     
-  //lettura di tutti i prodotti view disponibili
+    //lettura di tutti i prodotti view disponibili
     public ArrayList<ProdottoViewBean> doRetrieveViewDisponibili() {
     	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
 
@@ -391,7 +402,7 @@ public class ProdottoDAO {
     			prodotto.setIdProdotto(rs.getInt("idProdotto"));
     			prodotto.setNome(rs.getString("nome"));
     			prodotto.setDescrizione(rs.getString("descrizione"));
-    			prodotto.setPrezzo(rs.getFloat("prezzo"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
     			prodotto.setImmagine(rs.getString("immagine"));
     			prodotto.setDataUscita(rs.getDate("dataUscita"));
     			prodotto.setSviluppatore(rs.getString("sviluppatore"));
@@ -407,7 +418,10 @@ public class ProdottoDAO {
     			prodottoView.setOfferta(offerta);
 
     			if(offerta != null) {
-    				prodottoView.setPrezzoScontato(prodotto.getPrezzo() - (prodotto.getPrezzo() / 100 * (100 - offerta.getPercentualeSconto())));
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
+    						BigDecimal.ONE.subtract(
+    						BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
     			}
 
     			list.add(prodottoView);

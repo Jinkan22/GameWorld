@@ -3,6 +3,10 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.ProdottoViewBean" %>
 <%@ page import="model.PiattaformaBean" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%
+SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +29,14 @@
 				<h2><%= prodotto.getProdotto().getNome() %></h2></a>
 
 			<p>Prezzo: <%= prodotto.getProdotto().getPrezzo() %> €</p>
+			<%
+				if(prodotto.getOfferta() != null) {
+			%>
+					<p style="color:red"><strong>IN OFFERTA A <%= prodotto.getPrezzoScontato() %> € FINO AL <%= sdf.format(prodotto.getOfferta().getDataFine()) %>!</strong></p>
+
+			<%
+				}
+			%>
 			<p>Descrizione: <%= prodotto.getProdotto().getDescrizione() %></p>
 						
 			<form action="<%= request.getContextPath()%>/AggiungiAlCarrelloServlet" method="post">

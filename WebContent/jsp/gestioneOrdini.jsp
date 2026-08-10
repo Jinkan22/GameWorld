@@ -42,7 +42,7 @@ if(errore != null){
 			<p><strong>Totale:</strong> <%= ordine.getTotale() %> €</p>
 			<a href="<%= request.getContextPath() %>/DettagliOrdineServlet?idOrdine=<%= ordine.getIdOrdine() %>">Visualizza ordine</a><br><br>
 			
-			<br><hr>
+			<hr>
 <%	
         }
     }

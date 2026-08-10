@@ -1,9 +1,11 @@
 package model;
 
+import java.math.BigDecimal;
+
 public class DettaglioOrdineBean {
 	private int idDettaglio;
 	private int quantita;
-	private float prezzoAcquisto;
+	private BigDecimal prezzoAcquisto;
 	private int idOrdine;
 	private int idProdotto;
 	private int idPiattaforma;
@@ -20,7 +22,7 @@ public class DettaglioOrdineBean {
 	public int getQuantita() {
 		return quantita;
 	}
-	public float getPrezzoAcquisto() {
+	public BigDecimal getPrezzoAcquisto() {
 		return prezzoAcquisto;
 	}
 	public int getIdOrdine() {
@@ -40,7 +42,7 @@ public class DettaglioOrdineBean {
 	public void setQuantita(int quantita) {
 		this.quantita = quantita;
 	}
-	public void setPrezzoAcquisto(float prezzoAcquisto) {
+	public void setPrezzoAcquisto(BigDecimal prezzoAcquisto) {
 		this.prezzoAcquisto = prezzoAcquisto;
 	}
 	public void setIdOrdine(int idOrdine) {

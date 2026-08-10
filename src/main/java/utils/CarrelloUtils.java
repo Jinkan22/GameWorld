@@ -1,8 +1,11 @@
 package utils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
+import dao.OffertaDAO;
 import dao.PiattaformaDAO;
 import dao.ProdottoDAO;
 import dao.ProdottoPiattaformaDAO;
@@ -12,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.ElementoCarrelloBean;
 import model.ElementoCarrelloViewBean;
+import model.OffertaBean;
 import model.PiattaformaBean;
 import model.ProdottoBean;
 import model.ProdottoPiattaformaBean;
@@ -19,34 +23,50 @@ import model.ProdottoPiattaformaBean;
 public class CarrelloUtils {
 	
 	// crea il carrelloView con gli elementi da mostrare nel carrello
-	public static ArrayList<ElementoCarrelloViewBean> creaCarrelloView(ArrayList<ElementoCarrelloBean> carrelloDB) {
+	public static ArrayList<ElementoCarrelloViewBean> creaCarrelloView(
+	        ArrayList<ElementoCarrelloBean> carrelloDB) {
 
-		if(carrelloDB == null) {
-			carrelloDB = new ArrayList<ElementoCarrelloBean>();
-		}
+	    if(carrelloDB == null) {
+	        carrelloDB = new ArrayList<ElementoCarrelloBean>();
+	    }
 
-		ArrayList<ElementoCarrelloViewBean> carrelloView = new ArrayList<ElementoCarrelloViewBean>();
+	    ArrayList<ElementoCarrelloViewBean> carrelloView = new ArrayList<ElementoCarrelloViewBean>();
 
-		ProdottoDAO prodottoDAO = new ProdottoDAO();
-		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+	    ProdottoDAO prodottoDAO = new ProdottoDAO();
+	    PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+	    OffertaDAO offertaDAO = new OffertaDAO();
 
-		for(ElementoCarrelloBean elemento : carrelloDB) {
-			ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(elemento.getIdProdotto());
-			PiattaformaBean piattaforma = piattaformaDAO.doRetrieveByKey(elemento.getIdPiattaforma());
+	    for(ElementoCarrelloBean elemento : carrelloDB) {
+	        ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(elemento.getIdProdotto());
+	        PiattaformaBean piattaforma = piattaformaDAO.doRetrieveByKey(elemento.getIdPiattaforma());
 
-			if(prodotto == null || piattaforma == null)
-				continue;
+	        if(prodotto == null || piattaforma == null)
+	            continue;
 
-			ElementoCarrelloViewBean elementoView = new ElementoCarrelloViewBean();
+	        OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
+	        BigDecimal prezzoScontato = null;
 
-			elementoView.setProdotto(prodotto);
-			elementoView.setPiattaforma(piattaforma);
-			elementoView.setQuantita(elemento.getQuantita());
+	        if(offerta != null) {
+	            BigDecimal percentualeSconto =
+	                    BigDecimal.valueOf(offerta.getPercentualeSconto());
 
-			carrelloView.add(elementoView);
-		}
+	            prezzoScontato = prodotto.getPrezzo().multiply(BigDecimal.ONE.subtract(
+	                        	BigDecimal.valueOf(offerta.getPercentualeSconto()).divide(
+	                        	BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP);
+	        }
 
-		return carrelloView;
+	        ElementoCarrelloViewBean elementoView = new ElementoCarrelloViewBean();
+
+	        elementoView.setProdotto(prodotto);
+	        elementoView.setPiattaforma(piattaforma);
+	        elementoView.setQuantita(elemento.getQuantita());
+	        elementoView.setOfferta(offerta);
+	        elementoView.setPrezzoScontato(prezzoScontato);
+
+	        carrelloView.add(elementoView);
+	    }
+
+	    return carrelloView;
 	}
 	
 	//controlla se c'è la disponibilità prodotti passando un elemento del carrello
