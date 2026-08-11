@@ -3,6 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.ProdottoViewBean" %>
 <%@ page import="model.PiattaformaBean" %>
+<%@ page import="model.GenereBean" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -17,12 +18,70 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
 
 <h1>Catalogo</h1>
-<hr>
 
+<form action="<%= request.getContextPath() %>/CatalogoServlet" method="get">
+
+    <input type="text" name="ricerca" placeholder="Cerca un videogioco..."
+           value="<%= (request.getAttribute("ricerca") != null) ? request.getAttribute("ricerca") : "" %>">
+           
+	<input type="submit" value="Cerca">
+
+    <br><br>
+
+    <strong>Piattaforme:</strong>
+
+    <%
+    ArrayList<PiattaformaBean> piattaforme = (ArrayList<PiattaformaBean>) request.getAttribute("piattaforme");
+    ArrayList<Integer> idPiattaformeSelezionate = (ArrayList<Integer>) request.getAttribute("idPiattaforme");
+
+    if(piattaforme != null) {
+        for(PiattaformaBean piattaforma : piattaforme) {
+            boolean selezionata = idPiattaformeSelezionate != null && idPiattaformeSelezionate.contains(piattaforma.getIdPiattaforma());
+    %>
+        		<label>
+            		<input type="checkbox" name="idPiattaforme" value="<%= piattaforma.getIdPiattaforma() %>" <%= selezionata ? "checked" : "" %>>
+
+          			<%= piattaforma.getNomePiattaforma() %>
+       			</label>
+    <%
+        }
+    }
+    %>
+
+    <br><br>
+
+    <strong>Generi:</strong>
+
+    <%
+    ArrayList<GenereBean> generi = (ArrayList<GenereBean>) request.getAttribute("generi");
+	ArrayList<Integer> idGeneriSelezionati = (ArrayList<Integer>) request.getAttribute("idGeneri");
+
+    if(generi != null) {
+        for(GenereBean genere : generi) {
+            boolean selezionato = idGeneriSelezionati != null && idGeneriSelezionati.contains(genere.getIdGenere());
+    %>
+
+       		<label>
+            	<input type="checkbox" name="idGeneri" value="<%= genere.getIdGenere() %>" <%= selezionato ? "checked" : "" %>>
+
+            	<%= genere.getNomeGenere() %>
+        	</label>
+    <%
+        }
+    }
+    %>
+
+    <br><br>
+
+    <input type="submit" value="Filtra">
+
+</form>
+
+<hr>
 <%
     ArrayList<ProdottoViewBean> prodotti = (ArrayList<ProdottoViewBean>) request.getAttribute("prodotti");
 
-    if(prodotti != null) {
+    if(prodotti != null && !prodotti.isEmpty()) {
         for(ProdottoViewBean prodotto : prodotti) {
 %>
 			<a href="<%= request.getContextPath() %>/PaginaProdottoServlet?idProdotto=<%= prodotto.getProdotto().getIdProdotto() %>">
@@ -62,6 +121,11 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			<br><hr>
 <%
         }
+    }
+    else {
+%>
+		<p>Non ci sono prodotti corrispondenti alla tua ricerca</p>
+<%
     }
 %>
 

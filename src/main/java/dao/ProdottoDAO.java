@@ -436,4 +436,139 @@ public class ProdottoDAO {
 
     	return list;
     }
+    
+    public ArrayList<ProdottoViewBean> doRetrieveViewDisponibiliByRicercaFiltri(String ricerca, ArrayList<Integer> idPiattaforme, ArrayList<Integer> idGeneri) {
+
+        ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
+
+        try {
+            String sql = "SELECT * FROM prodotto "
+                    + "WHERE EXISTS ("
+                    + "SELECT 1 FROM prodottoPiattaforma pp "
+                    + "WHERE pp.idProdotto = prodotto.idProdotto "
+                    + "AND pp.quantitaDisponibile > 0) ";
+
+            // ricerca testuale
+            if(ricerca != null && !ricerca.trim().isEmpty()) {
+                sql += "AND (nome LIKE ? "
+                        + "OR sviluppatore LIKE ? "
+                        + "OR descrizione LIKE ?) ";
+            }
+
+            // filtro piattaforme
+            if(idPiattaforme != null && !idPiattaforme.isEmpty()) {
+
+                sql += "AND EXISTS ("
+                        + "SELECT 1 "
+                        + "FROM prodottoPiattaforma pp2 "
+                        + "WHERE pp2.idProdotto = prodotto.idProdotto "
+                        + "AND pp2.idPiattaforma IN (";
+
+                for(int i = 0; i < idPiattaforme.size(); i++) {
+
+                    if(i > 0)
+                        sql += ", ";
+
+                    sql += "?";
+                }
+
+                sql += ")) ";
+            }
+
+            // filtro generi
+            if(idGeneri != null && !idGeneri.isEmpty()) {
+
+                sql += "AND EXISTS ("
+                        + "SELECT 1 "
+                        + "FROM prodottoGenere pg "
+                        + "WHERE pg.idProdotto = prodotto.idProdotto "
+                        + "AND pg.idGenere IN (";
+
+                for(int i = 0; i < idGeneri.size(); i++) {
+
+                    if(i > 0)
+                        sql += ", ";
+
+                    sql += "?";
+                }
+
+                sql += ")) ";
+            }
+
+            sql += "ORDER BY nome ASC";
+
+            PreparedStatement ps =connection.prepareStatement(sql);
+
+            int parametro = 1;
+
+            // parametri ricerca
+            if(ricerca != null && !ricerca.trim().isEmpty()) {
+                ps.setString(parametro++, "%" + ricerca.trim() + "%");
+                ps.setString(parametro++, "%" + ricerca.trim() + "%");
+                ps.setString(parametro++, "%" + ricerca.trim() + "%");
+            }
+
+            // parametri piattaforme
+            if(idPiattaforme != null && !idPiattaforme.isEmpty()) {
+                for(Integer idPiattaforma : idPiattaforme) {
+                    ps.setInt(parametro++, idPiattaforma);
+                }
+            }
+
+            // parametri generi
+            if(idGeneri != null && !idGeneri.isEmpty()) {
+                for(Integer idGenere : idGeneri) {
+                    ps.setInt(parametro++, idGenere);
+                }
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            GenereDAO genereDAO = new GenereDAO();
+            PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+            ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+            OffertaDAO offertaDAO = new OffertaDAO();
+
+            while(rs.next()) {
+
+                ProdottoBean prodotto = new ProdottoBean();
+
+                prodotto.setIdProdotto(rs.getInt("idProdotto"));
+                prodotto.setNome(rs.getString("nome"));
+                prodotto.setDescrizione(rs.getString("descrizione"));
+                prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
+                prodotto.setImmagine(rs.getString("immagine"));
+                prodotto.setDataUscita(rs.getDate("dataUscita"));
+                prodotto.setSviluppatore(rs.getString("sviluppatore"));
+
+                ProdottoViewBean prodottoView = new ProdottoViewBean();
+
+                prodottoView.setProdotto(prodotto);
+                prodottoView.setGeneri(genereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto()));
+                prodottoView.setPiattaforme(piattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+                prodottoView.setProdottoPiattaforme(prodottoPiattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+
+                OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
+
+                prodottoView.setOfferta(offerta);
+
+                if(offerta != null) {
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
+    						BigDecimal.ONE.subtract(
+    						BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
+    			}
+
+                list.add(prodottoView);
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }

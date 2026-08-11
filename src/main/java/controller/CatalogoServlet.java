@@ -6,11 +6,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.GenereBean;
+import model.PiattaformaBean;
 import model.ProdottoViewBean;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import dao.GenereDAO;
+import dao.PiattaformaDAO;
 import dao.ProdottoDAO;
 
 /**
@@ -32,11 +36,40 @@ public class CatalogoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String ricerca = request.getParameter("ricerca");
+		String[] idPiattaformeString = request.getParameterValues("idPiattaforme");
+		String[] idGeneriString = request.getParameterValues("idGeneri");
+		
+		ArrayList<Integer> idPiattaforme = new ArrayList<Integer>();
+		ArrayList<Integer> idGeneri = new ArrayList<Integer>();
+		
+		if(idPiattaformeString != null) {
+			for(String id : idPiattaformeString) {
+				idPiattaforme.add(Integer.parseInt(id));
+			}
+		}
+		
+		if(idGeneriString != null) {
+			for(String id : idGeneriString) {
+				idGeneri.add(Integer.parseInt(id));
+			}
+		}
+		
 		ProdottoDAO dao = new ProdottoDAO();
+		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+		GenereDAO genereDAO = new GenereDAO();
 
-		ArrayList<ProdottoViewBean> prodotti = dao.doRetrieveViewDisponibili();
+		ArrayList<ProdottoViewBean> prodotti = dao.doRetrieveViewDisponibiliByRicercaFiltri(ricerca, idPiattaforme, idGeneri);
+		ArrayList<PiattaformaBean> piattaforme = piattaformaDAO.doRetrieveAll();
+		ArrayList<GenereBean> generi = genereDAO.doRetrieveAll();
 
+		request.setAttribute("piattaforme", piattaforme);
+		request.setAttribute("generi", generi);
 		request.setAttribute("prodotti", prodotti);
+		
+		request.setAttribute("idPiattaforme", idPiattaforme);
+		request.setAttribute("idGeneri", idGeneri);
+		request.setAttribute("ricerca", ricerca);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/catalogo.jsp");
 

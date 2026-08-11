@@ -11,6 +11,12 @@
 
 <h1>GameWorld</h1>
 
+<form action="<%= request.getContextPath() %>/CatalogoServlet" method="get">
+    <input type="text" name="ricerca" placeholder="Cerca un videogioco...">
+    <input type="submit" value="Cerca">
+</form>
+<br>
+
 <%
 UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 
