@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/jsp/components/header.jsp" %>
 <%@ page import="model.UtenteBean" %>
 <!DOCTYPE html>
 <html>
@@ -18,7 +19,6 @@
 <br>
 
 <%
-UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 
 if(utente != null) {
 	if("ADMIN".equals(utente.getRuolo())) {

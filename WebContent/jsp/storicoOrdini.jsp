@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/jsp/components/header.jsp" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.OrdineBean" %>
 <%@ page import="java.text.SimpleDateFormat" %>

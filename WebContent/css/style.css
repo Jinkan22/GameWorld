@@ -1,0 +1,277 @@
+@charset "UTF-8";
+
+/* Font - Satoshi */
+
+@font-face {
+    font-family: "Satoshi";
+    src: url("../fonts/Satoshi/Satoshi-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Satoshi";
+    src: url("../fonts/Satoshi/Satoshi-Medium.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Satoshi";
+    src: url("../fonts/Satoshi/Satoshi-Bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Satoshi";
+    src: url("../fonts/Satoshi/Satoshi-Black.otf") format("opentype");
+    font-weight: 900;
+    font-style: normal;
+}
+
+
+/* Font - Satoshi Italic */
+
+@font-face {
+    font-family: "Satoshi";
+    src: url("../fonts/Satoshi/Satoshi-Italic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Satoshi";
+    src: url("../fonts/Satoshi/Satoshi-MediumItalic.otf") format("opentype");
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Satoshi";
+    src: url("../fonts/Satoshi/Satoshi-BoldItalic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Satoshi";
+    src: url("../fonts/Satoshi/Satoshi-BlackItalic.otf") format("opentype");
+    font-weight: 900;
+    font-style: italic;
+}
+
+
+/* Palette */
+
+:root {
+    --deepest-violet: #15111A;
+    --dark-violet: #1D1724;
+    --violet-surface: #261E2F;
+    --muted-violet: #30263A;
+    --soft-violet: #4A3A57;
+    --dusty-violet: #624D72;
+    --light-violet: #8A7397;
+    --pale-lavender: #C7BDCC;
+    --almost-white: #E7E1E9;
+}
+
+
+/* Stile Generale */
+
+body {
+    background-color: var(--deepest-violet);
+    color: var(--pale-lavender);
+    font-family: "Satoshi", sans-serif;
+    font-weight: 500;
+}
+
+header {
+    background-color: var(--deepest-violet);
+}
+
+p {
+    color: var(--pale-lavender);
+    font-weight: 500;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--almost-white);
+    font-weight: 700;
+}
+
+
+/* Header Top */
+
+.header-top {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    column-gap: 60px;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+
+/* Logo */
+
+.logo {
+	justify-self: center;
+}
+
+.logo a,
+.logo a:visited {
+    color: inherit;
+    text-decoration: none;
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.logo span {
+    color: var(--pale-lavender);
+    font-weight: 900;
+}
+
+.logo strong {
+    color: var(--dusty-violet);
+    font-weight: 900;
+}
+
+
+/* Barra di ricerca */
+
+.search-bar {
+    display: flex;
+    width: 600px;
+    height: 40px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px 15px;
+
+    background-color: var(--dark-violet);
+    color: var(--almost-white);
+
+    border: 1px solid var(--soft-violet);
+    border-radius: 20px 0 0 20px;
+
+    outline: none;
+
+    font-family: "Satoshi", sans-serif;
+    font-weight: 500;
+}
+
+.search-bar input::placeholder {
+    color: var(--light-violet);
+    font-family: "Satoshi", sans-serif;
+    font-weight: 500;
+}
+
+.search-bar input:focus {
+    border-color: var(--dusty-violet);
+}
+
+.search-bar button {
+    padding: 10px 20px;
+
+    background-color: var(--soft-violet);
+    color: var(--almost-white);
+
+    border: 1px solid var(--soft-violet);
+    border-radius: 0 20px 20px 0;
+
+    cursor: pointer;
+
+    font-family: "Satoshi", sans-serif;
+    font-weight: 700;
+}
+
+.search-bar button:hover {
+    background-color: var(--dusty-violet);
+}
+
+
+/* Account e carrello */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    gap: 25px;
+}
+
+.header-actions a {
+    color: var(--pale-lavender);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.header-actions a:hover {
+    color: var(--light-violet);
+}
+
+
+/* Navbar */
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 12px 40px;
+}
+
+.navbar a {
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    color: var(--light-violet);
+}
+
+.separator {
+    height: 20px;
+    width: 1px;
+    background-color: var(--muted-violet);
+}
+
+
+/* Button */
+
+button {
+    background-color: var(--soft-violet);
+    color: var(--almost-white);
+
+    font-family: "Satoshi", sans-serif;
+    font-weight: 700;
+}
+
+button:hover {
+    background-color: var(--dusty-violet);
+}
+
+
+/* Link */
+
+a,
+a:visited {
+    color: var(--pale-lavender);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--light-violet);
+}
+
+a:active {
+    color: var(--dusty-violet);
+}

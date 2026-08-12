@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/jsp/components/header.jsp" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.ProdottoViewBean" %>
 <%@ page import="model.GenereBean" %>
@@ -9,7 +10,6 @@
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 ProdottoViewBean prodotto = (ProdottoViewBean) request.getAttribute("prodotto");
-UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 %>
 <!DOCTYPE html>
 <html>

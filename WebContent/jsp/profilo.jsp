@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/jsp/components/header.jsp" %>
 <%@ page import="model.UtenteBean" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
@@ -13,10 +14,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 </head>
 <body>
 <a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
-
-<%
-UtenteBean utente = (UtenteBean) session.getAttribute("utente");
-%>
 
 <h1>Profilo
 <%
