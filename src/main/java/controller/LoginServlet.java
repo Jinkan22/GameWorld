@@ -65,7 +65,7 @@ public class LoginServlet extends HttpServlet {
 		
 		versaCarrelloSessione(session, utente);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/HomeServlet");
 		dispatcher.forward(request, response);
 	}
 	

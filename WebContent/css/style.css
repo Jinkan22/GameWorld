@@ -223,7 +223,7 @@ h6 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 30px;
+    gap: 35px;
     padding: 12px 40px;
 }
 
@@ -241,7 +241,6 @@ h6 {
     width: 1px;
     background-color: var(--muted-violet);
 }
-
 
 /* Button */
 
@@ -274,4 +273,102 @@ a:hover {
 
 a:active {
     color: var(--dusty-violet);
+}
+
+/* Home - Banners */
+
+.banners {
+    padding: 40px 40px;
+}
+
+.top-banners {
+	display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.top-banners .site-description {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.top-banners .site-description h1 {
+    margin: 0 0 15px 0;
+}
+
+.top-banners .site-description h3 {
+    margin: 0 0 80px 0;
+}
+
+.top-banners .banner {
+    width: 50%;
+}
+
+.bottom-banners {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.bottom-banners .banner {
+    width: 50%;
+    flex: 1;
+}
+
+.banners img {
+	width: 100%;
+	height: 400px;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 20px;
+}
+
+/* Home - Prodotti */
+
+.piattaforme {
+    padding: 20px 40px;
+}
+
+.piattaforme hr {
+	margin-bottom: 30px;
+	border-radius: 5px;
+	color: var(--pale-lavender);
+}
+
+.piattaforme h2 {
+    margin-bottom: 20px;
+}
+
+.linea-prodotti {
+    display: flex;
+    gap: 20px;
+}
+
+.card-prodotto {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-prodotto img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.product-card h3 {
+    margin: 10px 0 5px 0;
+    font-size: 18px;
+}
+
+.prezzo {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.prezzo-scontato {
+    font-weight: 700;
 }

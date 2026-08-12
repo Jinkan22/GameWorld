@@ -75,7 +75,7 @@ public class AggiungiProdottoServlet extends HttpServlet {
 		
 		dao.doSave(prodotto);
 		
-		response.sendRedirect(request.getContextPath() + "/PaginaProdottoServlet?idProdotto=" + prodotto.getIdProdotto());
+		response.sendRedirect(request.getContextPath() + "/ModificaProdottoServlet?idProdotto=" + prodotto.getIdProdotto());
 	}
 
 }

@@ -782,7 +782,7 @@ public class ProdottoDAO {
     				+ "ON p.idProdotto = pp.idProdotto "
     				+ "WHERE pp.idPiattaforma = ? "
     				+ "AND pp.quantitaDisponibile > 0 "
-    				+ "ORDER BY p.nome ASC "
+    				+ "ORDER BY RAND() "
     				+ "LIMIT ?";
 
     		PreparedStatement ps = connection.prepareStatement(sql);

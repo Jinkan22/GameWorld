@@ -40,10 +40,10 @@ public class HomeServlet extends HttpServlet {
 		ArrayList<ProdottoViewBean> piuVenduti = prodottoDAO.doRetrieveViewPiuVenduti(1);
 		
 		//prodotti piattaforme
-		ArrayList<ProdottoViewBean> giochiSteam = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(7, 5);
-		ArrayList<ProdottoViewBean> giochiPlaystation = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(9, 5);
-		ArrayList<ProdottoViewBean> giochiXbox = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(12, 5);
-		ArrayList<ProdottoViewBean> giochiNintendo = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(11, 5);
+		ArrayList<ProdottoViewBean> giochiSteam = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(7, 3);
+		ArrayList<ProdottoViewBean> giochiPlaystation = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(9, 3);
+		ArrayList<ProdottoViewBean> giochiXbox = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(12, 3);
+		ArrayList<ProdottoViewBean> giochiNintendo = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(11, 3);
 		
 		System.out.println("Nuove uscite: " + nuoveUscite.size());
 		System.out.println("Migliori offerte: " + miglioriOfferte.size());

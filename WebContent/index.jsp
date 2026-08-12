@@ -24,44 +24,199 @@
 
 <main>
 	<section class="banners">
-		<div class="banner">
-			<%
-				if(nuovaUscita != null) {
-			%>
-				<a href="...">
-					<img src="<%= request.getContextPath() + "/images/products/" + nuovaUscita.getProdotto().getImmagine() %>">
-				</a>
-				<h2>NUOVE USCITE</h2>
-			<%
-				}
-			%>
+		<div class="top-banners">
+			<div class="banner">
+				<%
+					if(nuovaUscita != null) {
+				%>
+					<a href="<%= request.getContextPath() %>/CatalogoServlet">
+						<img src="<%= request.getContextPath() + "/images/products/" + nuovaUscita.getProdotto().getImmagine() %>">
+						<h2>NUOVE USCITE</h2>
+					</a>
+				<%
+					}
+				%>
+			</div>
+			<div class="site-description">
+				<h1>Benvenuto su gameWorld!</h1>
+            	<h3>
+            	    Il tuo store digitale dedicato ai videogiochi.<br>
+            	    Scopri nuovi titoli, grandi offerte e i giochi<br>
+            	    più amati dai videogiocatori.
+            	</h3>
+        	</div>
 		</div>
-		<div class="banner">
-			<%
-				if(miglioreOfferta != null) {
-			%>
-				<a href="...">
-					<img src="<%= request.getContextPath() + "/images/products/" + miglioreOfferta.getProdotto().getImmagine() %>">
-				</a>
-				<h2>IN OFFERTA OGGI</h2>
-			<%
-				}
-			%>
+		<div class="bottom-banners">
+			<div class="banner">
+				<%
+					if(miglioreOfferta != null) {
+				%>
+					<a href="<%= request.getContextPath() %>/CatalogoServlet">
+						<img src="<%= request.getContextPath() + "/images/products/" + miglioreOfferta.getProdotto().getImmagine() %>">
+						<h2>IN OFFERTA OGGI</h2>
+					</a>
+				<%
+					}
+				%>
+			</div>
+			<div class="banner">
+				<%
+					if(piuVenduto != null) {
+				%>
+					<a href="<%= request.getContextPath() %>/CatalogoServlet">
+						<img src="<%= request.getContextPath() + "/images/products/" + piuVenduto.getProdotto().getImmagine() %>">
+						<h2>I PIÙ VENDUTI</h2>
+					</a>
+				<%
+					}
+				%>
+			</div>
 		</div>
-		<div class="banner">
+	</section>
+
+	<section class="piattaforme">
+		<h2>STEAM</h2>
+		<hr>
+		<div class="linea-prodotti">
 			<%
-				if(piuVenduto != null) {
+				for(ProdottoViewBean prodotto : giochiSteam) {
 			%>
-				<a href="...">
-					<img src="<%= request.getContextPath() + "/images/products/" + piuVenduto.getProdotto().getImmagine() %>">
-				</a>
-				<h2>I PIU VENDUTI</h2>
+				<div class ="card-prodotto">
+					<a href="<%= request.getContextPath() %>/PaginaProdottoServlet?idProdotto=<%= prodotto.getProdotto().getIdProdotto() %>">
+						<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getProdotto().getImmagine() %>">
+					</a>
+					
+					<h3><%= prodotto.getProdotto().getNome() %></h3>
+					<%
+						if(prodotto.getOfferta() != null) {
+					%>							
+							<div class="prezzo-scontato">
+								<%= prodotto.getPrezzoScontato() %> €
+							</div>
+					<%
+						}
+						else {
+					%>
+							<div class="prezzo">
+								<%= prodotto.getProdotto().getPrezzo() %> €
+							</div>
+					<%
+						}
+					%>
+				</div>
 			<%
 				}
 			%>
 		</div>
 	</section>
-
+	
+	<section class="piattaforme">
+		<h2>PLAYSTATION</h2>
+		<hr>
+		<div class="linea-prodotti">
+			<%
+				for(ProdottoViewBean prodotto : giochiPlaystation) {
+			%>
+				<div class ="card-prodotto">
+					<a href="<%= request.getContextPath() %>/PaginaProdottoServlet?idProdotto=<%= prodotto.getProdotto().getIdProdotto() %>">
+						<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getProdotto().getImmagine() %>">
+					</a>
+					
+					<h3><%= prodotto.getProdotto().getNome() %></h3>
+					<%
+						if(prodotto.getOfferta() != null) {
+					%>							
+							<div class="prezzo-scontato">
+								<%= prodotto.getPrezzoScontato() %> €
+							</div>
+					<%
+						}
+						else {
+					%>
+							<div class="prezzo">
+								<%= prodotto.getProdotto().getPrezzo() %> €
+							</div>
+					<%
+						}
+					%>
+				</div>
+			<%
+				}
+			%>
+		</div>
+	</section>
+	
+	<section class="piattaforme">
+		<h2>XBOX</h2>
+		<hr>
+		<div class="linea-prodotti">
+			<%
+				for(ProdottoViewBean prodotto : giochiXbox) {
+			%>
+				<div class ="card-prodotto">
+					<a href="<%= request.getContextPath() %>/PaginaProdottoServlet?idProdotto=<%= prodotto.getProdotto().getIdProdotto() %>">
+						<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getProdotto().getImmagine() %>">
+					</a>
+					
+					<h3><%= prodotto.getProdotto().getNome() %></h3>
+					<%
+						if(prodotto.getOfferta() != null) {
+					%>							
+							<div class="prezzo-scontato">
+								<%= prodotto.getPrezzoScontato() %> €
+							</div>
+					<%
+						}
+						else {
+					%>
+							<div class="prezzo">
+								<%= prodotto.getProdotto().getPrezzo() %> €
+							</div>
+					<%
+						}
+					%>
+				</div>
+			<%
+				}
+			%>
+		</div>
+	</section>
+	
+	<section class="piattaforme">
+		<h2>NINTENDO</h2>
+		<hr>
+		<div class="linea-prodotti">
+			<%
+				for(ProdottoViewBean prodotto : giochiNintendo) {
+			%>
+				<div class ="card-prodotto">
+					<a href="<%= request.getContextPath() %>/PaginaProdottoServlet?idProdotto=<%= prodotto.getProdotto().getIdProdotto() %>">
+						<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getProdotto().getImmagine() %>">
+					</a>
+					
+					<h3><%= prodotto.getProdotto().getNome() %></h3>
+					<%
+						if(prodotto.getOfferta() != null) {
+					%>							
+							<div class="prezzo-scontato">
+								<%= prodotto.getPrezzoScontato() %> € 
+							</div>
+					<%
+						}
+						else {
+					%>
+							<div class="prezzo">
+								<%= prodotto.getProdotto().getPrezzo() %> €
+							</div>
+					<%
+						}
+					%>
+				</div>
+			<%
+				}
+			%>
+		</div>
+	</section>
 
 </main>
 

@@ -15,7 +15,7 @@
 
         <!-- Logo -->
         <div class="logo">
-    		<a href="<%= request.getContextPath() %>/index.jsp">
+    		<a href="<%= request.getContextPath() %>/HomeServlet">
         		<span>game</span><strong>World</strong>
     		</a>
 		</div>
@@ -47,7 +47,7 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <a href="<%= request.getContextPath() %>/index.jsp">Home</a>
+        <a href="<%= request.getContextPath() %>/HomeServlet">Home</a>
         <a href="<%= request.getContextPath() %>/CatalogoServlet?idPiattaforme=7">Steam</a>
         <a href="<%= request.getContextPath() %>/CatalogoServlet?idPiattaforme=8&idPiattaforme=9">PlayStation</a>
         <a href="<%= request.getContextPath() %>/CatalogoServlet?idPiattaforme=13&idPiattaforme=12">Xbox</a>
