@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/jsp/components/header.jsp" %>
-<%@ page import="model.UtenteBean" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="model.ProdottoViewBean" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,42 +11,59 @@
 </head>
 <body>
 
-<h1>GameWorld</h1>
-
-<form action="<%= request.getContextPath() %>/CatalogoServlet" method="get">
-    <input type="text" name="ricerca" placeholder="Cerca un videogioco...">
-    <input type="submit" value="Cerca">
-</form>
-<br>
-
 <%
-
-if(utente != null) {
-	if("ADMIN".equals(utente.getRuolo())) {
-%>
-		<a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo admin</a><br><br>
-<%
-	}
-	else {
-%>
-		<a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo utente</a><br><br>
-<% 
-	}
-}
-else{
+	ProdottoViewBean nuovaUscita = (ProdottoViewBean) request.getAttribute("nuovaUscita");
+	ProdottoViewBean miglioreOfferta = (ProdottoViewBean) request.getAttribute("miglioreOfferta");
+	ProdottoViewBean piuVenduto = (ProdottoViewBean) request.getAttribute("piuVenduto");
+	
+	ArrayList<ProdottoViewBean> giochiSteam = (ArrayList<ProdottoViewBean>) request.getAttribute("giochiSteam");
+	ArrayList<ProdottoViewBean> giochiPlaystation = (ArrayList<ProdottoViewBean>) request.getAttribute("giochiPlaystation");
+	ArrayList<ProdottoViewBean> giochiXbox = (ArrayList<ProdottoViewBean>) request.getAttribute("giochiXbox");
+	ArrayList<ProdottoViewBean> giochiNintendo = (ArrayList<ProdottoViewBean>) request.getAttribute("giochiNintendo");
 %>
 
-<a href="<%= request.getContextPath() %>/LoginServlet">Login</a><br><br>
+<main>
+	<section class="banners">
+		<div class="banner">
+			<%
+				if(nuovaUscita != null) {
+			%>
+				<a href="...">
+					<img src="<%= request.getContextPath() + "/images/products/" + nuovaUscita.getProdotto().getImmagine() %>">
+				</a>
+				<h2>NUOVE USCITE</h2>
+			<%
+				}
+			%>
+		</div>
+		<div class="banner">
+			<%
+				if(miglioreOfferta != null) {
+			%>
+				<a href="...">
+					<img src="<%= request.getContextPath() + "/images/products/" + miglioreOfferta.getProdotto().getImmagine() %>">
+				</a>
+				<h2>IN OFFERTA OGGI</h2>
+			<%
+				}
+			%>
+		</div>
+		<div class="banner">
+			<%
+				if(piuVenduto != null) {
+			%>
+				<a href="...">
+					<img src="<%= request.getContextPath() + "/images/products/" + piuVenduto.getProdotto().getImmagine() %>">
+				</a>
+				<h2>I PIU VENDUTI</h2>
+			<%
+				}
+			%>
+		</div>
+	</section>
 
-<a href="<%= request.getContextPath() %>/RegistrazioneServlet">Registrazione</a><br><br>
 
-<%
-}
-%>
-
-<a href="<%= request.getContextPath() %>/CarrelloServlet">Carrello</a><br><br>
-
-<a href="<%= request.getContextPath() %>/CatalogoServlet">Catalogo</a>
+</main>
 
 </body>
 </html>

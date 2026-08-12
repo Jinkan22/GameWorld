@@ -246,8 +246,7 @@ public class ProdottoDAO {
 
     			if(offerta != null) {
     				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
-    						BigDecimal.ONE.subtract(
-    						BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						BigDecimal.ONE.subtract(BigDecimal.valueOf(offerta.getPercentualeSconto()).
     						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
     			}
     		}
@@ -302,8 +301,7 @@ public class ProdottoDAO {
 
     			if(offerta != null) {
     				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
-    						BigDecimal.ONE.subtract(
-    						BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						BigDecimal.ONE.subtract(BigDecimal.valueOf(offerta.getPercentualeSconto()).
     						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
     			}
     		}
@@ -357,8 +355,7 @@ public class ProdottoDAO {
 
     			if(offerta != null) {
     				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
-    						BigDecimal.ONE.subtract(
-    						BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						BigDecimal.ONE.subtract(BigDecimal.valueOf(offerta.getPercentualeSconto()).
     						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
     			}
 
@@ -419,8 +416,7 @@ public class ProdottoDAO {
 
     			if(offerta != null) {
     				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
-    						BigDecimal.ONE.subtract(
-    						BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						BigDecimal.ONE.subtract(BigDecimal.valueOf(offerta.getPercentualeSconto()).
     						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
     			}
 
@@ -437,6 +433,7 @@ public class ProdottoDAO {
     	return list;
     }
     
+    //lettura di tutti i prodotti view disponibili tramite ricerca e filtri
     public ArrayList<ProdottoViewBean> doRetrieveViewDisponibiliByRicercaFiltri(String ricerca, ArrayList<Integer> idPiattaforme, ArrayList<Integer> idGeneri) {
 
         ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
@@ -554,8 +551,7 @@ public class ProdottoDAO {
 
                 if(offerta != null) {
     				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
-    						BigDecimal.ONE.subtract(
-    						BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						BigDecimal.ONE.subtract(BigDecimal.valueOf(offerta.getPercentualeSconto()).
     						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
     			}
 
@@ -570,5 +566,276 @@ public class ProdottoDAO {
         }
 
         return list;
+    }
+    
+    //lettura delle nuove uscite
+    public ArrayList<ProdottoViewBean> doRetrieveViewNuoveUscite(int limite) {
+    	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
+
+    	try {
+    		String sql = "SELECT * FROM prodotto "
+    				+ "WHERE dataUscita <= CURDATE() "
+    				+ "AND dataUscita >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) "
+    				+ "AND EXISTS ("
+    				+ "SELECT 1 FROM prodottoPiattaforma pp "
+    				+ "WHERE pp.idProdotto = prodotto.idProdotto "
+    				+ "AND pp.quantitaDisponibile > 0) "
+    				+ "ORDER BY dataUscita DESC "
+    				+ "LIMIT ?";
+
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, limite);
+
+    		ResultSet rs = ps.executeQuery();
+
+    		GenereDAO genereDAO = new GenereDAO();
+    		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+    		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+    		OffertaDAO offertaDAO = new OffertaDAO();
+
+    		while(rs.next()) {
+
+    			ProdottoBean prodotto = new ProdottoBean();
+    			
+    			prodotto.setIdProdotto(rs.getInt("idProdotto"));
+    			prodotto.setNome(rs.getString("nome"));
+    			prodotto.setDescrizione(rs.getString("descrizione"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
+    			prodotto.setImmagine(rs.getString("immagine"));
+    			prodotto.setDataUscita(rs.getDate("dataUscita"));
+    			prodotto.setSviluppatore(rs.getString("sviluppatore"));
+
+    			ProdottoViewBean prodottoView = new ProdottoViewBean();
+    			
+    			prodottoView.setProdotto(prodotto);
+    			prodottoView.setGeneri(genereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setPiattaforme(piattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setProdottoPiattaforme(prodottoPiattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+
+    			OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
+    			
+    			prodottoView.setOfferta(offerta);
+
+    			if(offerta != null) {
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
+    						BigDecimal.ONE.subtract(BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
+    			}
+
+    			list.add(prodottoView);
+    		}
+
+    		rs.close();
+    		ps.close();
+
+    	} catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+
+    	return list;
+    }
+    
+    //lettura dei prodotti con le migliori offerte
+    public ArrayList<ProdottoViewBean> doRetrieveViewMiglioriOfferte(int limite) {
+    	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
+
+    	try {
+    		String sql = "SELECT p.* FROM prodotto p "
+    				+ "JOIN offerta o ON p.idProdotto = o.idProdotto "
+    				+ "WHERE o.dataInizio <= CURDATE() "
+    				+ "AND o.dataFine >= CURDATE() "
+    				+ "AND EXISTS ("
+    				+ "SELECT 1 FROM prodottoPiattaforma pp "
+    				+ "WHERE pp.idProdotto = p.idProdotto "
+    				+ "AND pp.quantitaDisponibile > 0) "
+    				+ "ORDER BY o.percentualeSconto DESC "
+    				+ "LIMIT ?";
+
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, limite);
+
+    		ResultSet rs = ps.executeQuery();
+
+    		GenereDAO genereDAO = new GenereDAO();
+    		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+    		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+    		OffertaDAO offertaDAO = new OffertaDAO();
+
+    		while(rs.next()) {
+
+    			ProdottoBean prodotto = new ProdottoBean();
+
+    			prodotto.setIdProdotto(rs.getInt("idProdotto"));
+    			prodotto.setNome(rs.getString("nome"));
+    			prodotto.setDescrizione(rs.getString("descrizione"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
+    			prodotto.setImmagine(rs.getString("immagine"));
+    			prodotto.setDataUscita(rs.getDate("dataUscita"));
+    			prodotto.setSviluppatore(rs.getString("sviluppatore"));
+
+    			ProdottoViewBean prodottoView = new ProdottoViewBean();
+    			
+    			prodottoView.setProdotto(prodotto);
+    			prodottoView.setGeneri(genereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setPiattaforme(piattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setProdottoPiattaforme(prodottoPiattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+
+    			OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
+
+    			prodottoView.setOfferta(offerta);
+
+    			if(offerta != null) {
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
+    						BigDecimal.ONE.subtract(BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
+    			}
+
+    			list.add(prodottoView);
+    		}
+
+    		rs.close();
+    		ps.close();
+
+    	} catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+
+    	return list;
+    }
+    
+    // lettura dei prodotti più venduti
+    public ArrayList<ProdottoViewBean> doRetrieveViewPiuVenduti(int limite) {
+    	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
+
+    	try {
+    		String sql = "SELECT p.*, SUM(d.quantita) AS totaleVenduto "
+    				+ "FROM prodotto p "
+    				+ "JOIN dettaglioOrdine d ON p.idProdotto = d.idProdotto "
+    				+ "JOIN ordine o ON d.idOrdine = o.idOrdine "
+    				+ "WHERE EXISTS ("
+    				+ "SELECT 1 FROM prodottoPiattaforma pp "
+    				+ "WHERE pp.idProdotto = p.idProdotto "
+    				+ "AND pp.quantitaDisponibile > 0) "
+    				+ "GROUP BY p.idProdotto "
+    				+ "ORDER BY totaleVenduto DESC "
+    				+ "LIMIT ?";
+
+    		PreparedStatement ps = connection.prepareStatement(sql);
+    		ps.setInt(1, limite);
+
+    		ResultSet rs = ps.executeQuery();
+
+    		GenereDAO genereDAO = new GenereDAO();
+    		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+    		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+    		OffertaDAO offertaDAO = new OffertaDAO();
+
+    		while(rs.next()) {
+
+    			ProdottoBean prodotto = new ProdottoBean();
+
+    			prodotto.setIdProdotto(rs.getInt("idProdotto"));
+    			prodotto.setNome(rs.getString("nome"));
+    			prodotto.setDescrizione(rs.getString("descrizione"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
+    			prodotto.setImmagine(rs.getString("immagine"));
+    			prodotto.setDataUscita(rs.getDate("dataUscita"));
+    			prodotto.setSviluppatore(rs.getString("sviluppatore"));
+
+    			ProdottoViewBean prodottoView = new ProdottoViewBean();
+    			
+    			prodottoView.setProdotto(prodotto);
+    			prodottoView.setGeneri(genereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setPiattaforme(piattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setProdottoPiattaforme(prodottoPiattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+
+    			OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
+
+    			prodottoView.setOfferta(offerta);
+
+    			if(offerta != null) {
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
+    						BigDecimal.ONE.subtract(BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
+    			}
+
+    			list.add(prodottoView);
+    		}
+
+    		rs.close();
+    		ps.close();
+
+    	} catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+
+    	return list;
+    }
+    
+ // lettura dei prodotti disponibili di una piattaforma
+    public ArrayList<ProdottoViewBean> doRetrieveViewDisponibiliByPiattaforma(int idPiattaforma, int limite) {
+    	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
+
+    	try {
+    		String sql = "SELECT p.* FROM prodotto p "
+    				+ "JOIN prodottoPiattaforma pp "
+    				+ "ON p.idProdotto = pp.idProdotto "
+    				+ "WHERE pp.idPiattaforma = ? "
+    				+ "AND pp.quantitaDisponibile > 0 "
+    				+ "ORDER BY p.nome ASC "
+    				+ "LIMIT ?";
+
+    		PreparedStatement ps = connection.prepareStatement(sql);
+
+    		ps.setInt(1, idPiattaforma);
+    		ps.setInt(2, limite);
+
+    		ResultSet rs = ps.executeQuery();
+
+    		GenereDAO genereDAO = new GenereDAO();
+    		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
+    		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
+    		OffertaDAO offertaDAO = new OffertaDAO();
+
+    		while(rs.next()) {
+
+    			ProdottoBean prodotto = new ProdottoBean();
+
+    			prodotto.setIdProdotto(rs.getInt("idProdotto"));
+    			prodotto.setNome(rs.getString("nome"));
+    			prodotto.setDescrizione(rs.getString("descrizione"));
+    			prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
+    			prodotto.setImmagine(rs.getString("immagine"));
+    			prodotto.setDataUscita(rs.getDate("dataUscita"));
+    			prodotto.setSviluppatore(rs.getString("sviluppatore"));
+
+    			ProdottoViewBean prodottoView = new ProdottoViewBean();
+    			
+    			prodottoView.setProdotto(prodotto);
+    			prodottoView.setGeneri(genereDAO.doRetrieveByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setPiattaforme(piattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+    			prodottoView.setProdottoPiattaforme(prodottoPiattaformaDAO.doRetrieveDisponibiliByIdProdotto(prodotto.getIdProdotto()));
+
+    			OffertaBean offerta = offertaDAO.doRetrieveAttivaByIdProdotto(prodotto.getIdProdotto());
+
+    			prodottoView.setOfferta(offerta);
+
+    			if(offerta != null) {
+    				prodottoView.setPrezzoScontato(prodotto.getPrezzo().multiply(
+    						BigDecimal.ONE.subtract(BigDecimal.valueOf(offerta.getPercentualeSconto()).
+    						divide(BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP));
+    			}
+
+    			list.add(prodottoView);
+    		}
+
+    		rs.close();
+    		ps.close();
+
+    	} catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+
+    	return list;
     }
 }
