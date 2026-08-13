@@ -3,6 +3,7 @@
 <%@ page import="model.UtenteBean" %>
     
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
+<link rel="icon" type="image/png" href="<%= request.getContextPath() %>/images/site/logo-icon.png">
 
 <%
 	UtenteBean utente = (UtenteBean) session.getAttribute("utente");
@@ -16,7 +17,7 @@
         <!-- Logo -->
         <div class="logo">
     		<a href="<%= request.getContextPath() %>/HomeServlet">
-        		<span>game</span><strong>World</strong>
+        		<img src="<%= request.getContextPath() %>/images/site/logo-piccolo.png">
     		</a>
 		</div>
 

@@ -220,5 +220,7 @@
 
 </main>
 
+<%@ include file="/jsp/components/footer.jsp" %>
+
 </body>
 </html>
