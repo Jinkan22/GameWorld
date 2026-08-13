@@ -138,6 +138,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 							}
 						%>
 					</div>
+		
 		<%
 		        }
 		    }
@@ -147,7 +148,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		<%
 		    }
 		%>
-		</div>
+		</div>	
 	</section>
 </main>	
 <%@ include file="/jsp/components/footer.jsp" %>

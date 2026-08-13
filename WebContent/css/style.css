@@ -412,7 +412,7 @@ a:active {
 
 .prezzi {
 	display: flex;
-	gap: 20px;
+	gap: 10px;
 }
 
 .prezzo-originale {
@@ -421,8 +421,13 @@ a:active {
     font-weight: 700;
 }
 
-.prezzo-scontato {
+.percentuale-sconto {
 	color: red;
+	font-size: 16px;
+    font-weight: 700;
+}
+
+.prezzo-scontato {
 	font-size: 16px;
     font-weight: 700;
 }
@@ -547,5 +552,77 @@ a:active {
 }
 
 .sidebar-filtri input[type="submit"]:hover {
+    background-color: var(--dusty-violet);
+}
+
+.pagina-prodotto {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 40px;
+	padding: 40px;
+}
+
+.prodotto-immagine {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.prodotto-immagine img {
+	max-width: 100%;
+	border-radius: 15px;
+}
+
+.card-dati {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.pagina-prodotto form {
+	display: flex;
+	width: 50%;
+}
+
+.pagina-prodotto select {
+	flex: 1;
+    padding: 10px 20px 10px 20px;
+
+    background-color: var(--dark-violet);
+    color: var(--almost-white);
+
+    border: 1px solid var(--soft-violet);
+    border-radius: 20px 0 0 20px;
+    border-right: none;
+
+    outline: none;
+}
+
+.pagina-prodotto select,
+.pagina-prodotto select option {
+	font-family: "Satoshi", sans-serif;
+	font-weight: 500;
+}
+
+.pagina-prodotto input[type="submit"] {
+	flex: 1;
+    padding: 10px 20px;
+
+    background-color: var(--soft-violet);
+    color: var(--almost-white);
+
+    border: none;
+    border-radius: 0 20px 20px 0;
+
+    font-family: "Satoshi", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.pagina-prodotto input[type="submit"]:hover {
     background-color: var(--dusty-violet);
 }

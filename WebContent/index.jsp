@@ -139,6 +139,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 								<div class="prezzo-originale">
 									<%= prodotto.getProdotto().getPrezzo() %> €
 								</div>
+								<div class="percentuale-sconto">
+									-<%= prodotto.getOfferta().getPercentualeSconto() %>%
+								</div>
 								<div class="prezzo-scontato">
 									<%= prodotto.getPrezzoScontato() %> €
 								</div>
