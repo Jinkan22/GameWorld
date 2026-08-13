@@ -3,7 +3,7 @@
 <%@ page import="model.UtenteBean" %>
     
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
-<link rel="icon" type="image/png" href="<%= request.getContextPath() %>/images/site/logo-icon.png">
+<link rel="icon" type="image/png" href="<%= request.getContextPath() %>/images/site/logo-icona.png">
 
 <%
 	UtenteBean utente = (UtenteBean) session.getAttribute("utente");
@@ -17,7 +17,7 @@
         <!-- Logo -->
         <div class="logo">
     		<a href="<%= request.getContextPath() %>/HomeServlet">
-        		<img src="<%= request.getContextPath() %>/images/site/logo-piccolo.png">
+        		<img src="<%= request.getContextPath() %>/images/site/logo.png">
     		</a>
 		</div>
 
@@ -28,7 +28,7 @@
         </form>
 
         <!-- Account e carrello -->
-        <div class="header-actions">
+        <div class="accedi-registrati">
         	<%
         		if(utente == null) {
         	%>

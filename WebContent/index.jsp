@@ -3,6 +3,10 @@
 <%@ include file="/jsp/components/header.jsp" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.ProdottoViewBean" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%
+SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +33,7 @@
 				<%
 					if(nuovaUscita != null) {
 				%>
-					<a href="<%= request.getContextPath() %>/CatalogoServlet">
+					<a href="<%= request.getContextPath() %>/CatalogoServlet?ordinamento=NUOVE_USCITE">
 						<img src="<%= request.getContextPath() + "/images/products/" + nuovaUscita.getProdotto().getImmagine() %>">
 						<h2>NUOVE USCITE</h2>
 					</a>
@@ -37,7 +41,7 @@
 					}
 				%>
 			</div>
-			<div class="site-description">
+			<div class="descrizione">
 				<h1>Benvenuto su gameWorld!</h1>
             	<h3>
             	    Il tuo store digitale dedicato ai videogiochi.<br>
@@ -51,7 +55,7 @@
 				<%
 					if(miglioreOfferta != null) {
 				%>
-					<a href="<%= request.getContextPath() %>/CatalogoServlet">
+					<a href="<%= request.getContextPath() %>/CatalogoServlet?ordinamento=MIGLIORI_OFFERTE">
 						<img src="<%= request.getContextPath() + "/images/products/" + miglioreOfferta.getProdotto().getImmagine() %>">
 						<h2>IN OFFERTA OGGI</h2>
 					</a>
@@ -63,7 +67,7 @@
 				<%
 					if(piuVenduto != null) {
 				%>
-					<a href="<%= request.getContextPath() %>/CatalogoServlet">
+					<a href="<%= request.getContextPath() %>/CatalogoServlet?ordinamento=PIU_VENDUTI">
 						<img src="<%= request.getContextPath() + "/images/products/" + piuVenduto.getProdotto().getImmagine() %>">
 						<h2>I PIÙ VENDUTI</h2>
 					</a>
@@ -89,9 +93,14 @@
 					<h3><%= prodotto.getProdotto().getNome() %></h3>
 					<%
 						if(prodotto.getOfferta() != null) {
-					%>							
-							<div class="prezzo-scontato">
-								<%= prodotto.getPrezzoScontato() %> €
+					%>
+							<div class="prezzi">
+								<div class="prezzo-originale">
+									<%= prodotto.getProdotto().getPrezzo() %> €
+								</div>
+								<div class="prezzo-scontato">
+									<%= prodotto.getPrezzoScontato() %> €
+								</div>
 							</div>
 					<%
 						}
@@ -125,9 +134,14 @@
 					<h3><%= prodotto.getProdotto().getNome() %></h3>
 					<%
 						if(prodotto.getOfferta() != null) {
-					%>							
-							<div class="prezzo-scontato">
-								<%= prodotto.getPrezzoScontato() %> €
+					%>
+							<div class="prezzi">
+								<div class="prezzo-originale">
+									<%= prodotto.getProdotto().getPrezzo() %> €
+								</div>
+								<div class="prezzo-scontato">
+									<%= prodotto.getPrezzoScontato() %> €
+								</div>
 							</div>
 					<%
 						}
@@ -161,9 +175,14 @@
 					<h3><%= prodotto.getProdotto().getNome() %></h3>
 					<%
 						if(prodotto.getOfferta() != null) {
-					%>							
-							<div class="prezzo-scontato">
-								<%= prodotto.getPrezzoScontato() %> €
+					%>
+							<div class="prezzi">
+								<div class="prezzo-originale">
+									<%= prodotto.getProdotto().getPrezzo() %> €
+								</div>
+								<div class="prezzo-scontato">
+									<%= prodotto.getPrezzoScontato() %> € 
+								</div>
 							</div>
 					<%
 						}
@@ -197,9 +216,14 @@
 					<h3><%= prodotto.getProdotto().getNome() %></h3>
 					<%
 						if(prodotto.getOfferta() != null) {
-					%>							
-							<div class="prezzo-scontato">
-								<%= prodotto.getPrezzoScontato() %> € 
+					%>
+							<div class="prezzi">
+								<div class="prezzo-originale">
+									<%= prodotto.getProdotto().getPrezzo() %> €
+								</div>
+								<div class="prezzo-scontato">
+									<%= prodotto.getPrezzoScontato() %> € 
+								</div>
 							</div>
 					<%
 						}

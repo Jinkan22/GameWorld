@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.GenereBean;
 import model.PiattaformaBean;
 import model.ProdottoViewBean;
+import utils.OrdinamentoProdotti;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class CatalogoServlet extends HttpServlet {
 		String ricerca = request.getParameter("ricerca");
 		String[] idPiattaformeString = request.getParameterValues("idPiattaforme");
 		String[] idGeneriString = request.getParameterValues("idGeneri");
+		String opzioni = request.getParameter("ordinamento");
 		
 		ArrayList<Integer> idPiattaforme = new ArrayList<Integer>();
 		ArrayList<Integer> idGeneri = new ArrayList<Integer>();
@@ -55,11 +57,21 @@ public class CatalogoServlet extends HttpServlet {
 			}
 		}
 		
+		OrdinamentoProdotti ordinamento;
+		
+		if(opzioni == null || opzioni.isEmpty()) {
+			ordinamento = OrdinamentoProdotti.CASUALE;
+		}
+		else {
+			ordinamento = OrdinamentoProdotti.valueOf(opzioni);
+		}
+		
 		ProdottoDAO dao = new ProdottoDAO();
 		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
 		GenereDAO genereDAO = new GenereDAO();
 
-		ArrayList<ProdottoViewBean> prodotti = dao.doRetrieveViewDisponibiliByRicercaFiltri(ricerca, idPiattaforme, idGeneri);
+		ArrayList<ProdottoViewBean> prodotti = dao.doRetrieveViewByRicercaFiltriOrdinamento(
+				ricerca, idPiattaforme, idGeneri, ordinamento, 0);
 		ArrayList<PiattaformaBean> piattaforme = piattaformaDAO.doRetrieveAll();
 		ArrayList<GenereBean> generi = genereDAO.doRetrieveAll();
 
@@ -70,9 +82,9 @@ public class CatalogoServlet extends HttpServlet {
 		request.setAttribute("idPiattaforme", idPiattaforme);
 		request.setAttribute("idGeneri", idGeneri);
 		request.setAttribute("ricerca", ricerca);
+		request.setAttribute("ordinamento", ordinamento);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/catalogo.jsp");
-
 		dispatcher.forward(request, response);
 	}
 

@@ -80,6 +80,7 @@
 /* Stile Generale */
 
 body {
+	margin: 0;
     background-color: var(--deepest-violet);
     color: var(--pale-lavender);
     font-family: "Satoshi", sans-serif;
@@ -230,21 +231,21 @@ footer .bottom p {
 
 /* Account e carrello */
 
-.header-actions {
+.accedi-registrati {
     display: flex;
     align-items: center;
     justify-self: center;
     gap: 40px;
 }
 
-.header-actions a {
+.accedi-registrati a {
     color: var(--pale-lavender);
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease;
 }
 
-.header-actions a:hover {
+.accedi-registrati a:hover {
     color: var(--light-violet);
 }
 
@@ -319,7 +320,7 @@ a:active {
     gap: 20px;
 }
 
-.top-banners .site-description {
+.top-banners .descrizione {
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -327,11 +328,11 @@ a:active {
     text-align: center;
 }
 
-.top-banners .site-description h1 {
+.top-banners .descrizione h1 {
     margin: 0 0 15px 0;
 }
 
-.top-banners .site-description h3 {
+.top-banners .descrizione h3 {
     margin: 0 0 80px 0;
 }
 
@@ -374,9 +375,17 @@ a:active {
     margin-bottom: 20px;
 }
 
+.catalogo {
+	display: grid;
+	grid-template-columns: 250px 1fr;
+	gap: 30px;
+	padding: 40px;
+}
+
 .linea-prodotti {
-    display: flex;
-    gap: 20px;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 20px;
 }
 
 .card-prodotto {
@@ -391,8 +400,8 @@ a:active {
     border-radius: 15px;
 }
 
-.product-card h3 {
-    margin: 10px 0 5px 0;
+.card-prodotto h3 {
+    margin: 7px 0 2px 0;
     font-size: 18px;
 }
 
@@ -401,6 +410,142 @@ a:active {
     font-weight: 700;
 }
 
-.prezzo-scontato {
+.prezzi {
+	display: flex;
+	gap: 20px;
+}
+
+.prezzo-originale {
+	text-decoration: line-through;
+	font-size: 16px;
     font-weight: 700;
+}
+
+.prezzo-scontato {
+	color: red;
+	font-size: 16px;
+    font-weight: 700;
+}
+
+/* Sidebar filtri */
+
+.sidebar-filtri {
+    background-color: var(--dark-violet);
+    border: 1px solid var(--muted-violet);
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.sidebar-filtri h3 {
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+
+/* Checkbox e radio */
+
+.sidebar-filtri label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+    cursor: pointer;
+    color: var(--pale-lavender);
+}
+
+
+/* Nascondiamo il controllo originale */
+
+.sidebar-filtri input[type="checkbox"],
+.sidebar-filtri input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 18px;
+    height: 18px;
+
+    margin: 0;
+
+    background-color: var(--violet-surface);
+    border: 1px solid var(--soft-violet);
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
+
+/* Checkbox */
+
+.sidebar-filtri input[type="checkbox"] {
+    border-radius: 4px;
+}
+
+.sidebar-filtri input[type="checkbox"]:checked {
+    background-color: var(--dusty-violet);
+    border-color: var(--dusty-violet);
+}
+
+.sidebar-filtri input[type="checkbox"]:checked::after {
+    content: "✓";
+
+    display: block;
+
+    color: var(--almost-white);
+    font-size: 13px;
+    font-weight: 900;
+
+    text-align: center;
+    line-height: 17px;
+}
+
+
+/* Radio Button */
+
+.sidebar-filtri input[type="radio"] {
+    border-radius: 50%;
+}
+
+.sidebar-filtri input[type="radio"]:checked {
+    border-color: var(--dusty-violet);
+    box-shadow: inset 0 0 0 4px var(--violet-surface);
+    background-color: var(--dusty-violet);
+}
+
+
+/* Hover */
+
+.sidebar-filtri label:hover {
+    color: var(--almost-white);
+}
+
+.sidebar-filtri label:hover input {
+    border-color: var(--dusty-violet);
+}
+
+
+/* Bottone Filtra */
+
+.sidebar-filtri input[type="submit"] {
+    width: 100%;
+
+    padding: 10px 20px;
+
+    background-color: var(--soft-violet);
+    color: var(--almost-white);
+
+    border: none;
+    border-radius: 20px;
+
+    font-family: "Satoshi", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-filtri input[type="submit"]:hover {
+    background-color: var(--dusty-violet);
 }

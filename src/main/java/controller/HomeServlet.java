@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.ProdottoViewBean;
+import utils.OrdinamentoProdotti;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,19 +36,35 @@ public class HomeServlet extends HttpServlet {
 		ProdottoDAO prodottoDAO = new ProdottoDAO();
 		
 		//banner
-		ArrayList<ProdottoViewBean> nuoveUscite = prodottoDAO.doRetrieveViewNuoveUscite(1);
-		ArrayList<ProdottoViewBean> miglioriOfferte = prodottoDAO.doRetrieveViewMiglioriOfferte(1);
-		ArrayList<ProdottoViewBean> piuVenduti = prodottoDAO.doRetrieveViewPiuVenduti(1);
+		ArrayList<ProdottoViewBean> nuoveUscite = prodottoDAO.doRetrieveViewByRicercaFiltriOrdinamento(
+				null, null, null, OrdinamentoProdotti.NUOVE_USCITE, 1);
+		ArrayList<ProdottoViewBean> miglioriOfferte = prodottoDAO.doRetrieveViewByRicercaFiltriOrdinamento(
+				null, null, null, OrdinamentoProdotti.MIGLIORI_OFFERTE, 1);
+		ArrayList<ProdottoViewBean> piuVenduti = prodottoDAO.doRetrieveViewByRicercaFiltriOrdinamento(
+				null, null, null, OrdinamentoProdotti.PIU_VENDUTI, 1);
 		
 		//prodotti piattaforme
-		ArrayList<ProdottoViewBean> giochiSteam = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(7, 3);
-		ArrayList<ProdottoViewBean> giochiPlaystation = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(9, 3);
-		ArrayList<ProdottoViewBean> giochiXbox = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(12, 3);
-		ArrayList<ProdottoViewBean> giochiNintendo = prodottoDAO.doRetrieveViewDisponibiliByPiattaforma(11, 3);
+		ArrayList<Integer> steamId = new ArrayList<Integer>();
+		ArrayList<Integer> playstationId = new ArrayList<Integer>();
+		ArrayList<Integer> xboxId = new ArrayList<Integer>();
+		ArrayList<Integer> nintendoId = new ArrayList<Integer>();
+
+		steamId.add(7);
+		playstationId.add(8);
+		playstationId.add(9);
+		xboxId.add(12);
+		xboxId.add(13);
+		nintendoId.add(10);
+		nintendoId.add(11);
 		
-		System.out.println("Nuove uscite: " + nuoveUscite.size());
-		System.out.println("Migliori offerte: " + miglioriOfferte.size());
-		System.out.println("Più venduti: " + piuVenduti.size());
+		ArrayList<ProdottoViewBean> giochiSteam = prodottoDAO.doRetrieveViewByRicercaFiltriOrdinamento(
+				null, steamId, null, OrdinamentoProdotti.CASUALE, 3);
+		ArrayList<ProdottoViewBean> giochiPlaystation = prodottoDAO.doRetrieveViewByRicercaFiltriOrdinamento(
+				null, playstationId, null, OrdinamentoProdotti.CASUALE, 3);
+		ArrayList<ProdottoViewBean> giochiXbox = prodottoDAO.doRetrieveViewByRicercaFiltriOrdinamento(
+				null, xboxId, null, OrdinamentoProdotti.CASUALE, 3);
+		ArrayList<ProdottoViewBean> giochiNintendo = prodottoDAO.doRetrieveViewByRicercaFiltriOrdinamento(
+				null, nintendoId, null, OrdinamentoProdotti.CASUALE, 3);
 
 		if(!nuoveUscite.isEmpty())
 			request.setAttribute("nuovaUscita", nuoveUscite.get(0));
