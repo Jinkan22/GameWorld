@@ -10,102 +10,195 @@
 <%@ page import="java.math.BigDecimal" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
-SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
+	SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
+	ArrayList<ElementoCarrelloViewBean> carrello = (ArrayList<ElementoCarrelloViewBean>) request.getAttribute("carrello");
+	ArrayList<IndirizzoBean> indirizzi = (ArrayList<IndirizzoBean>) request.getAttribute("indirizzi");
+	ArrayList<MetodoPagamentoBean> metodiPagamento = (ArrayList<MetodoPagamentoBean>) request.getAttribute("metodiPagamento");
+	BigDecimal totale = BigDecimal.ZERO;
+	BigDecimal sconto = BigDecimal.ZERO;
+	BigDecimal totaleScontato = BigDecimal.ZERO;
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - Checkout</title>
+<title>gameWorld - Checkout</title>
 </head>
 <body>
-<a href="<%= request.getContextPath() %>/CarrelloServlet">Carrello</a><br>
 
-<h1>Checkout</h1>
-<hr>
+<main class="pagina-checkout">
+    <section class="contenuto-checkout">
 
-	<%
-    ArrayList<ElementoCarrelloViewBean> carrello = (ArrayList<ElementoCarrelloViewBean>) request.getAttribute("carrello");
+        <h2>CHECKOUT</h2>
+        
+        <%
+        	String errore = (String) request.getAttribute("errore");
+        	if(errore != null) {
+        %>
+        		<p><%= errore %></p>
+       	<%
+        	}
+       	%>
 
-	BigDecimal totale = BigDecimal.ZERO;
-	for(ElementoCarrelloViewBean elemento : carrello) {
-		
-		ProdottoBean prodotto = elemento.getProdotto();
-		PiattaformaBean piattaforma = elemento.getPiattaforma();
-	%>
-		<p><strong>Nome:</strong> <%= prodotto.getNome() %></p>
-		<p><strong>Piattaforma:</strong> <%= piattaforma.getNomePiattaforma() %>
-		<p><strong>Prezzo:</strong> <%= prodotto.getPrezzo() %> €</p>
-		<%
-			if(elemento.getOfferta() != null) {
-		%>
-				<p style="color:red"><strong>IN OFFERTA A <%= elemento.getPrezzoScontato() %> € FINO AL <%= sdf.format(elemento.getOfferta().getDataFine()) %>!</strong></p>
+        <section class="riepilogo-prodotti">
+            <%
+            if(carrello != null && !carrello.isEmpty()) {
 
-		<%
-			}
-		%>
-		<p><strong>Quantita:</strong> <%= elemento.getQuantita() %></p>
-		
+                for(int i = 0; i < carrello.size(); i++) {
+
+                    ElementoCarrelloViewBean elemento = carrello.get(i);
+
+                    ProdottoBean prodotto = elemento.getProdotto();
+                    PiattaformaBean piattaforma = elemento.getPiattaforma();
+
+                    BigDecimal prezzoFinale;
+					totale = totale.add(prodotto.getPrezzo().multiply(BigDecimal.valueOf(elemento.getQuantita())));
+
+                    if(elemento.getOfferta() != null) {
+                        prezzoFinale = elemento.getPrezzoScontato();
+                    }
+                    else {
+                    	prezzoFinale = prodotto.getPrezzo();
+                    }
+
+                    totaleScontato = totaleScontato.add(prezzoFinale.multiply(BigDecimal.valueOf(elemento.getQuantita())));
+            %>
+
+	                <div class="prodotto-checkout">
+	
+	                    <strong class="nome-prodotto">
+	                        <%= prodotto.getNome() %>
+	                    </strong>
+	
+	                    <div>
+	                        <span><%= prezzoFinale %> €</span>
+	                    </div>
+	
+	                    <div>
+	                        <span><%= piattaforma.getNomePiattaforma() %></span>
+	                    </div>
+	
+	                    <div>
+	                        <span>Quantità: <%= elemento.getQuantita() %></span>
+	                    </div>
+	
+	                </div>
+
+	                <%
+	                if(i < carrello.size() - 1) {
+	                %>
+	                    <hr>
+	                <%
+	                }
+				}
+                sconto = totale.subtract(totaleScontato);
+            }
+            else {
+            %>
+                <p>Il carrello è vuoto.</p>
+            <%
+            }
+            %>
+
+        </section>
+
+        <form id="form-checkout" action="<%= request.getContextPath() %>/CheckoutServlet" method="post">
+
+            <!-- INDIRIZZO -->
+            <section class="indirizzo">
+
+                <h3>Indirizzo di fatturazione</h3>
+
+                <%
+                if(indirizzi != null && !indirizzi.isEmpty()) {
+
+                    for(IndirizzoBean indirizzo : indirizzi) {
+                %>
+                    <div class="opzione-indirizzo">
+                        <input type="radio" id="indirizzo<%= indirizzo.getIdIndirizzo() %>" name="indirizzo"
+                        	value="<%= indirizzo.getIdIndirizzo() %>" required>
+                        <label for="indirizzo<%= indirizzo.getIdIndirizzo() %>">
+                            <%= indirizzo.getVia() %>,
+                            <%= indirizzo.getCap() %>,
+                            <%= indirizzo.getCitta() %>,
+                            <%= indirizzo.getProvincia() %>,
+                            <%= indirizzo.getPaese() %>
+                        </label>
+                    </div>
+                <%
+                    }
+                }
+                else {
+                %>
+                    <p>Nessun indirizzo salvato.</p>
+                <%
+                }
+                %>
+
+                <button type="button" id="aggiungi-indirizzo">
+                    + Aggiungi indirizzo
+                </button>
+
+            </section>
+
+            <section class="metodo-pagamento">
+
+                <h3>Metodo di pagamento</h3>
+                <%
+                if(metodiPagamento != null && !metodiPagamento.isEmpty()) {
+
+                    for(MetodoPagamentoBean metodo : metodiPagamento) {
+                %>
+                    <div class="opzione-pagamento">
+                        <input type="radio" id="metodoPagamento<%= metodo.getIdMetodoPagamento() %>" name="metodoPagamento"
+                        	value="<%= metodo.getIdMetodoPagamento() %>" required >
+                        <label for="metodoPagamento<%= metodo.getIdMetodoPagamento() %>">
+                            <%= metodo.getCircuito() %>,
+                            <%= metodo.getNumeroCarta() %>,
+                            <%= metodo.getIntestatario() %>,
+                            <%= sdf.format(metodo.getDataScadenza()) %>
+                        </label>
+                    </div>
+                <%
+                    }
+                }
+                else {
+                %>
+                    <p>Nessun metodo di pagamento salvato.</p>
+                <%
+                }
+                %>
+
+                <button type="button" id="aggiungi-metodo">
+                    + Aggiungi metodo di pagamento
+                </button>
+            </section>
+        </form>
+    </section>
+
+    <aside class="riepilogo-totale">
+		<div class="totale">
+			<strong>Totale: </strong>
+			<span><%= totale %> €</span>
+		</div>
+		<div class="sconto">
+			<strong>Sconto: </strong>
+			<span><%= sconto %> €</span>
+		</div>
 		<hr>
+		<div class="totaleScontato">
+			<strong>Totale scontato: </strong>
+			<span><%= totaleScontato %> €</span>
+		</div>
 		
-	<%
-		if(elemento.getOfferta() != null) {
-			totale = totale.add(elemento.getPrezzoScontato().multiply(BigDecimal.valueOf(elemento.getQuantita())));
-		}
-		else{
-			totale = totale.add(prodotto.getPrezzo().multiply(BigDecimal.valueOf(elemento.getQuantita())));
-		}
-	}
-	%>
-	
-	<p><strong>Totale:</strong> <%= totale %> €</p>
-	<hr>
-	
-	<h3>Indirizzo di fatturazione</h3>
-	
-	<form action="<%= request.getContextPath()%>/CheckoutServlet" method="post">
-	<%
-	ArrayList<IndirizzoBean> indirizzi = (ArrayList<IndirizzoBean>) request.getAttribute("indirizzi");
-	if(indirizzi != null && !indirizzi.isEmpty()){
-		for(IndirizzoBean indirizzo : indirizzi) {
-		%>
-			<input type="radio" name="indirizzo" id="indirizzo<%= indirizzo.getIdIndirizzo() %>" name="indirizzo" value="<%= indirizzo.getIdIndirizzo() %>" required>
-			<label for="indirizzo<%= indirizzo.getIdIndirizzo() %>">
-			<%= indirizzo.getVia() + ", "%>
-			<%= indirizzo.getCap() + ", "%>
-			<%= indirizzo.getCitta() + ", "%>
-			<%= indirizzo.getProvincia() + ", "%>
-			<%= indirizzo.getPaese() %>
-			</label>
-		<%
-		}
-	}
-	%>
-	
-	<h3>Metodo di pagamento</h3>
-	
-	<%
-	ArrayList<MetodoPagamentoBean> metodiPagamento = (ArrayList<MetodoPagamentoBean>) request.getAttribute("metodiPagamento");
-	if(metodiPagamento != null && !metodiPagamento.isEmpty()){
-		for(MetodoPagamentoBean metodo : metodiPagamento) {
-		%>
-			<input type="radio" id="metodoPagamento<%= metodo.getIdMetodoPagamento() %>" name="metodoPagamento" value="<%= metodo.getIdMetodoPagamento() %>" required>
-			<label for="metodoPagamento<%= metodo.getIdMetodoPagamento() %>">
-			<%= metodo.getCircuito() %>, 
-			<%= metodo.getNumeroCarta() %>, 
-			<%= metodo.getIntestatario() %>, 
-			<%= sdf.format(metodo.getDataScadenza()) %>
-			</label>	
-		<%
-		}
-	}
-	%>
-	
-	<hr>
-	
-	<input type="submit" value="Acquista">
-	
-	</form>
-	
+		<form action="<%= request.getContextPath() %>/CheckoutServlet" method="post">
+			<input form="form-checkout" type="submit" value="Acquista">
+		</form>
+	</aside>
+    
+</main>
+
+<%@ include file="/jsp/components/footer.jsp" %>
+
 </body>
 </html>

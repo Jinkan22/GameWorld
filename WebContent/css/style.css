@@ -828,7 +828,7 @@ a:active {
 	background-color: var(--light-violet);
 }
 
-.riepilogo-carrello {
+.riepilogo-totale {
 	width: 300px;
 	padding: 30px 30px 15px 30px;
 	margin-top: 50px;
@@ -842,15 +842,15 @@ a:active {
 	align-self: flex-start;
 }
 
-.riepilogo-carrello .totale,
-.riepilogo-carrello .sconto,
-.riepilogo-carrello .totaleScontato {
+.riepilogo-totale .totale,
+.riepilogo-totale .sconto,
+.riepilogo-totale .totaleScontato {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
 
-.riepilogo-carrello input[type="submit"] {
+.riepilogo-totale input[type="submit"] {
 	width: 150px;
 	height: 34px;
 	border-radius: 20px;
@@ -862,8 +862,99 @@ a:active {
 	cursor: pointer;
 }
 
-.riepilogo-carrello form {
+.riepilogo-totale form {
 	display: flex;
 	justify-content: center;
 	margin-top: 20px;
+}
+
+/* Pagina checkout */
+
+.pagina-checkout {
+	display: flex;
+	padding: 50px 180px;
+	gap: 30px;
+	align-items: flex-start;
+}
+
+.contenuto-checkout {
+	flex: 1;
+}
+
+.riepilogo-prodotti,
+.indirizzo,
+.metodo-pagamento,
+.riepilogo-totale {
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+}
+
+.riepilogo-prodotti {
+	padding: 30px;
+}
+
+.prodotto-checkout {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.prodotto-checkout strong:first-child {
+	font-size: 18px;
+	margin-bottom: 5px;
+}
+
+.riepilogo-prodotti hr {
+	margin: 25px 0;
+	border: 0;
+	border-top: 1px solid var(--soft-violet);
+}
+
+.indirizzo,
+.metodo-pagamento {
+	margin-top: 20px;
+	padding: 25px 30px;
+}
+
+.indirizzo h3,
+.metodo-pagamento h3 {
+	margin: 0 0 20px;
+}
+
+.opzione-indirizzo,
+.opzione-pagamento {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 12px;
+}
+
+.opzione-indirizzo label,
+.opzione-pagamento label {
+	cursor: pointer;
+}
+
+#aggiungi-indirizzo,
+#aggiungi-metodo {
+	display: block;
+	margin-top: 20px;
+	padding: 10px 18px;
+
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--dusty-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.pagina-checkout .riepilogo-totale {
+	width: 300px;
+	padding: 30px 30px 15px 30px;
+	margin-top: 70px;
 }

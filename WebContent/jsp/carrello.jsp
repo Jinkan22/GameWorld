@@ -27,7 +27,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			String errore = (String) request.getAttribute("errore");
 			if(errore != null){
 		%>
-			<p><%= errore %><br><br>
+				<p><%= errore %><br><br>
 		<%
 			}
 			
@@ -112,7 +112,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		%>
 	</section>
 	
-	<aside class="riepilogo-carrello">
+	<aside class="riepilogo-totale">
 		<div class="totale">
 			<strong>Totale: </strong>
 			<span><%= totale %> €</span>

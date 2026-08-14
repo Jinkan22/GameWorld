@@ -72,6 +72,11 @@ public class CheckoutServlet extends HttpServlet {
 		ArrayList<IndirizzoBean> indirizzi = indirizzoDAO.doRetrieveByIdUtente(utente.getIdUtente());
 		ArrayList<MetodoPagamentoBean> metodiPagamento = metodoPagamentoDAO.doRetrieveByIdUtente(utente.getIdUtente());
 		
+		if(carrelloView == null || carrelloView.isEmpty()) {
+			response.sendRedirect(request.getContextPath() + "/CarrelloServlet");
+			return;
+		}
+		
 		request.setAttribute("carrello", carrelloView);
 		request.setAttribute("indirizzi", indirizzi);
 		request.setAttribute("metodiPagamento", metodiPagamento);
