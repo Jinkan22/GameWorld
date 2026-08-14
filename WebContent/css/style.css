@@ -958,3 +958,119 @@ a:active {
 	padding: 30px 30px 15px 30px;
 	margin-top: 70px;
 }
+
+/* Pagina profilo */
+
+.pagina-profilo {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 30px 180px 50px 180px;
+}
+
+.pagina-profilo > h2 {
+	margin-bottom: 30px;
+}
+
+.informazioni-profilo,
+.modifica-profilo {
+	width: 500px;
+	padding: 30px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+}
+
+.informazioni-profilo h3,
+.modifica-profilo h3 {
+	margin-top: 0;
+	margin-bottom: 25px;
+	text-align: center;
+}
+
+.dato-profilo {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding: 12px 0;
+	border-bottom: 1px solid var(--soft-violet);
+}
+
+.dato-profilo:last-child {
+	border-bottom: none;
+}
+
+.dato-profilo strong {
+	color: var(--pale-sky);
+}
+
+.modifica-profilo {
+	display: none;
+}
+
+.campo-profilo {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 18px;
+}
+
+.campo-profilo label {
+	font-weight: 700;
+}
+
+.campo-profilo input {
+	padding: 10px 15px;
+
+	background-color: var(--soft-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 500;
+}
+
+.bottoni-profilo {
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+	margin-top: 25px;
+}
+
+.bottoni-profilo button,
+.azioni-profilo button {
+	padding: 10px 20px;
+
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--dusty-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
+
+	cursor: pointer;
+}
+
+.bottoni-profilo button:hover,
+.azioni-profilo button:hover {
+	background-color: var(--soft-violet);
+}
+
+.azioni-profilo {
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+	margin-top: 30px;
+}
+
+.azioni-profilo a {
+	text-decoration: none;
+}
