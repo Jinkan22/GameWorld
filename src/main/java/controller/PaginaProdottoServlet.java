@@ -6,23 +6,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.GenereBean;
-import model.OffertaBean;
-import model.PiattaformaBean;
-import model.ProdottoBean;
 import model.ProdottoViewBean;
-import model.UtenteBean;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import dao.GenereDAO;
-import dao.OffertaDAO;
-import dao.PiattaformaDAO;
 import dao.ProdottoDAO;
-import dao.ProdottoGenereDAO;
-import dao.ProdottoPiattaformaDAO;
 
 /**
  * Servlet implementation class PaginaProdottoServlet

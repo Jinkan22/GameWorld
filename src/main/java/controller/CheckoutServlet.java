@@ -57,9 +57,9 @@ public class CheckoutServlet extends HttpServlet {
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
 		if(utente == null) {
-			request.setAttribute("errore", "Effettuare il login per completare l'acquisto");
+			request.setAttribute("erroreLogin", "Effettuare il login per completare l'acquisto");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegistrazione.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
@@ -89,9 +89,9 @@ public class CheckoutServlet extends HttpServlet {
 		
 		//errore se l'utente non ha effettuato il login
 		if(utente == null) {
-			request.setAttribute("errore", "Effettuare il login per completare l'acquisto");
+			request.setAttribute("erroreLogin", "Effettuare il login per completare l'acquisto");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegistrazione.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}

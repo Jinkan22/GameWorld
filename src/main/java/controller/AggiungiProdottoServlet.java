@@ -40,9 +40,9 @@ public class AggiungiProdottoServlet extends HttpServlet {
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
 		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
-			request.setAttribute("errore", "Effettuare il login come admin per accedere alla dashboard");
+			request.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegisteazione.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}

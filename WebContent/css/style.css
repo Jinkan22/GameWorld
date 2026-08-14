@@ -737,3 +737,133 @@ a:active {
 	font-family: "Satoshi", sans-serif;
 	font-weight: 700;
 }
+
+/* Pagina carrello */
+
+.pagina-carrello {
+	display: flex;
+	padding: 50px 180px;
+	gap: 30px;
+}
+
+.lista-carrello {
+	flex: 1;
+}
+
+.prodotto-carrello {
+	display: flex;
+}
+
+.prodotto-carrello img {
+	width: 250px;
+	height: auto;
+	border-radius: 15px;
+	
+	margin: 0 25px 25px 0;
+}
+
+.dati-prodotto form {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+
+.controlli-quantita {
+	display: flex;
+	align-items: center;
+}
+
+.controlli-quantita input,
+.controlli-quantita .quantita-prodotto {
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+	border: 1px solid var(--dusty-violet);
+	height: 30px;
+	box-sizing: border-box;
+}
+
+.controlli-quantita .decrementa {
+	width: 30px;
+	height: 30px;
+	border-radius: 20px 0 0 20px;
+	
+	cursor: pointer;
+}
+
+.controlli-quantita .quantita-prodotto {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 35px;
+	height: 30px;
+
+	border-left: 1px solid var(--pale-lavender);
+	border-right: 1px solid var(--pale-lavender);
+}
+
+.controlli-quantita .incrementa {
+	width: 30px;
+	height: 30px;
+	border-radius: 0 20px 20px 0;
+	
+	cursor: pointer;
+}
+
+.dati-prodotto .rimuovi {
+	width: 70px;
+	height: 30px;
+	border-radius: 20px;
+
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+	border: 1px solid var(--dusty-violet);
+
+	cursor: pointer;
+}
+
+.decrementa:hover,
+.incrementa:hover,
+.rimuovi:hover {
+	background-color: var(--light-violet);
+}
+
+.riepilogo-carrello {
+	width: 300px;
+	padding: 30px 30px 15px 30px;
+	margin-top: 50px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	align-self: flex-start;
+}
+
+.riepilogo-carrello .totale,
+.riepilogo-carrello .sconto,
+.riepilogo-carrello .totaleScontato {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.riepilogo-carrello input[type="submit"] {
+	width: 150px;
+	height: 34px;
+	border-radius: 20px;
+	
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+	border: 1px solid var(--dusty-violet);
+
+	cursor: pointer;
+}
+
+.riepilogo-carrello form {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}

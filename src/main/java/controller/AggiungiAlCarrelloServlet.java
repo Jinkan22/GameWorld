@@ -1,6 +1,5 @@
 package controller;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import dao.ElementoCarrelloDAO;
-import dao.ProdottoDAO;
 
 /**
  * Servlet implementation class AggiungiAlCarrelloServlet

@@ -86,7 +86,7 @@ public class ModificaCarrelloServlet extends HttpServlet {
 				if(trovato.getQuantita() <= 0)
 					carrello.remove(trovato);
 				break;
-			case "rimuovi":
+			case "Rimuovi":
 				carrello.remove(trovato);
 				break;
 			}
@@ -119,7 +119,7 @@ public class ModificaCarrelloServlet extends HttpServlet {
 					dao.doDelete(elemento.getIdElementoCarrello());
 				}
 				break;
-			case "rimuovi":
+			case "Rimuovi":
 				dao.doDelete(elemento.getIdElementoCarrello());
 				break;
 			}

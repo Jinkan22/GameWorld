@@ -8,11 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.GenereBean;
-import model.OffertaBean;
 import model.PiattaformaBean;
 import model.ProdottoBean;
-import model.ProdottoGenereBean;
-import model.ProdottoPiattaformaBean;
 import model.ProdottoViewBean;
 import model.UtenteBean;
 
@@ -20,11 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import dao.GenereDAO;
-import dao.OffertaDAO;
 import dao.PiattaformaDAO;
 import dao.ProdottoDAO;
-import dao.ProdottoGenereDAO;
-import dao.ProdottoPiattaformaDAO;
 
 /**
  * Servlet implementation class GestioneProdottiServlet
@@ -49,9 +43,9 @@ public class GestioneProdottiServlet extends HttpServlet {
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 
 		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
-			request.setAttribute("errore", "Effettuare il login come admin per accedere alla dashboard");
+			request.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
 
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegistrazione.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
@@ -80,9 +74,9 @@ public class GestioneProdottiServlet extends HttpServlet {
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
 		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
-			request.setAttribute("errore", "Effettuare il login come admin per accedere alla dashboard");
+			request.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegistrazione.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}

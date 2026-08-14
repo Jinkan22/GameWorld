@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.ElementoCarrelloBean;
 import model.ElementoCarrelloViewBean;
-import model.ProdottoBean;
 import model.UtenteBean;
 import utils.CarrelloUtils;
 
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import dao.ElementoCarrelloDAO;
-import dao.ProdottoDAO;
 
 /**
  * Servlet implementation class CarrelloServlet

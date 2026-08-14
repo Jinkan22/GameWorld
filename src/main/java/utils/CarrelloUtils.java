@@ -93,9 +93,8 @@ public class CarrelloUtils {
 			ProdottoDAO dao = new ProdottoDAO();
 			
 			request.setAttribute("errore", "La quantità richiesta non è disponibile");
-			request.setAttribute("prodotto", dao.doRetrieveByKey(elemento.getIdProdotto()));
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/PaginaProdottoServlet");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/CarrelloServlet");
 			dispatcher.forward(request, response);
 			return false;
 		}

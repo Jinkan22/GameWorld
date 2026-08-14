@@ -40,9 +40,9 @@ public class DettagliOrdineServlet extends HttpServlet {
 		UtenteBean utente = (UtenteBean)session.getAttribute("utente");
 		
 		if(utente == null) {
-			request.setAttribute("errore", "Effettuare il login per visualizzare lo storico degli ordini");
+			request.setAttribute("erroreLogin", "Effettuare il login per visualizzare lo storico degli ordini");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegistrazione.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}

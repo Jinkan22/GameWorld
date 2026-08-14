@@ -52,9 +52,9 @@ public class ModificaProfiloServlet extends HttpServlet {
 		UtenteBean utente = (UtenteBean)session.getAttribute("utente");
 		
 		if(utente == null) {
-			request.setAttribute("errore", "Login necessario per la modifica");
+			request.setAttribute("erroreLogin", "Login necessario per la modifica");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegistrazione.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}

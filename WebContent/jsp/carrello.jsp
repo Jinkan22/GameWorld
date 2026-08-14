@@ -6,6 +6,7 @@
 <%@ page import="model.PiattaformaBean" %>
 <%@ page import="model.OffertaBean" %>
 <%@ page import="model.ElementoCarrelloViewBean" %>
+<%@ page import="java.math.BigDecimal" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -14,76 +15,124 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - Carrello</title>
+<title>gameWorld - Carrello</title>
 </head>
 <body>
-<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
-<a href="<%= request.getContextPath() %>/ProfiloServlet">Profilo</a><br>
 
-<h1>Carrello</h1>
-<hr>
-
-<%
-String errore = (String) request.getAttribute("errore");
-
-if(errore != null){
-%>
-
-<p><%= errore %><br><br>
-
-<%
-}	
-	ArrayList<ElementoCarrelloViewBean> carrello = (ArrayList<ElementoCarrelloViewBean>) request.getAttribute("carrello");
-
-	if(carrello != null && !carrello.isEmpty()) {
-	
-		for(ElementoCarrelloViewBean elemento : carrello) {
-	
-			ProdottoBean prodotto = elemento.getProdotto();
-			PiattaformaBean piattaforma = elemento.getPiattaforma();
-			OffertaBean offerta = elemento.getOfferta();
-%>
-	
-			<p><strong><%= prodotto.getNome() %></strong></p>
-	
-			<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200">
-	
-			<p><strong>Prezzo:</strong> <%= prodotto.getPrezzo() %> €</p>
-			<%
-				if(offerta != null) {
-			%>
-					<p style="color:red"><strong>IN OFFERTA A <%= elemento.getPrezzoScontato() %> € FINO AL <%= sdf.format(offerta.getDataFine()) %>!</strong></p>
-
-			<%
-				}
-			%>
-			<p><strong>Piattaforma:</strong> <%= piattaforma.getNomePiattaforma() %></p>
-			<p><strong>Quantità:</strong> <%= elemento.getQuantita() %></p>
-	
-			<form action="<%= request.getContextPath()%>/ModificaCarrelloServlet" method="post">
-				<input type="hidden" name="idProdotto" value="<%= prodotto.getIdProdotto() %>">
-				<input type="hidden" name="idPiattaforma" value="<%= piattaforma.getIdPiattaforma() %>">
-	
-				<input type="submit" name="azione" value="+">
-				<input type="submit" name="azione" value="-">
-				<input type="submit" name="azione" value="rimuovi">
-			</form>
-			<hr>
-	
-	<%
-		}
-		%>
-			<form action="<%= request.getContextPath() %>/CheckoutServlet" method="get">
-				<input type="submit" value="Procedi all'ordine">
-			</form>
+<main class="pagina-carrello">
+	<section class="lista-carrello">
+		<h2>CARRELLO</h2>
+		
 		<%
-	}
-	else {
-	%>
-		<p>Il carrello è vuoto</p>
-	<%
-	}
-%>
+			String errore = (String) request.getAttribute("errore");
+			if(errore != null){
+		%>
+			<p><%= errore %><br><br>
+		<%
+			}
+			
+			BigDecimal totale = BigDecimal.ZERO;
+			BigDecimal sconto = BigDecimal.ZERO;
+			BigDecimal totaleScontato = BigDecimal.ZERO;
+			
+			ArrayList<ElementoCarrelloViewBean> carrello = (ArrayList<ElementoCarrelloViewBean>) request.getAttribute("carrello");
+
+			if(carrello != null && !carrello.isEmpty()) {
+			
+				for(ElementoCarrelloViewBean elemento : carrello) {
 	
+					ProdottoBean prodotto = elemento.getProdotto();
+					PiattaformaBean piattaforma = elemento.getPiattaforma();
+					OffertaBean offerta = elemento.getOfferta();
+				
+					totale = totale.add(prodotto.getPrezzo().multiply(BigDecimal.valueOf(elemento.getQuantita())));
+		%>
+					<div class="prodotto-carrello">
+						<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200">
+						
+						<div class="dati-prodotto">
+							<div class="nome-prodotto">
+								<strong><%= prodotto.getNome() %></strong>
+							</div>
+							
+							<%
+								if(offerta != null) {
+									totaleScontato = totaleScontato.add(elemento.getPrezzoScontato().multiply(BigDecimal.valueOf(elemento.getQuantita())));
+							%>
+									<div class="prezzi">
+										<div class="prezzo-originale">
+											<%= prodotto.getPrezzo() %> €
+										</div>
+										<div class="percentuale-sconto">
+											-<%= offerta.getPercentualeSconto() %>%
+										</div>
+										<div class="prezzo-scontato">
+											<%= elemento.getPrezzoScontato() %> €
+										</div>
+									</div>
+							<%
+								}
+								else {
+									totaleScontato = totaleScontato.add(prodotto.getPrezzo().multiply(BigDecimal.valueOf(elemento.getQuantita())));
+							%>
+									<div class="prezzo">
+										<%= prodotto.getPrezzo() %> €
+									</div>
+							<%
+								}
+							%>
+							
+							<div class="piattaforma-prodotto">
+								<p><%= piattaforma.getNomePiattaforma() %></p>
+							</div>
+							
+							<form class="form-quantita" action="<%= request.getContextPath()%>/ModificaCarrelloServlet" method="post">
+								<input type="hidden" name="idProdotto" value="<%= prodotto.getIdProdotto() %>">
+								<input type="hidden" name="idPiattaforma" value="<%= piattaforma.getIdPiattaforma() %>">
+							
+								<div class="controlli-quantita">
+									<input class="decrementa" type="submit" name="azione" value="-">
+									<span class="quantita-prodotto"><%= elemento.getQuantita() %></span>
+									<input class="incrementa" type="submit" name="azione" value="+">
+								</div>
+							
+								<input class="rimuovi" type="submit" name="azione" value="Rimuovi">
+							</form>
+						</div>
+					</div>
+		<%
+				}
+				sconto = totale.subtract(totaleScontato);
+			}
+			else {
+		%>
+				<p>Il carrello è vuoto</p>
+		<%
+			}
+		%>
+	</section>
+	
+	<aside class="riepilogo-carrello">
+		<div class="totale">
+			<strong>Totale: </strong>
+			<span><%= totale %> €</span>
+		</div>
+		<div class="sconto">
+			<strong>Sconto: </strong>
+			<span><%= sconto %> €</span>
+		</div>
+		<hr>
+		<div class="totaleScontato">
+			<strong>Totale scontato: </strong>
+			<span><%= totaleScontato %> €</span>
+		</div>
+		
+		<form action="<%= request.getContextPath() %>/CheckoutServlet" method="get">
+			<input type="submit" value="Procedi all'ordine">
+		</form>
+	</aside>
+</main>
+
+<%@ include file="/jsp/components/footer.jsp" %>
 </body>
 </html>
