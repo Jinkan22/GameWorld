@@ -16,7 +16,7 @@ String errore = (String) request.getAttribute("errore");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - <%= prodotto.getProdotto().getNome() %></title>
+<title>gameWorld - <%= prodotto.getProdotto().getNome() %></title>
 </head>
 <body>
 
@@ -44,7 +44,7 @@ String errore = (String) request.getAttribute("errore");
 			<%
 				if(prodotto.getOfferta() != null) {
 			%>
-					<span class="info-offerta">OFFERTA VALIDA FINO AL <%= sdf.format(prodotto.getOfferta().getDataFine()) %></span><br>
+					<span class="info-offerta">OFFERTA VALIDA FINO AL <%= sdf.format(prodotto.getOfferta().getDataFine()) %></span>
 					<div class="prezzi">
 						<span class="prezzo-originale"><%= prodotto.getProdotto().getPrezzo() %> €</span>
 						<span class="percentuale-sconto">-<%= prodotto.getOfferta().getPercentualeSconto() %>%</span>

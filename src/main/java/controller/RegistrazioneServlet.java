@@ -34,7 +34,7 @@ public class RegistrazioneServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.sendRedirect(request.getContextPath() + "/jsp/registrazione.jsp");
+		response.sendRedirect(request.getContextPath() + "/jsp/loginRegistrazione.jsp");
 	}
 
 	/**
@@ -53,9 +53,9 @@ public class RegistrazioneServlet extends HttpServlet {
 		UtenteBean utente = dao.doRetrieveByEmail(email);
 		
 		if(utente!=null) {
-			request.setAttribute("errore", "Email già esistente, effettuare il login");
+			request.setAttribute("erroreLogin", "Email già esistente, effettuare il login");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegistrazione.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
@@ -71,9 +71,9 @@ public class RegistrazioneServlet extends HttpServlet {
 		
 	
 		if(!dao.doSave(utente)) {
-			request.setAttribute("errore", "Errore nella registrazione");
+			request.setAttribute("erroreRegistrazione", "Errore nella registrazione");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/registrazione.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegistrazione.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
@@ -83,7 +83,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("utente",utente);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/HomeServlet");
 		dispatcher.forward(request, response);
 	}
 

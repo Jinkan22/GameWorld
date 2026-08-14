@@ -317,7 +317,7 @@ a:active {
 .top-banners {
 	display: flex;
     width: 100%;
-    gap: 20px;
+    gap: 30px;
 }
 
 .top-banners .descrizione {
@@ -343,7 +343,7 @@ a:active {
 .bottom-banners {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 30px;
 }
 
 .bottom-banners .banner {
@@ -413,6 +413,12 @@ a:active {
 .prezzi {
 	display: flex;
 	gap: 10px;
+}
+
+.info-offerta {
+	color: var(--light-violet);
+	font-size: 16px;
+    font-weight: 700;
 }
 
 .prezzo-originale {
@@ -625,4 +631,109 @@ a:active {
 
 .pagina-prodotto input[type="submit"]:hover {
     background-color: var(--dusty-violet);
+}
+
+.card-dati strong {
+	color: var(--light-violet)
+}
+
+/* Login/Registrazione */
+
+.login-registrazione {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 40px;
+}
+
+#registrazione {
+	display: none;
+}
+
+.login,
+.registrazione {
+	margin: 30px 0 50px;
+	padding: 30px 70px 40px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 500;
+}
+
+.login h2,
+.registrazione h2 {
+	text-align: center;
+}
+
+.login input,
+.registrazione input {
+	width: 100%;
+	padding: 10px 15px;
+
+	background-color: var(--soft-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
+}
+
+.campi-login {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.campi-registrazione {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+}
+
+.login-submit,
+.registrazione-submit {
+	display: flex;
+	justify-content: center;
+	padding-top: 20px;
+}
+
+.login input[type="submit"],
+.registrazione input[type="submit"] {
+	width: 120px;
+	cursor: pointer;
+}
+
+.login input[type="submit"]:hover,
+.registrazione input[type="submit"]:hover {
+	background-color: var(--dusty-violet);
+}
+
+.selezioni {
+	display: flex;
+	gap: 20px;
+	padding-top: 30px;
+}
+
+.login-selezione,
+.registrazione-selezione {
+	width: 120px;
+	padding: 10px 20px;
+
+	background-color: var(--soft-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	cursor: pointer;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
 }

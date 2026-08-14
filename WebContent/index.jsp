@@ -11,7 +11,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - Home</title>
+<title>gameWorld - Home</title>
 </head>
 <body>
 
@@ -98,6 +98,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 								<div class="prezzo-originale">
 									<%= prodotto.getProdotto().getPrezzo() %> €
 								</div>
+								<div class="percentuale-sconto">
+									-<%= prodotto.getOfferta().getPercentualeSconto() %>%
+								</div>
 								<div class="prezzo-scontato">
 									<%= prodotto.getPrezzoScontato() %> €
 								</div>
@@ -183,6 +186,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 								<div class="prezzo-originale">
 									<%= prodotto.getProdotto().getPrezzo() %> €
 								</div>
+								<div class="percentuale-sconto">
+									-<%= prodotto.getOfferta().getPercentualeSconto() %>%
+								</div>
 								<div class="prezzo-scontato">
 									<%= prodotto.getPrezzoScontato() %> € 
 								</div>
@@ -223,6 +229,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 							<div class="prezzi">
 								<div class="prezzo-originale">
 									<%= prodotto.getProdotto().getPrezzo() %> €
+								</div>
+								<div class="percentuale-sconto">
+									-<%= prodotto.getOfferta().getPercentualeSconto() %>%
 								</div>
 								<div class="prezzo-scontato">
 									<%= prodotto.getPrezzoScontato() %> € 

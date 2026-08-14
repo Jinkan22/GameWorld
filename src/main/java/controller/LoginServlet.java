@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.sendRedirect(request.getContextPath() + "/jsp/login.jsp");
+		response.sendRedirect(request.getContextPath() + "/jsp/loginRegistrazione.jsp");
 	}
 
 	/**
@@ -52,9 +52,9 @@ public class LoginServlet extends HttpServlet {
 		UtenteBean utente = dao.doRetrieveByEmailAndPassword(email, password);
 			
 		if(utente == null) {
-			request.setAttribute("errore", "Email o password errati");
+			request.setAttribute("erroreLogin", "Email o password errati");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegistrazione.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}

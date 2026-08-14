@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/jsp/components/header.jsp" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.ProdottoViewBean" %>
 <%@ page import="model.PiattaformaBean" %>
@@ -16,7 +17,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <title>gameWorld - Catalogo</title>
 </head>
 <body>
-<%@ include file="/jsp/components/header.jsp" %>
 
 <main class="catalogo">
 	<aside class="sidebar-filtri">
@@ -122,6 +122,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 								<div class="prezzi">
 									<div class="prezzo-originale">
 										<%= prodotto.getProdotto().getPrezzo() %> €
+									</div>
+									<div class="percentuale-sconto">
+										-<%= prodotto.getOfferta().getPercentualeSconto() %>%
 									</div>
 									<div class="prezzo-scontato">
 										<%= prodotto.getPrezzoScontato() %> €
