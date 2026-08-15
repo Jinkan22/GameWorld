@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.DettaglioOrdineViewBean;
 import model.OrdineBean;
+import model.OrdineViewBean;
 import utils.DBConnection;
 
 public class OrdineDAO {
@@ -163,37 +165,94 @@ public class OrdineDAO {
     	}
     }
     
-    //lettura di tutti gli ordini di un utente
-    public ArrayList<OrdineBean> doRetrieveByIdUtente(int idUtente){
-    	ArrayList<OrdineBean> list = new ArrayList<OrdineBean>();
-    	
-    	try {
-    		String sql = "SELECT * FROM ordine WHERE idUtente=? ORDER BY dataOrdine DESC";
-    		
-    		PreparedStatement ps = connection.prepareStatement(sql);
-    		ps.setInt(1, idUtente);
-    		
-    		ResultSet rs = ps.executeQuery();
-    		
-    		while(rs.next()) {
-    			OrdineBean ordine = new OrdineBean();
-    			
-    			ordine.setIdOrdine(rs.getInt("idOrdine"));
-    			ordine.setAcquirente(rs.getString("acquirente"));
-    			ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
-    			ordine.setTotale(rs.getBigDecimal("totale"));
-    			ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
-    			ordine.setIdUtente(rs.getInt("idUtente"));
-    			
-    			list.add(ordine);
-    		}
-    		rs.close();
-    		ps.close();
-    	}
-    	catch (SQLException e){
-    		e.printStackTrace();
-    	}
-    	
-    	return list;
+    // Lettura di tutti gli ordini view
+    public ArrayList<OrdineViewBean> doRetrieveAllView() {
+
+        ArrayList<OrdineViewBean> list = new ArrayList<OrdineViewBean>();
+
+        try {
+            String sql = "SELECT * FROM ordine ORDER BY dataOrdine DESC";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            DettaglioOrdineDAO dettaglioOrdineDAO = new DettaglioOrdineDAO();
+
+            while(rs.next()) {
+
+                OrdineBean ordine = new OrdineBean();
+
+                ordine.setIdOrdine(rs.getInt("idOrdine"));
+                ordine.setAcquirente(rs.getString("acquirente"));
+                ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
+                ordine.setTotale(rs.getBigDecimal("totale"));
+                ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
+                ordine.setIdUtente(rs.getInt("idUtente"));
+
+                ArrayList<DettaglioOrdineViewBean> dettagli = dettaglioOrdineDAO.doRetrieveViewByIdOrdine(ordine.getIdOrdine());
+
+                OrdineViewBean ordineView = new OrdineViewBean();
+                
+                ordineView.setOrdine(ordine);
+                ordineView.setDettagli(dettagli);
+
+                list.add(ordineView);
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    
+    // Lettura di tutti gli ordini view di un utente
+    public ArrayList<OrdineViewBean> doRetrieveViewByIdUtente(int idUtente) {
+
+        ArrayList<OrdineViewBean> list = new ArrayList<OrdineViewBean>();
+
+        try {
+            String sql = "SELECT * FROM ordine WHERE idUtente=? ORDER BY dataOrdine DESC";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idUtente);
+
+            ResultSet rs = ps.executeQuery();
+
+            DettaglioOrdineDAO dettaglioOrdineDAO = new DettaglioOrdineDAO();
+
+            while(rs.next()) {
+
+                OrdineBean ordine = new OrdineBean();
+
+                ordine.setIdOrdine(rs.getInt("idOrdine"));
+                ordine.setAcquirente(rs.getString("acquirente"));
+                ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
+                ordine.setTotale(rs.getBigDecimal("totale"));
+                ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
+                ordine.setIdUtente(rs.getInt("idUtente"));
+
+                ArrayList<DettaglioOrdineViewBean> dettagli = dettaglioOrdineDAO.doRetrieveViewByIdOrdine(ordine.getIdOrdine());
+
+                OrdineViewBean ordineView = new OrdineViewBean();
+                
+                ordineView.setOrdine(ordine);
+                ordineView.setDettagli(dettagli);
+
+                list.add(ordineView);
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }

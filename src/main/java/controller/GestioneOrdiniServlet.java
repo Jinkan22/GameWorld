@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.OrdineBean;
+import model.OrdineViewBean;
 import model.UtenteBean;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class GestioneOrdiniServlet extends HttpServlet {
 		}
 		
 		OrdineDAO ordineDAO = new OrdineDAO();
-		ArrayList<OrdineBean> ordini = ordineDAO.doRetrieveAll();
+		ArrayList<OrdineViewBean> ordini = ordineDAO.doRetrieveAllView();
 		
 		request.setAttribute("ordini", ordini);
 		

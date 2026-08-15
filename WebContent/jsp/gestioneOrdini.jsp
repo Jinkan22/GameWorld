@@ -3,50 +3,116 @@
 <%@ include file="/jsp/components/header.jsp" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.OrdineBean" %>
-<%@ page import="model.UtenteBean" %>
+<%@ page import="model.OrdineViewBean" %>
+<%@ page import="model.DettaglioOrdineViewBean" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+ArrayList<OrdineViewBean> ordini = (ArrayList<OrdineViewBean>) request.getAttribute("ordini");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - Gestione ordini</title>
+<title>gameWorld - Gestione ordini</title>
 </head>
 <body>
-<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
-<a href="<%= request.getContextPath() %>/AdminDashboardServlet">Dashboard</a><br>
 
-<h1>Gestione ordini</h1>
-<hr>
+<main class="pagina-storico-ordini">
 
-<%
-String errore = (String) request.getAttribute("errore");
+    <h2>GESTIONE ORDINI</h2>
 
-if(errore != null){
-%>
+    <%
+    if(ordini != null && !ordini.isEmpty()) {
 
-<p><%= errore %><br><br>
+        for(OrdineViewBean ordineView : ordini) {
 
-<% 
-}
-    ArrayList<OrdineBean> ordini = (ArrayList<OrdineBean>) request.getAttribute("ordini");
+            OrdineBean ordine = ordineView.getOrdine();
+            ArrayList<DettaglioOrdineViewBean> dettagli = ordineView.getDettagli();
+    %>
 
-    if(ordini != null) {
-        for(OrdineBean ordine : ordini) {
-%>
-			<p><strong>Ordine #<%= ordine.getIdOrdine() %></strong></p>
-			<p><strong>Acquirente:</strong> <%= ordine.getAcquirente() %></p>
-			<p><strong>Indirizzo di fatturazione:</strong> <%= ordine.getIndirizzoFatturazione() %></p>
-			<p><strong>Data:</strong> <%= sdf.format(ordine.getDataOrdine()) %></p>
-			<p><strong>Totale:</strong> <%= ordine.getTotale() %> €</p>
-			<a href="<%= request.getContextPath() %>/DettagliOrdineServlet?idOrdine=<%= ordine.getIdOrdine() %>">Visualizza ordine</a><br><br>
-			
-			<hr>
-<%	
+        <section class="ordine">
+
+            <div class="intestazione-ordine">
+                <div>
+                    <strong>Ordine #<%= ordine.getIdOrdine() %></strong>
+                    <span><%= sdf.format(ordine.getDataOrdine()) %></span>
+                </div>
+                <div>
+                    <strong>Totale:</strong>
+                    <span><%= ordine.getTotale() %> €</span>
+                </div>
+            </div>
+
+            <div class="dati-ordine">
+                <div>
+                    <span><strong>Acquirente:</strong> <%= ordine.getAcquirente() %></span>
+                    
+                </div>
+                <div>
+                    <span><strong>Indirizzo di fatturazione:</strong> <%= ordine.getIndirizzoFatturazione() %></span>
+                </div>
+            </div>
+
+            <div class="prodotti-ordine">
+
+                <h3>PRODOTTI</h3>
+
+                <%
+                if(dettagli != null && !dettagli.isEmpty()) {
+
+                    for(DettaglioOrdineViewBean dettaglio : dettagli) {
+                %>
+
+                    <div class="prodotto-ordine">
+
+                        <div class="dati-prodotto-ordine">
+
+                            <strong>
+                                <%= dettaglio.getProdotto().getNome() %>
+                            </strong>
+
+							<div>
+                                <strong>Piattaforma:</strong>
+                                <span>
+                                    <%= dettaglio.getPiattaforma().getNomePiattaforma() %>
+                                </span>
+                            </div>
+
+                            <div>
+                                <strong>Quantità:</strong>
+                                <span>
+                                    <%= dettaglio.getQuantita() %>
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="prezzo-prodotto-ordine">
+                            <strong>Prezzo:</strong>
+                            <span>
+                                <%= dettaglio.getPrezzoAcquisto() %> €
+                            </span>
+                        </div>
+                    </div>
+                <%
+                    }
+                }
+                %>
+            </div>
+        </section>
+    <%
         }
+
+    } else {
+    %>
+        <p>Non hai ancora effettuato ordini</p>
+    <%
     }
-%>
+    %>
+</main>
+
+<%@ include file="/jsp/components/footer.jsp" %>
 </body>
 </html>

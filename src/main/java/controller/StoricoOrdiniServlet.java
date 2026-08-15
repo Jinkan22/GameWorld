@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.OrdineBean;
+import model.OrdineViewBean;
 import model.UtenteBean;
 
 import java.io.IOException;
@@ -47,9 +47,9 @@ public class StoricoOrdiniServlet extends HttpServlet {
 		
 		OrdineDAO dao = new OrdineDAO();
 		
-		ArrayList<OrdineBean> ordini = dao.doRetrieveByIdUtente(utente.getIdUtente());
+		ArrayList<OrdineViewBean> ordiniView = dao.doRetrieveViewByIdUtente(utente.getIdUtente());
 		
-		request.setAttribute("ordini", ordini);
+		request.setAttribute("ordini", ordiniView);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/storicoOrdini.jsp");
 		dispatcher.forward(request, response);

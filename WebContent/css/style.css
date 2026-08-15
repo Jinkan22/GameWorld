@@ -438,8 +438,6 @@ a:active {
     font-weight: 700;
 }
 
-/* Sidebar filtri */
-
 .sidebar-filtri {
     background-color: var(--dark-violet);
     border: 1px solid var(--muted-violet);
@@ -452,9 +450,6 @@ a:active {
     margin-bottom: 25px;
 }
 
-
-/* Checkbox e radio */
-
 .sidebar-filtri label {
     display: flex;
     align-items: center;
@@ -463,9 +458,6 @@ a:active {
     cursor: pointer;
     color: var(--pale-lavender);
 }
-
-
-/* Nascondiamo il controllo originale */
 
 .sidebar-filtri input[type="checkbox"],
 .sidebar-filtri input[type="radio"] {
@@ -484,9 +476,6 @@ a:active {
 
     flex-shrink: 0;
 }
-
-
-/* Checkbox */
 
 .sidebar-filtri input[type="checkbox"] {
     border-radius: 4px;
@@ -510,9 +499,6 @@ a:active {
     line-height: 17px;
 }
 
-
-/* Radio Button */
-
 .sidebar-filtri input[type="radio"] {
     border-radius: 50%;
 }
@@ -523,9 +509,6 @@ a:active {
     background-color: var(--dusty-violet);
 }
 
-
-/* Hover */
-
 .sidebar-filtri label:hover {
     color: var(--almost-white);
 }
@@ -533,9 +516,6 @@ a:active {
 .sidebar-filtri label:hover input {
     border-color: var(--dusty-violet);
 }
-
-
-/* Bottone Filtra */
 
 .sidebar-filtri input[type="submit"] {
     width: 100%;
@@ -688,6 +668,7 @@ a:active {
 .campi-login {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	gap: 20px;
 }
 
@@ -695,6 +676,11 @@ a:active {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 20px;
+}
+
+.campi-login .campo,
+.campi-registrazione .campo {
+	width: 220px;
 }
 
 .login-submit,
@@ -860,6 +846,10 @@ a:active {
 	border: 1px solid var(--dusty-violet);
 
 	cursor: pointer;
+}
+
+.riepilogo-totale input[type="submit"]:hover {
+	background-color: var(--light-violet);
 }
 
 .riepilogo-totale form {
@@ -1061,7 +1051,7 @@ a:active {
 
 .bottoni-profilo button:hover,
 .azioni-profilo button:hover {
-	background-color: var(--soft-violet);
+	background-color: var(--light-violet);
 }
 
 .azioni-profilo {
@@ -1073,4 +1063,84 @@ a:active {
 
 .azioni-profilo a {
 	text-decoration: none;
+}
+
+/* Storico ordini - Gestione ordini */
+
+.pagina-storico-ordini {
+	padding: 20px 180px 50px;
+}
+
+.ordine {
+	padding: 30px;
+	margin: 30px 0;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+}
+
+.intestazione-ordine {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding-bottom: 20px;
+	border-bottom: 1px solid var(--soft-violet);
+}
+
+.intestazione-ordine div,
+.dati-ordine div {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.intestazione-ordine div:last-child {
+	text-align: right;
+}
+
+.dati-ordine {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+
+	padding: 20px 0;
+}
+
+.prodotti-ordine h3 {
+	margin: 0 0 20px;
+}
+
+.prodotto-ordine {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding: 20px;
+
+	background-color: var(--midnight-violet);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 15px;
+}
+
+.prodotto-ordine,
+.prodotto-ordine {
+	margin-top: 12px;
+}
+
+.dati-prodotto-ordine {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.prezzo-prodotto-ordine {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 6px;
 }
