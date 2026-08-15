@@ -14,44 +14,83 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <title>GameWorld - Gestione utenti</title>
 </head>
 <body>
-<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
-<a href="<%= request.getContextPath() %>/AdminDashboardServlet">Dashboard</a><br>
 
-<h1>Gestione utenti</h1>
-<hr>
+<main class="pagina-gestione-utenti">
 
-<%
-String errore = (String) session.getAttribute("errore");
+	<h2>GESTIONE UTENTI</h2>
 
-if(errore != null){
-%>
+	<%
+	String errore = (String) session.getAttribute("errore");
 
-<p><%= errore %><br><br>
+	if(errore != null){
+	%>
+		<p class="errore-utenti"><%= errore %></p>
+	<%
+	}
+	%>
 
-<% 
-}
-    ArrayList<UtenteBean> utenti = (ArrayList<UtenteBean>) request.getAttribute("utenti");
+	<section class="lista-utenti">
 
-    if(utenti != null) {
-        for(UtenteBean utenteRegistrato : utenti) {
-%>
-			<p><strong>Utente #<%= utenteRegistrato.getIdUtente() %></strong></p>
-			<p><strong>Nome e cognome:</strong> <%= utenteRegistrato.getNome() + " " + utenteRegistrato.getCognome() %></p>
-			<p><strong>Email:</strong> <%= utenteRegistrato.getEmail() %></p>
-			<p><strong>Data di nascita:</strong> <%= sdf.format(utenteRegistrato.getDataNascita()) %></p>
-			<p><strong>Telefono:</strong> <%= utenteRegistrato.getNumeroTelefono() %></p>
-			<p><strong>Ruolo:</strong> <%= utenteRegistrato.getRuolo() %></p>			
-						
-			<form action="<%= request.getContextPath()%>/GestioneUtentiServlet" method="post">
-			
-			<input type="hidden" name="idUtente" value="<%= utenteRegistrato.getIdUtente() %>">
-			<input type="submit" name="azione" value="<%= "ADMIN".equals(utenteRegistrato.getRuolo()) ? "Declassa a USER" : "Promuovi ad ADMIN" %>">
-			</form>
-			<br><hr>
-<%	
-        }
-    }
-%>
+		<%
+		ArrayList<UtenteBean> utenti = (ArrayList<UtenteBean>) request.getAttribute("utenti");
 
+		if(utenti != null && !utenti.isEmpty()) {
+			for(UtenteBean utenteRegistrato : utenti) {
+		%>
+
+			<div class="utente">
+
+				<h3>UTENTE #<%= utenteRegistrato.getIdUtente() %></h3>
+
+				<div class="dati-utente">
+					<p>
+						<strong>Nome e cognome:</strong>
+						<span><%= utenteRegistrato.getNome() + " " + utenteRegistrato.getCognome() %></span>
+					</p>
+
+					<p>
+						<strong>Email:</strong>
+						<span><%= utenteRegistrato.getEmail() %></span>
+					</p>
+
+					<p>
+						<strong>Data di nascita:</strong>
+						<span><%= sdf.format(utenteRegistrato.getDataNascita()) %></span>
+					</p>
+
+					<p>
+						<strong>Telefono:</strong>
+						<span><%= utenteRegistrato.getNumeroTelefono() %></span>
+					</p>
+
+					<p>
+						<strong>Ruolo:</strong>
+						<span><%= utenteRegistrato.getRuolo() %></span>
+					</p>
+				</div>
+
+				<form action="<%= request.getContextPath()%>/GestioneUtentiServlet" method="post">
+					<input type="hidden" name="idUtente" value="<%= utenteRegistrato.getIdUtente() %>">
+
+					<input type="submit" name="azione" value="<%= "ADMIN".equals(utenteRegistrato.getRuolo()) ? "Declassa a USER" : "Promuovi ad ADMIN" %>">
+				</form>
+
+			</div>
+
+		<%
+			}
+		}
+		else {
+		%>
+			<p>Non sono presenti utenti.</p>
+		<%
+		}
+		%>
+
+	</section>
+
+</main>
+
+<%@ include file="/jsp/components/footer.jsp" %>
 </body>
 </html>

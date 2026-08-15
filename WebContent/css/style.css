@@ -1354,3 +1354,87 @@ a:active {
 	margin: 0 0 20px;
 	color: var(--pale-sky);
 }
+
+/* Gestione utenti */
+
+.pagina-gestione-utenti {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 30px 180px 50px;
+}
+
+.pagina-gestione-utenti h2 {
+	margin-bottom: 30px;
+}
+
+.lista-utenti {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
+}
+
+.utente {
+	padding: 25px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+}
+
+.utente h3 {
+	margin: 0 0 20px;
+	text-align: center;
+}
+
+.dati-utente p {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+
+	margin: 0;
+	padding: 10px 0;
+
+	border-bottom: 1px solid var(--soft-violet);
+}
+
+.dati-utente p:last-child {
+	border-bottom: none;
+}
+
+.dati-utente strong {
+	color: var(--pale-sky);
+}
+
+.utente form {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.utente input[type="submit"] {
+	padding: 10px 20px;
+
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--dusty-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
+
+	cursor: pointer;
+}
+
+.utente input[type="submit"]:hover {
+	background-color: var(--light-violet);
+}
+
+.errore-utenti {
+	color: var(--pale-sky);
+	margin-bottom: 20px;
+}
