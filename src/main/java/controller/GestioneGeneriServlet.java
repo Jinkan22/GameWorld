@@ -7,27 +7,25 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.PiattaformaBean;
 import model.GenereBean;
 import model.UtenteBean;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import dao.PiattaformaDAO;
 import dao.GenereDAO;
 
 /**
  * Servlet implementation class GestioneTagServlet
  */
-@WebServlet("/GestioneTagServlet")
-public class GestioneTagServlet extends HttpServlet {
+@WebServlet("/GestioneGeneriServlet")
+public class GestioneGeneriServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GestioneTagServlet() {
+    public GestioneGeneriServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,15 +45,12 @@ public class GestioneTagServlet extends HttpServlet {
 			return;
 		}
 		
-		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
 		GenereDAO genereDAO = new GenereDAO();
-		ArrayList<PiattaformaBean> piattaforme = piattaformaDAO.doRetrieveAll();
 		ArrayList<GenereBean> generi = genereDAO.doRetrieveAll();
 		
-		request.setAttribute("piattaforme", piattaforme);
 		request.setAttribute("generi", generi);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneTag.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/gestioneGeneri.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -75,37 +70,15 @@ public class GestioneTagServlet extends HttpServlet {
 		}
 		
 		String azione = request.getParameter("azione");
-		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
 		GenereDAO genereDAO = new GenereDAO();
 		
 		switch(azione) {
-		case "aggiungiPiattaforma": {
-			PiattaformaBean piattaforma = new PiattaformaBean();
-			String nomePiattaforma = request.getParameter("nomePiattaforma");
-			
-			piattaforma.setNomePiattaforma(nomePiattaforma);
-			piattaformaDAO.doSave(piattaforma);
-			break;
-			}
 		case "aggiungiGenere": {
 			GenereBean genere = new GenereBean();
 			String nomeGenere = request.getParameter("nomeGenere");
 			
 			genere.setNomeGenere(nomeGenere);
 			genereDAO.doSave(genere);
-			break;
-			}
-		case "eliminaPiattaforma": {
-			int idPiattaforma = Integer.parseInt(request.getParameter("idPiattaforma"));
-			
-			if(piattaformaDAO.isUtilizzata(idPiattaforma)) {
-		    	request.setAttribute("errore", "La piattaforma selezionata è ancora associata a uno o più prodotti.");
-
-		        doGet(request, response);
-		        return;
-		    }
-			
-			piattaformaDAO.doDelete(idPiattaforma);
 			break;
 			}
 		case "eliminaGenere": {
@@ -123,7 +96,7 @@ public class GestioneTagServlet extends HttpServlet {
 			}
 		}
 		
-		response.sendRedirect(request.getContextPath() + "/GestioneTagServlet");
+		response.sendRedirect(request.getContextPath() + "/GestioneGeneriServlet");
 	}
 
 }

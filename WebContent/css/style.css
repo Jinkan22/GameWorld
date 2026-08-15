@@ -1249,3 +1249,108 @@ a:active {
 .nessuna-offerta {
 	text-align: center;
 }
+
+/* Gestione generi */
+
+.pagina-gestione-generi {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 30px 180px 50px;
+}
+
+.pagina-gestione-generi h2 {
+	margin-bottom: 30px;
+}
+
+.card-generi {
+	width: 700px;
+	padding: 30px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+}
+
+.aggiungi-genere {
+	display: flex;
+	margin-bottom: 30px;
+}
+
+.aggiungi-genere input[type="text"] {
+	flex: 1;
+	padding: 10px 15px;
+
+	background-color: var(--soft-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px 0 0 20px;
+
+	font-family: "Satoshi", sans-serif;
+}
+
+.aggiungi-genere input[type="submit"] {
+	width: 45px;
+
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--dusty-violet);
+	border-radius: 0 20px 20px 0;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
+
+	cursor: pointer;
+}
+
+.lista-generi {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 15px;
+}
+
+.genere {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	padding: 10px 15px;
+
+	border-bottom: 1px solid var(--soft-violet);
+}
+
+.genere span {
+	font-weight: 700;
+}
+
+.genere form {
+	margin: 0;
+}
+
+.genere input[type="submit"] {
+	padding: 0;
+
+	background: none;
+	color: var(--almost-white);
+
+	border: none;
+
+	font-size: 20px;
+	font-family: "Satoshi", sans-serif;
+
+	cursor: pointer;
+}
+
+.aggiungi-genere input[type="submit"]:hover,
+.genere input[type="submit"]:hover {
+	color: var(--pale-sky);
+}
+
+.errore-generi {
+	margin: 0 0 20px;
+	color: var(--pale-sky);
+}

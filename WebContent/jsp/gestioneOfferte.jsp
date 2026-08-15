@@ -89,6 +89,5 @@ ArrayList<OffertaViewBean> offerte = (ArrayList<OffertaViewBean>) request.getAtt
 </main>
 
 <%@ include file="/jsp/components/footer.jsp" %>
-
 </body>
 </html>

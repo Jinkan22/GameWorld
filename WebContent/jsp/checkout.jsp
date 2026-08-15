@@ -183,7 +183,7 @@
 		</div>
 		<div class="sconto">
 			<strong>Sconto: </strong>
-			<span><%= sconto %> €</span>
+			<span>- <%= sconto %> €</span>
 		</div>
 		<hr>
 		<div class="totaleScontato">

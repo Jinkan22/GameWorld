@@ -107,8 +107,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			<a href="<%= request.getContextPath() %>/GestioneOfferteServlet">
 				<button>Gestione offerte</button>
 			</a>
-			<a href="<%= request.getContextPath() %>/GestioneTagServlet">
-				<button>Gestione tag</button>
+			<a href="<%= request.getContextPath() %>/GestioneGeneriServlet">
+				<button>Gestione generi</button>
 			</a>
 			
 			<button class="torna-profilo" type="button" id="chiudi-dashboard-button">Torna al profilo</button>
