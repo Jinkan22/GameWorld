@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - Gestione tag</title>
+<title>gameWorld - Gestione tag</title>
 </head>
 <body>
 <a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>

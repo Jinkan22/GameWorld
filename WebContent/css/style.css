@@ -1164,3 +1164,88 @@ a:active {
 	align-items: flex-end;
 	gap: 6px;
 }
+
+/* Gestione offerte */
+
+.pagina-gestione-offerte {
+	padding: 30px 180px 50px 180px;
+}
+
+.pagina-gestione-offerte h2 {
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.lista-offerte {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 25px;
+}
+
+.card-offerta {
+	padding: 25px 30px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+}
+
+.card-offerta h3 {
+	margin: 0 0 20px;
+	color: var(--pale-sky);
+}
+
+.dato-offerta {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding: 9px 0;
+	border-bottom: 1px solid var(--soft-violet);
+	gap: 20px;
+}
+
+.dato-offerta:last-of-type {
+	border-bottom: none;
+}
+
+.dato-offerta strong {
+	color: var(--pale-sky);
+}
+
+.card-offerta form {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.card-offerta input[type="submit"] {
+	padding: 10px 20px;
+
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--dusty-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
+
+	cursor: pointer;
+}
+
+.card-offerta input[type="submit"]:hover {
+	background-color: var(--light-violet);
+}
+
+.errore {
+	margin-bottom: 25px;
+
+	text-align: center;
+}
+
+.nessuna-offerta {
+	text-align: center;
+}

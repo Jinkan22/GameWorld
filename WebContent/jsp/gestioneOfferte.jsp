@@ -6,57 +6,89 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+ArrayList<OffertaViewBean> offerte = (ArrayList<OffertaViewBean>) request.getAttribute("offerte");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - Gestione offerte</title>
+<title>gameWorld - Gestione offerte</title>
 </head>
 <body>
-<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
-<a href="<%= request.getContextPath() %>/AdminDashboardServlet">Dashboard</a><br>
 
-<h1>Gestione offerte</h1>
-<hr>
+<main class="pagina-gestione-offerte">
 
-<%
-String errore = (String) request.getAttribute("errore");
+    <h2>GESTIONE OFFERTE</h2>
 
-if(errore != null){
-%>
+    <%
+    	String errore = (String) request.getAttribute("errore");
 
-<p><%= errore %><br><br>
+    	if(errore != null) {
+    %>
+        	<p class="errore"><%= errore %></p>
+    <%
+    	}
+    %>
 
-<% 
-}
-    ArrayList<OffertaViewBean> offerte = (ArrayList<OffertaViewBean>) request.getAttribute("offerte");
+    <section class="lista-offerte">
+	    <%
+	    if(offerte != null && !offerte.isEmpty()) {
+	
+	        for(OffertaViewBean offerta : offerte) {
+	    %>
+		        <div class="card-offerta">
+		            <h3>Offerta #<%= offerta.getOfferta().getIdOfferta() %></h3>
+		
+		            <div class="dato-offerta">
+		                <strong>Prodotto</strong>
+		                <span><%= offerta.getProdotto().getNome() %></span>
+		            </div>
+		
+		            <div class="dato-offerta">
+		                <strong>Data inizio</strong>
+		                <span><%= sdf.format(offerta.getOfferta().getDataInizio()) %></span>
+		            </div>
+		
+		            <div class="dato-offerta">
+		                <strong>Data fine</strong>
+		                <span><%= sdf.format(offerta.getOfferta().getDataFine()) %></span>
+		            </div>
+		
+		            <div class="dato-offerta">
+		                <strong>Prezzo originale</strong>
+		                <span><%= offerta.getProdotto().getPrezzo() %> €</span>
+		            </div>
+		
+		            <div class="dato-offerta">
+		                <strong>Sconto</strong>
+		                <span><%= offerta.getOfferta().getPercentualeSconto() %>%</span>
+		            </div>
+		
+		            <div class="dato-offerta">
+		                <strong>Prezzo scontato</strong>
+		                <span><%= offerta.getPrezzoScontato() %> €</span>
+		            </div>
+		
+		            <form action="<%= request.getContextPath() %>/GestioneOfferteServlet" method="post">
+		                <input type="hidden" name="idOfferta" value="<%= offerta.getOfferta().getIdOfferta() %>">
+		
+		                <input type="submit" value="Elimina offerta">
+		            </form>
+		        </div>
+	    <%
+	        }
+	    }
+	    else {
+	    %>
+	        <p class="nessuna-offerta">Non sono presenti offerte.</p>
+	    <%
+	    }
+	    %>
+    </section>
+</main>
 
-    if(offerte != null && !offerte.isEmpty()) {
-        for(OffertaViewBean offerta : offerte) {
-%>
-			<p><strong>Offerta #<%= offerta.getOfferta().getIdOfferta() %></strong></p>
-			<p><strong>Prodotto:</strong> <%= offerta.getProdotto().getNome() %></p>
-			<p><strong>Data inizio:</strong> <%= sdf.format(offerta.getOfferta().getDataInizio()) %></p>
-			<p><strong>Data fine:</strong> <%= sdf.format(offerta.getOfferta().getDataFine()) %></p>
-			<p><strong>Prezzo originale:</strong> <%= offerta.getProdotto().getPrezzo() %> €</p>
-			<p><strong>Percentuale di sconto:</strong> <%= offerta.getOfferta().getPercentualeSconto() %>%</p>
-			<p><strong>Prezzo scontato:</strong> <%= offerta.getPrezzoScontato() %> €</p><br>			
-						
-			<form action="<%= request.getContextPath()%>/GestioneOfferteServlet" method="post">
-			
-			<input type="hidden" name="idOfferta" value="<%= offerta.getOfferta().getIdOfferta() %>">
-			<input type="submit" value="Elimina offerta">
-			</form>
-			<br><hr>
-<%	
-        }
-    }
-    else {
-%>
-	<p>Non sono presenti offerte</p>
-<%
-    }
-%>
+<%@ include file="/jsp/components/footer.jsp" %>
+
 </body>
 </html>
