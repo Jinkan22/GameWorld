@@ -160,7 +160,7 @@ public class IndirizzoDAO {
     	}
     }
     
-  //lettura di tutti gli indirizzi di un determinato utente
+    //lettura di tutti gli indirizzi di un determinato utente
     public ArrayList<IndirizzoBean> doRetrieveByIdUtente(int idUtente){
     	ArrayList<IndirizzoBean> list = new ArrayList<IndirizzoBean>();
     	

@@ -56,9 +56,9 @@
         
         <span class="separator"></span>
 
-        <a href="#">Chi siamo</a>
+        <a href="<%= request.getContextPath() %>/jsp/chiSiamo.jsp">Chi siamo</a>
 
-        <a href="#">FAQ</a>
+        <a href="<%= request.getContextPath() %>/jsp/faq.jsp">FAQ</a>
     </nav>
 
 </header>

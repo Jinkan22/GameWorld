@@ -14,8 +14,8 @@
 	<nav class="nav">
 		<a href="<%= request.getContextPath() %>/HomeServlet">Home</a>
 		<a href="<%= request.getContextPath() %>/CatalogoServlet">Catalogo</a>
-		<a href="<%= request.getContextPath() %>/#">Chi siamo</a>
-		<a href="<%= request.getContextPath() %>/#">FAQ</a>
+		<a href="<%= request.getContextPath() %>/jsp/chiSiamo.jsp">Chi siamo</a>
+		<a href="<%= request.getContextPath() %>/jsp/faq.jsp">FAQ</a>
 	</nav>
 	
 	<!-- Copyright -->

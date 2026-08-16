@@ -1811,3 +1811,84 @@ a:active {
 	display: block;
 	margin: 25px auto 0;
 }
+
+/* Chi siamo */
+
+.pagina-chi-siamo {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 30px 180px 50px 180px;
+}
+
+.pagina-chi-siamo h2 {
+	margin-bottom: 30px;
+}
+
+.card-chi-siamo {
+	width: 700px;
+	padding: 30px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	box-sizing: border-box;
+}
+
+.card-chi-siamo h3 {
+	margin-top: 0;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.card-chi-siamo p {
+	margin: 0 0 20px;
+	line-height: 1.5;
+}
+
+.card-chi-siamo p:last-child {
+	margin-bottom: 0;
+}
+
+/* FAQ */
+
+.pagina-faq {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 30px 180px 50px 180px;
+}
+
+.card-faq {
+	width: 700px;
+	padding: 30px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	box-sizing: border-box;
+}
+
+.domanda-faq {
+	padding: 20px 0;
+	border-bottom: 1px solid var(--soft-violet);
+}
+
+.domanda-faq:first-child {
+	padding-top: 0;
+}
+
+.domanda-faq:last-child {
+	padding-bottom: 0;
+	border-bottom: none;
+}
+
+.domanda-faq h3 {
+	margin-bottom: 0 0 10px;
+}
