@@ -36,18 +36,8 @@ public class AggiungiProdottoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
-		
-		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
-			request.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/loginRegisteazione.jsp");
-			dispatcher.forward(request, response);
-			return;
-		}
-		
-		response.sendRedirect(request.getContextPath() + "/jsp/aggiungiProdotto.jsp");
+		// TODO Auto-generated method stub
+		response.sendRedirect(request.getContextPath() + "/jsp/loginRegistrazione.jsp");
 	}
 
 	/**

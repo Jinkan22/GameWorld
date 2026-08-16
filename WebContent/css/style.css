@@ -1438,3 +1438,162 @@ a:active {
 	color: var(--pale-sky);
 	margin-bottom: 20px;
 }
+
+/* Gestione prodotti */
+
+.pagina-gestione-prodotti {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 30px 180px 50px 180px;
+}
+
+.pagina-gestione-prodotti h2 {
+	margin-bottom: 30px;
+}
+
+.bottoni-gestione-prodotti {
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+	margin-bottom: 30px;
+}
+
+.bottoni-gestione-prodotti button,
+.card-prodotto input[type="submit"],
+.card-aggiungi-prodotto button {
+	padding: 10px 20px;
+
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--dusty-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
+
+	cursor: pointer;
+}
+
+.bottoni-gestione-prodotti button:hover,
+.card-prodotto input[type="submit"]:hover,
+.card-aggiungi-prodotto button:hover {
+	background-color: var(--light-violet);
+}
+
+#lista-prodotti {
+	width: 100%;
+
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
+}
+
+#aggiungi-prodotto {
+	display: none;
+	width: 100%;
+}
+
+.card-prodotto {
+	width: 100%;
+	padding: 30px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	box-sizing: border-box;
+}
+
+.card-aggiungi-prodotto {
+	width: 500px;
+	margin: 0 auto;
+	padding: 30px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	box-sizing: border-box;
+}
+
+.card-prodotto h3,
+.card-aggiungi-prodotto h3 {
+	margin: 0 0 25px;
+	text-align: center;
+}
+
+.dati-prodotto p {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding: 12px 0;
+	margin: 0;
+
+	border-bottom: 1px solid var(--soft-violet);
+}
+
+.dati-prodotto strong,
+.categorie-prodotto strong {
+	color: var(--pale-sky);
+}
+
+.categorie-prodotto {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	margin-top: 20px;
+}
+
+.tag-prodotto {
+	margin-top: 8px;
+}
+
+.card-prodotto form {
+	display: flex;
+	justify-content: center;
+	margin-top: 25px;
+}
+
+.campo-prodotto {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 18px;
+}
+
+.campo-prodotto label {
+	font-weight: 700;
+}
+
+.campo-prodotto input,
+.campo-prodotto textarea {
+	padding: 10px 15px;
+
+	background-color: var(--soft-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 500;
+
+	box-sizing: border-box;
+}
+
+.campo-prodotto textarea {
+	resize: vertical;
+}
+
+.card-aggiungi-prodotto form > button {
+	display: block;
+	margin: 25px auto 0;
+}
