@@ -11,7 +11,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - Gestione utenti</title>
+<title>gameWorld - Gestione utenti</title>
 </head>
 <body>
 

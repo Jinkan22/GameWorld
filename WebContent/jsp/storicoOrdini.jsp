@@ -15,7 +15,7 @@ ArrayList<OrdineViewBean> ordini = (ArrayList<OrdineViewBean>) request.getAttrib
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - Storico Ordini</title>
+<title>gameWorld - Storico Ordini</title>
 </head>
 <body>
 

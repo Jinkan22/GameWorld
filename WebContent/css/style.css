@@ -1460,7 +1460,7 @@ a:active {
 }
 
 .bottoni-gestione-prodotti button,
-.card-prodotto input[type="submit"],
+.card-gestione-prodotto input[type="submit"],
 .card-aggiungi-prodotto button {
 	padding: 10px 20px;
 
@@ -1477,7 +1477,7 @@ a:active {
 }
 
 .bottoni-gestione-prodotti button:hover,
-.card-prodotto input[type="submit"]:hover,
+.card-gestione-prodotto input[type="submit"]:hover,
 .card-aggiungi-prodotto button:hover {
 	background-color: var(--light-violet);
 }
@@ -1495,7 +1495,7 @@ a:active {
 	width: 100%;
 }
 
-.card-prodotto {
+.card-gestione-prodotto {
 	width: 100%;
 	padding: 30px;
 
@@ -1522,7 +1522,7 @@ a:active {
 	box-sizing: border-box;
 }
 
-.card-prodotto h3,
+.card-gestione-prodotto h3,
 .card-aggiungi-prodotto h3 {
 	margin: 0 0 25px;
 	text-align: center;
@@ -1556,13 +1556,13 @@ a:active {
 	margin-top: 8px;
 }
 
-.card-prodotto form {
+.card-gestione-prodotto form {
 	display: flex;
 	justify-content: center;
 	margin-top: 25px;
 }
 
-.campo-prodotto {
+.campo-gestione-prodotto {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
@@ -1593,7 +1593,221 @@ a:active {
 	resize: vertical;
 }
 
-.card-aggiungi-prodotto form > button {
+.card-aggiungi-prodotto form button {
+	display: block;
+	margin: 25px auto 0;
+}
+
+/* Gestione prodotto */
+
+.pagina-gestione-prodotto {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	align-items: center;
+	padding: 30px 180px 50px 180px;
+}
+
+.pagina-gestione-prodotto h2 {
+	margin-bottom: 30px;
+}
+
+.card-gestione-dati-prodotto,
+.card-gestione-piattaforme,
+.card-gestione-generi,
+.card-gestione-offerte {
+	width: 600px;
+	padding: 30px;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	box-sizing: border-box;
+}
+
+.card-gestione-dati-prodotto h3,
+.card-gestione-piattaforme h3,
+.card-gestione-generi h3,
+.card-gestione-offerte h3 {
+	margin-top: 0;
+	margin-bottom: 25px;
+	text-align: center;
+}
+
+.campo-gestione-prodotto,
+.campo-gestione-offerta {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 18px;
+}
+
+.campo-gestione-prodotto label,
+.campo-gestione-offerta label {
+	font-weight: 700;
+}
+
+.campo-gestione-prodotto input,
+.campo-gestione-prodotto textarea,
+.campo-gestione-offerta input,
+.form-aggiungi-piattaforma select,
+.form-aggiungi-genere select {
+	padding: 10px 15px;
+
+	background-color: var(--soft-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 500;
+
+	box-sizing: border-box;
+}
+
+.campo-gestione-prodotto textarea {
+	resize: vertical;
+}
+
+.bottoni-gestione-prodotto,
+.bottoni-gestione-offerta {
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+	margin-top: 25px;
+}
+
+.bottoni-gestione-prodotto button,
+.bottoni-gestione-offerta button,
+.riga-gestione-piattaforma button,
+.riga-gestione-genere button,
+.riga-gestione-offerta button,
+.form-aggiungi-piattaforma button,
+.form-aggiungi-genere button,
+#crea-offerta-button {
+	padding: 10px 20px;
+
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--dusty-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
+
+	cursor: pointer;
+}
+
+.bottoni-gestione-prodotto button:hover,
+.bottoni-gestione-offerta button:hover,
+.riga-gestione-piattaforma button:hover,
+.riga-gestione-genere button:hover,
+.riga-gestione-offerta button:hover,
+.form-aggiungi-piattaforma button:hover,
+.form-aggiungi-genere button:hover,
+#crea-offerta-button:hover {
+	background-color: var(--light-violet);
+}
+
+.lista-gestione-piattaforme,
+.lista-gestione-generi {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.riga-gestione-piattaforma,
+.riga-gestione-genere,
+.riga-gestione-offerta {
+
+
+	border-bottom: 1px solid var(--soft-violet);
+}
+
+.riga-gestione-piattaforma:last-child,
+.riga-gestione-genere:last-child,
+.riga-gestione-offerta:last-child {
+	border-bottom: none;
+}
+
+.riga-gestione-piattaforma form {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.riga-gestione-piattaforma strong,
+.riga-gestione-genere strong,
+.dati-gestione-offerta strong {
+	color: var(--pale-sky);
+}
+
+.riga-gestione-piattaforma label {
+	margin-left: auto;
+}
+
+.riga-gestione-piattaforma input {
+	width: 80px;
+	padding: 8px 10px;
+
+	background-color: var(--soft-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 500;
+}
+
+.riga-gestione-genere form {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.form-aggiungi-piattaforma,
+.form-aggiungi-genere {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 12px;
+
+	margin-top: 25px;
+}
+
+.form-aggiungi-piattaforma select,
+.form-aggiungi-genere select {
+	cursor: pointer;
+}
+
+.riga-gestione-offerta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+}
+
+.dati-gestione-offerta {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.dati-gestione-offerta span {
+	font-size: 14px;
+}
+
+#form-nuova-offerta {
+	margin-top: 20px;
+}
+
+#crea-offerta-button {
 	display: block;
 	margin: 25px auto 0;
 }

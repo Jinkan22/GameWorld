@@ -6,140 +6,274 @@
 <%@ page import="model.PiattaformaBean" %>
 <%@ page import="model.ProdottoPiattaformaBean" %>
 <%@ page import="model.GenereBean" %>
+<%@ page import="model.OffertaBean" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%
+SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+String messaggio = (String) request.getAttribute("messaggio");
+
+ProdottoViewBean prodotto = (ProdottoViewBean) request.getAttribute("prodotto");
+ArrayList<PiattaformaBean> piattaforme = (ArrayList<PiattaformaBean>) request.getAttribute("piattaforme");
+ArrayList<GenereBean> generi = (ArrayList<GenereBean>) request.getAttribute("generi");
+ArrayList<OffertaBean> offerte = (ArrayList<OffertaBean>) request.getAttribute("offerte");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameWorld - Modifica prodotto</title>
+<title>gameWorld - Gestione prodotto</title>
 </head>
 <body>
-<a href="<%= request.getContextPath() %>/index.jsp">Homepage</a><br>
-<a href="<%= request.getContextPath() %>/GestioneProdottiServlet">Gestione prodotti</a><br>
 
-<h1>Modifica prodotto</h1>
+<main class="pagina-gestione-prodotto">
 
-<%
-String messaggio = (String) request.getAttribute("messaggio");
+	<h2>GESTIONE PRODOTTO</h2>
 
-if(messaggio != null){
-%>
-
-<p><%= messaggio %><br><br>
-
-<% 
-}
-	ProdottoViewBean prodotto = (ProdottoViewBean) request.getAttribute("prodotto");
-	ArrayList<PiattaformaBean> piattaforme = (ArrayList<PiattaformaBean>) request.getAttribute("piattaforme");
-	ArrayList<GenereBean> generi = (ArrayList<GenereBean>) request.getAttribute("generi");
-%>
-
-<form action="<%= request.getContextPath()%>/ModificaProdottoServlet" method="post">
-
-	<label>Nome prodotto</label><br>
-	<input type="text" name="nome" value="<%= prodotto.getProdotto().getNome() %>" required><br><br>
-	
-	<label>Descrizione</label><br>
-	<textarea name="descrizione" rows="5" cols="50" required><%= prodotto.getProdotto().getDescrizione() %></textarea><br><br>
-	
-	<label>Prezzo</label><br>
-	<input type="number" name="prezzo" min="0" step="0.01" value="<%= prodotto.getProdotto().getPrezzo() %>" required><br><br>
-		
-	<label>Immagine</label><br>
-	<input type="text" name="immagine" value="<%= prodotto.getProdotto().getImmagine() %>" required><br><br>
-	
-	<label>Data di uscita</label><br>
-	<input type="date" name="dataUscita" value="<%= prodotto.getProdotto().getDataUscita() %>" required><br><br>
-	
-	<label>Sviluppatore</label><br>
-	<input type="text" name="sviluppatore" value="<%= prodotto.getProdotto().getSviluppatore() %>" required><br><br>
-	
-	<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
-	<input type="submit" name="azione" value="Modifica prodotto">
-	<input type="submit" name="azione" value="Elimina prodotto">
-	
-</form>
-	<hr>
-	
-	<p>Piattaforme:</p>
-	
-	<ul>
 	<%
-		for(int i=0; i < prodotto.getPiattaforme().size(); i++) {
-			ProdottoPiattaformaBean prodottoPiattaforma = prodotto.getProdottoPiattaforme().get(i);
-		    PiattaformaBean piattaforma = prodotto.getPiattaforme().get(i);
-			%>
-				<li>
-				<form action="<%= request.getContextPath()%>/ModificaProdottoServlet" method="post">
-					<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
-					<%= piattaforma.getNomePiattaforma() %> - Disponibili: 
-					<input type="number" name="quantitaPiattaforma" value="<%= prodottoPiattaforma.getQuantitaDisponibile() %>" min="0">
-			
-					<input type="hidden" name="idPiattaforma" value="<%= piattaforma.getIdPiattaforma() %>">
-					<input type="submit" name="azione" value="Modifica quantità">
-					<input type="submit" name="azione" value="Elimina piattaforma">
-				</form>
-				</li>
-			<%
-		}
+	if(messaggio != null) {
 	%>
-	</ul>
-	
-	<p>Generi:</p>
-	<ul>
+		<p><%= messaggio %></p>
 	<%
-		for(GenereBean genere : prodotto.getGeneri()) {
+	}
+	%>
+
+	<section class="card-gestione-dati-prodotto">
+
+		<h3>DATI PRODOTTO</h3>
+
+		<form action="<%= request.getContextPath() %>/ModificaProdottoServlet" method="post">
+
+			<div class="campo-gestione-prodotto">
+				<label for="nome">Nome prodotto</label>
+				<input type="text" id="nome" name="nome" value="<%= prodotto.getProdotto().getNome() %>" required>
+			</div>
+
+			<div class="campo-gestione-prodotto">
+				<label for="descrizione">Descrizione</label>
+				<textarea id="descrizione" name="descrizione" rows="5" required><%= prodotto.getProdotto().getDescrizione() %></textarea>
+			</div>
+
+			<div class="campo-gestione-prodotto">
+				<label for="prezzo">Prezzo</label>
+				<input type="number" id="prezzo" name="prezzo" min="0" step="0.01" value="<%= prodotto.getProdotto().getPrezzo() %>" required>
+			</div>
+
+			<div class="campo-gestione-prodotto">
+				<label for="immagine">Immagine</label>
+				<input type="text" id="immagine" name="immagine" value="<%= prodotto.getProdotto().getImmagine() %>" required>
+			</div>
+
+			<div class="campo-gestione-prodotto">
+				<label for="dataUscita">Data di uscita</label>
+				<input type="date" id="dataUscita" name="dataUscita" value="<%= prodotto.getProdotto().getDataUscita() %>" required>
+			</div>
+
+			<div class="campo-gestione-prodotto">
+				<label for="sviluppatore">Sviluppatore</label>
+				<input type="text" id="sviluppatore" name="sviluppatore" value="<%= prodotto.getProdotto().getSviluppatore() %>" required>
+			</div>
+
+			<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
+
+			<div class="bottoni-gestione-prodotto">
+				<button type="submit" name="azione" value="Modifica prodotto">Modifica prodotto</button>
+				<button type="submit" name="azione" value="Elimina prodotto">Elimina prodotto</button>
+			</div>
+		</form>
+	</section>
+
+	<section class="card-gestione-piattaforme">
+
+		<h3>PIATTAFORME</h3>
+
+		<div class="lista-gestione-piattaforme">
+
+			<%
+			for(int i = 0; i < prodotto.getPiattaforme().size(); i++) {
+				ProdottoPiattaformaBean prodottoPiattaforma = prodotto.getProdottoPiattaforme().get(i);
+				PiattaformaBean piattaforma = prodotto.getPiattaforme().get(i);
 			%>
-			<li>
-			<form action="<%= request.getContextPath()%>/ModificaProdottoServlet" method="post">
+				<div class="riga-gestione-piattaforma">
+				
+					<form action="<%= request.getContextPath() %>/ModificaProdottoServlet" method="post">
+						<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
+						<input type="hidden" name="idPiattaforma" value="<%= piattaforma.getIdPiattaforma() %>">
+
+						<strong><%= piattaforma.getNomePiattaforma() %></strong>
+
+						<label>Quantità</label>
+						<input type="number" name="quantitaPiattaforma" value="<%= prodottoPiattaforma.getQuantitaDisponibile() %>" min="0">
+
+						<button type="submit" name="azione" value="Modifica quantità">Modifica</button>
+						<button type="submit" name="azione" value="Elimina piattaforma">Elimina</button>
+					</form>
+				</div>
+			<%
+			}
+			%>
+
+		</div>
+
+		<form class="form-aggiungi-piattaforma" action="<%= request.getContextPath() %>/ModificaProdottoServlet" method="post">
+			<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
+
+			<select name="idPiattaforma">
+				<option value="">Seleziona piattaforma</option>
+				<%
+				for(PiattaformaBean piattaforma : piattaforme) {
+				%>
+					<option value="<%= piattaforma.getIdPiattaforma() %>">
+						<%= piattaforma.getNomePiattaforma() %>
+					</option>
+				<%
+				}
+				%>
+			</select>
+
+			<button type="submit" name="azione" value="Aggiungi piattaforma">Aggiungi piattaforma</button>
+		</form>
+	</section>
+
+	<section class="card-gestione-generi">
+
+		<h3>GENERI</h3>
+
+		<div class="lista-gestione-generi">
+		
+			<%
+			for(GenereBean genere : prodotto.getGeneri()) {
+			%>
+				<div class="riga-gestione-genere">
+					<form action="<%= request.getContextPath() %>/ModificaProdottoServlet" method="post">
+						<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
+						<input type="hidden" name="idGenere" value="<%= genere.getIdGenere() %>">
+
+						<strong><%= genere.getNomeGenere() %></strong>
+
+						<button type="submit" name="azione" value="Elimina genere">Elimina</button>
+					</form>
+				</div>
+			<%
+			}
+			%>
+		</div>
+
+		<form class="form-aggiungi-genere" action="<%= request.getContextPath() %>/ModificaProdottoServlet" method="post">
+			<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
+
+			<select name="idGenere">
+				<option value="">Seleziona genere</option>
+				<%
+				for(GenereBean genere : generi) {
+				%>
+					<option value="<%= genere.getIdGenere() %>">
+						<%= genere.getNomeGenere() %>
+					</option>
+				<%
+				}
+				%>
+			</select>
+
+			<button type="submit" name="azione" value="Aggiungi genere">Aggiungi genere</button>
+		</form>
+	</section>
+
+	<section class="card-gestione-offerte">
+
+		<h3>OFFERTE</h3>
+
+		<div id="lista-offerte">
+
+			<%
+			if(offerte != null && !offerte.isEmpty()) {
+
+				for(OffertaBean offerta : offerte) {
+			%>
+
+				<div class="riga-gestione-offerta">
+
+					<div class="dati-gestione-offerta">
+						<strong><%= offerta.getPercentualeSconto() %>% di sconto</strong>
+
+						<span>
+							<%= sdf.format(offerta.getDataInizio()) %>
+							→
+							<%= sdf.format(offerta.getDataFine()) %>
+						</span>
+					</div>
+
+					<form action="<%= request.getContextPath() %>/ModificaProdottoServlet" method="post">
+						<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
+						<input type="hidden" name="idOfferta" value="<%= offerta.getIdOfferta() %>">
+
+						<button type="submit" name="azione" value="Elimina offerta">Elimina</button>
+					</form>
+				</div>
+			<%
+				}
+			}
+			else {
+			%>
+				<p>Nessuna offerta presente.</p>
+			<%
+			}
+			%>
+		</div>
+
+		<div id="form-nuova-offerta">
+
+			<form action="<%= request.getContextPath() %>/ModificaProdottoServlet" method="post">
 				<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
-				<%= genere.getNomeGenere() %>
-			
-				<input type="hidden" name="idGenere" value="<%= genere.getIdGenere() %>">
-				<input type="submit" name="azione" value="Elimina genere">
+
+				<div class="campo-gestione-offerta">
+					<label for="percentualeSconto">Percentuale di sconto</label>
+					<input type="number" id="percentualeSconto" name="percentualeSconto" min="0" max="100" required>
+				</div>
+
+				<div class="campo-gestione-offerta">
+					<label for="dataInizio">Data di inizio</label>
+					<input type="date" id="dataInizio" name="dataInizio" required>
+				</div>
+
+				<div class="campo-gestione-offerta">
+					<label for="dataFine">Data di fine</label>
+					<input type="date" id="dataFine" name="dataFine" required>
+				</div>
+
+				<div class="bottoni-gestione-offerta">
+					<button type="button" id="annulla-offerta-button">Annulla</button>
+					<button type="submit" name="azione" value="Crea offerta">Crea offerta</button>
+				</div>
 			</form>
-			</li>
-			<%
-		}
-	%>
-	</ul>
-	
-<form action="<%= request.getContextPath()%>/ModificaProdottoServlet" method="post">
-	<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
+		</div>
 
-	<select name="idPiattaforma">
-		<option value="">Seleziona piattaforma</option>
+		<button type="button" id="crea-offerta-button">Crea nuova offerta</button>
+	</section>
+</main>
 
-		<%
-		for(PiattaformaBean piattaforma : piattaforme) {
-		%>
-        	<option value="<%= piattaforma.getIdPiattaforma() %>">
-            <%= piattaforma.getNomePiattaforma() %>
-        	</option>
-    	<%
-    	}
-    	%>
-	</select>
-		
-	<input type="submit" name="azione" value="Aggiungi piattaforma"><br>
-		
-	<select name="idGenere">
-		<option value="">Seleziona genere</option>
+<script>
+	const listaOfferte = document.getElementById("lista-offerte");
+	const formNuovaOfferta = document.getElementById("form-nuova-offerta");
 
-		<%
-		for(GenereBean genere : generi) {
-		%>
-        	<option value="<%= genere.getIdGenere() %>">
-        	<%= genere.getNomeGenere() %>
-        	</option>
-    	<%
-    	}
-    	%>
-	</select>
-	<input type="submit" name="azione" value="Aggiungi genere"><br>
-	
-	<input type="submit" name="azione" value="Crea offerta">
+	const creaOffertaButton = document.getElementById("crea-offerta-button");
+	const annullaOffertaButton = document.getElementById("annulla-offerta-button");
 
-</form>
+	formNuovaOfferta.style.display = "none";
 
+	creaOffertaButton.addEventListener("click", function() {
+		listaOfferte.style.display = "none";
+		creaOffertaButton.style.display = "none";
+		formNuovaOfferta.style.display = "block";
+	});
+
+	annullaOffertaButton.addEventListener("click", function() {
+		formNuovaOfferta.style.display = "none";
+		listaOfferte.style.display = "block";
+		creaOffertaButton.style.display = "block";
+	});
+</script>
+
+<%@ include file="/jsp/components/footer.jsp" %>
 </body>
 </html>

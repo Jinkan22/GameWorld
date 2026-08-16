@@ -49,7 +49,7 @@ String errore = (String) request.getAttribute("errore");
 
             for(ProdottoViewBean prodotto : prodotti) {
         %>
-	            <div class="card-prodotto">
+	            <div class="card-gestione-prodotto">
 	                <h3><%= prodotto.getProdotto().getNome() %></h3>
 	
 	                <div class="dati-prodotto">

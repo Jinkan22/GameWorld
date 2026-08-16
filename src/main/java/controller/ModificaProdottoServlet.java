@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.GenereBean;
+import model.OffertaBean;
 import model.PiattaformaBean;
 import model.ProdottoBean;
 import model.ProdottoGenereBean;
@@ -21,6 +22,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import dao.GenereDAO;
+import dao.OffertaDAO;
 import dao.PiattaformaDAO;
 import dao.ProdottoDAO;
 import dao.ProdottoGenereDAO;
@@ -79,14 +81,17 @@ public class ModificaProdottoServlet extends HttpServlet {
 		
 		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
 		GenereDAO genereDAO = new GenereDAO();
+		OffertaDAO offertaDAO = new OffertaDAO();
 		
 		ProdottoViewBean prodottoView = prodottoDAO.doRetrieveViewByKey(idProdotto);
 		ArrayList<PiattaformaBean> piattaforme = piattaformaDAO.doRetrieveAll();
 		ArrayList<GenereBean> generi = genereDAO.doRetrieveAll();
+		ArrayList<OffertaBean> offerte = offertaDAO.doRetrieveByIdProdotto(idProdotto);
 		
 		request.setAttribute("prodotto", prodottoView);
 		request.setAttribute("piattaforme", piattaforme);
 		request.setAttribute("generi", generi);
+		request.setAttribute("offerte", offerte);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/modificaProdotto.jsp");
 		dispatcher.forward(request, response);
@@ -157,11 +162,41 @@ public class ModificaProdottoServlet extends HttpServlet {
 			break;
 			}
 		case "Crea offerta": {
-			request.setAttribute("prodotto", prodotto);
+			String percentualeSconto = request.getParameter("percentualeSconto");
+			String dataInizio = request.getParameter("dataInizio");
+			String dataFine = request.getParameter("dataFine");
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/creazioneOfferta.jsp");
-			dispatcher.forward(request, response);
-			return;
+			OffertaDAO offertaDAO = new OffertaDAO();
+			OffertaBean nuovaOfferta = new OffertaBean();
+			
+			nuovaOfferta.setPercentualeSconto(Integer.parseInt(percentualeSconto));
+			nuovaOfferta.setDataInizio(Date.valueOf(dataInizio));
+			nuovaOfferta.setDataFine(Date.valueOf(dataFine));
+			nuovaOfferta.setIdProdotto(idProdotto);
+			
+			//controlla che non ci siano già offerte che si sovrappongano
+			if(offertaDAO.esisteOffertaSovrapposta(idProdotto, nuovaOfferta.getDataInizio(), nuovaOfferta.getDataFine())) {
+				session.setAttribute("messaggio", "Il prodotto selezionato è già in offerta nelle date selezionate");
+				break;
+			}
+			
+			offertaDAO.doSave(nuovaOfferta);
+			
+			session.setAttribute("messaggio", "Offerta creata con successo!");
+			break;
+			}
+		case "Elimina offerta": {
+			String idOfferta = request.getParameter("idOfferta");
+			
+			if(idOfferta == null || idOfferta.isEmpty())
+				break;
+			
+			OffertaDAO offertaDAO = new OffertaDAO();
+			
+			offertaDAO.doDelete(Integer.parseInt(idOfferta));
+			
+			session.setAttribute("messaggio", "Offerta eliminata con successo!");
+			break;
 			}
 		case "Aggiungi piattaforma": {
 			String idPiattaforma = request.getParameter("idPiattaforma");
