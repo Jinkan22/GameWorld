@@ -11,6 +11,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <head>
 <meta charset="UTF-8">
 <title>gameWorld - Profilo</title>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/interfaccia.js"></script>
 </head>
 <body>
 
@@ -81,7 +82,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			</div>
 
 			<div class="bottoni-profilo">
-				<button type="button" id="annulla-button">Annulla</button>
+				<button type="button" id="annulla-button" onclick="mostraInformazioniProfilo()">Annulla</button>
 				<button type="submit">Salva</button>
 			</div>
 		</form>
@@ -111,7 +112,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				<button>Gestione generi</button>
 			</a>
 			
-			<button class="torna-profilo" type="button" id="chiudi-dashboard-button">Torna al profilo</button>
+			<button class="torna-profilo" type="button" id="chiudi-dashboard-button" onclick="chiudiDashboard()">Torna al profilo</button>
 		</div>
 	</section>
 	<%
@@ -123,12 +124,12 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		<%
 			if(utente != null && "ADMIN".equals(utente.getRuolo())) {
 		%>
-			<button type="button" id="dashboard-button">Admin dashboard</button>
+			<button type="button" id="dashboard-button" onclick="mostraDashboard()">Admin dashboard</button>
 		<%
 			}
 		%>
 		
-		<button type="button" id="modifica-button">Modifica profilo</button>
+		<button type="button" id="modifica-button" onclick="mostraModificaProfilo()">Modifica profilo</button>
 
 		<a href="<%= request.getContextPath() %>/StoricoOrdini">
 			<button>Storico ordini</button>
@@ -140,49 +141,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 	</section>
 </main>
-
-<script>
-	const informazioniProfilo = document.getElementById("informazioni-profilo");
-	const modificaProfilo = document.getElementById("modifica-profilo");
-	const dashboardAdmin = document.getElementById("dashboard-admin");
-
-	const modificaButton = document.getElementById("modifica-button");
-	const annullaButton = document.getElementById("annulla-button");
-	const dashboardButton = document.getElementById("dashboard-button");
-	const chiudiDashboardButton = document.getElementById("chiudi-dashboard-button");
-
-	modificaButton.addEventListener("click", function() {
-		informazioniProfilo.style.display = "none";
-		modificaProfilo.style.display = "block";
-
-		if(dashboardAdmin)
-			dashboardAdmin.style.display = "none";
-	});
-
-	annullaButton.addEventListener("click", function() {
-		modificaProfilo.style.display = "none";
-		informazioniProfilo.style.display = "block";
-
-		if(dashboardAdmin)
-			dashboardAdmin.style.display = "none";
-	});
-
-	if(dashboardButton) {
-		dashboardButton.addEventListener("click", function() {
-			informazioniProfilo.style.display = "none";
-			modificaProfilo.style.display = "none";
-			dashboardAdmin.style.display = "block";
-		});
-	}
-
-	if(chiudiDashboardButton) {
-		chiudiDashboardButton.addEventListener("click", function() {
-			dashboardAdmin.style.display = "none";
-			informazioniProfilo.style.display = "block";
-		});
-	}
-
-</script>
 
 <%@ include file="/WEB-INF/view/components/footer.jsp" %>
 </body>

@@ -6,13 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>gameWorld - Login</title>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/interfaccia.js"></script>
 </head>
 <body>
 
 <main class="login-registrazione">
 	<div class="selezioni">
-		<button class="login-selezione" type="button" id="login-selezione">Accedi</button>
-		<button class="registrazione-selezione" type="button" id="registrazione-selezione">Registrati</button>
+		<button class="login-selezione" type="button" id="login-selezione" onclick="mostraLogin()">Accedi</button>
+		<button class="registrazione-selezione" type="button" id="registrazione-selezione" onclick="mostraRegistrazione()">Registrati</button>
 	</div>
 	
 	<div class="login" id="login">
@@ -91,25 +92,6 @@
 		</form>
 	</div>
 </main>
-
-
-<script>
-const tabLogin = document.getElementById("login-selezione");
-const tabRegistrazione = document.getElementById("registrazione-selezione");
-
-const formLogin = document.getElementById("login");
-const formRegistrazione = document.getElementById("registrazione");
-
-tabLogin.addEventListener("click", function() {
-    formLogin.style.display = "block";
-    formRegistrazione.style.display = "none";
-});
-
-tabRegistrazione.addEventListener("click", function() {
-    formLogin.style.display = "none";
-    formRegistrazione.style.display = "block";
-});
-</script>
 
 <%@ include file="/WEB-INF/view/components/footer.jsp" %>
 </body>

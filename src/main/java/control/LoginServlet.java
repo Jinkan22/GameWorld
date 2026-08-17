@@ -65,8 +65,7 @@ public class LoginServlet extends HttpServlet {
 		
 		versaCarrelloSessione(session, utente);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/Home");
-		dispatcher.forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/Home");
 	}
 	
 	private void versaCarrelloSessione(HttpSession session, UtenteBean utente) {

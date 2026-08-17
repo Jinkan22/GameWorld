@@ -1562,7 +1562,7 @@ a:active {
 	margin-top: 25px;
 }
 
-.campo-gestione-prodotto {
+.campo-prodotto {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
@@ -1804,6 +1804,7 @@ a:active {
 }
 
 #form-nuova-offerta {
+	display: none;
 	margin-top: 20px;
 }
 

@@ -18,6 +18,7 @@ String errore = (String) request.getAttribute("errore");
 <head>
 <meta charset="UTF-8">
 <title>gameWorld - Gestione prodotti</title>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/interfaccia.js"></script>
 </head>
 <body>
 
@@ -34,11 +35,11 @@ String errore = (String) request.getAttribute("errore");
     %>
 
     <div class="bottoni-gestione-prodotti">
-        <button type="button" id="aggiungi-prodotto-button">
+        <button type="button" id="aggiungi-prodotto-button" onclick="mostraFormAggiungiProdotto()">
             Aggiungi un prodotto
         </button>
 
-        <button type="button" id="mostra-prodotti-button">
+        <button type="button" id="mostra-prodotti-button" onclick="mostraListaProdotti()">
             Mostra prodotti
         </button>
     </div>
@@ -165,26 +166,6 @@ String errore = (String) request.getAttribute("errore");
         </div>
     </section>
 </main>
-
-
-<script>
-    const listaProdotti = document.getElementById("lista-prodotti");
-    const aggiungiProdotto = document.getElementById("aggiungi-prodotto");
-
-    const aggiungiProdottoButton = document.getElementById("aggiungi-prodotto-button");
-    const mostraProdottiButton = document.getElementById("mostra-prodotti-button");
-
-    aggiungiProdottoButton.addEventListener("click", function() {
-        listaProdotti.style.display = "none";
-        aggiungiProdotto.style.display = "block";
-    });
-
-    mostraProdottiButton.addEventListener("click", function() {
-        aggiungiProdotto.style.display = "none";
-        listaProdotti.style.display = "grid";
-    });
-</script>
-
 
 <%@ include file="/WEB-INF/view/components/footer.jsp" %>
 </body>

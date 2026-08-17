@@ -23,6 +23,7 @@ ArrayList<OffertaBean> offerte = (ArrayList<OffertaBean>) request.getAttribute("
 <head>
 <meta charset="UTF-8">
 <title>gameWorld - Gestione prodotto</title>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/interfaccia.js"></script>
 </head>
 <body>
 
@@ -242,37 +243,15 @@ ArrayList<OffertaBean> offerte = (ArrayList<OffertaBean>) request.getAttribute("
 				</div>
 
 				<div class="bottoni-gestione-offerta">
-					<button type="button" id="annulla-offerta-button">Annulla</button>
+					<button type="button" id="annulla-offerta-button" onclick="mostraListaOfferte()">Annulla</button>
 					<button type="submit" name="azione" value="Crea offerta">Crea offerta</button>
 				</div>
 			</form>
 		</div>
 
-		<button type="button" id="crea-offerta-button">Crea nuova offerta</button>
+		<button type="button" id="crea-offerta-button" onclick="mostraFormNuovaOfferta()">Crea nuova offerta</button>
 	</section>
 </main>
-
-<script>
-	const listaOfferte = document.getElementById("lista-offerte");
-	const formNuovaOfferta = document.getElementById("form-nuova-offerta");
-
-	const creaOffertaButton = document.getElementById("crea-offerta-button");
-	const annullaOffertaButton = document.getElementById("annulla-offerta-button");
-
-	formNuovaOfferta.style.display = "none";
-
-	creaOffertaButton.addEventListener("click", function() {
-		listaOfferte.style.display = "none";
-		creaOffertaButton.style.display = "none";
-		formNuovaOfferta.style.display = "block";
-	});
-
-	annullaOffertaButton.addEventListener("click", function() {
-		formNuovaOfferta.style.display = "none";
-		listaOfferte.style.display = "block";
-		creaOffertaButton.style.display = "block";
-	});
-</script>
 
 <%@ include file="/WEB-INF/view/components/footer.jsp" %>
 </body>
