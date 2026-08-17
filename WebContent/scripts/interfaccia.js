@@ -39,6 +39,24 @@ function chiudiDashboard() {
 	document.getElementById("informazioni-profilo").style.display = "block";
 }
 
+//checkout.jsp
+
+function mostraFormAggiungiIndirizzo() {
+	document.getElementById("nuovo-indirizzo").style.display = "block";
+}
+
+function mostraFormAggiungiMetodo() {
+	document.getElementById("nuovo-metodo").style.display = "block";
+}
+
+function annullaFormAggiungiIndirizzo() {
+	document.getElementById("nuovo-indirizzo").style.display = "none";
+}
+
+function annullaFormAggiungiMetodo() {
+	document.getElementById("nuovo-metodo").style.display="none";
+}
+
 
 //gestioneProdotti.jsp
 

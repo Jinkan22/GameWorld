@@ -23,6 +23,7 @@
 <head>
 <meta charset="UTF-8">
 <title>gameWorld - Checkout</title>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/interfaccia.js"></script>
 </head>
 <body>
 
@@ -135,10 +136,48 @@
                 }
                 %>
 
-                <button type="button" id="aggiungi-indirizzo">
-                    + Aggiungi indirizzo
-                </button>
-
+                <button type="button" id="aggiungi-indirizzo" onclick="mostraFormAggiungiIndirizzo()">
+				    + Aggiungi indirizzo
+				</button>
+				
+				<div id="nuovo-indirizzo">
+				
+			        <div class="campo-checkout">
+			            <label for="via">Via</label>
+			            <input type="text" id="via" name="via" form="form-aggiungi-indirizzo" required>
+			        </div>
+			
+			        <div class="campo-checkout">
+			            <label for="cap">CAP</label>
+			            <input type="text" id="cap" name="cap" form="form-aggiungi-indirizzo" required>
+			        </div>
+			
+			        <div class="campo-checkout">
+			            <label for="citta">Città</label>
+			            <input type="text" id="citta" name="citta" form="form-aggiungi-indirizzo" required>
+			        </div>
+			
+			        <div class="campo-checkout">
+			            <label for="provincia">Provincia</label>
+			            <input type="text" id="provincia" name="provincia" form="form-aggiungi-indirizzo" required>
+			        </div>
+			
+			        <div class="campo-checkout">
+			            <label for="paese">Paese</label>
+			            <input type="text" id="paese" name="paese" form="form-aggiungi-indirizzo" required>
+			        </div>
+			        
+			        <div class="bottoni-inserimento">
+				        <button type="button" id="annulla-inserimento" onclick="annullaFormAggiungiIndirizzo()">
+				        	Annulla
+				        </button>
+				
+				        <button type="submit" id="salva-indirizzo" form="form-aggiungi-indirizzo">
+				            Salva indirizzo
+				        </button>
+			        </div>
+			        
+			    </div>
             </section>
 
             <section class="metodo-pagamento">
@@ -169,9 +208,43 @@
                 }
                 %>
 
-                <button type="button" id="aggiungi-metodo">
+                <button type="button" id="aggiungi-metodo" onclick="mostraFormAggiungiMetodo()">
                     + Aggiungi metodo di pagamento
                 </button>
+                
+                <div id="nuovo-metodo">
+				
+			        <div class="campo-checkout">
+			            <label for="circuito">Circuito</label>
+			            <input type="text" id="circuito" name="circuito" form="form-aggiungi-metodo" required>
+			        </div>
+			
+			        <div class="campo-checkout">
+			            <label for="numeroCarta">Numero carta</label>
+			            <input type="text" id="numeroCarta" name="numeroCarta" form="form-aggiungi-metodo" required>
+			        </div>
+			
+			        <div class="campo-checkout">
+			            <label for="intestatario">Intestatario</label>
+			            <input type="text" id="intestatario" name="intestatario" form="form-aggiungi-metodo" required>
+			        </div>
+			
+			        <div class="campo-checkout">
+			            <label for="dataScadenza">Data di scadenza</label>
+			            <input type="date" id="dataScadenza" name="dataScadenza" form="form-aggiungi-metodo" required>
+			        </div>
+			        
+			        <div class="bottoni-inserimento">
+				        <button type="button" id="annulla-inserimento" onclick="annullaFormAggiungiMetodo()">
+				        	Annulla
+				        </button>
+				
+				        <button type="submit" id="salva-metodo" form="form-aggiungi-metodo">
+				            Salva metodo di pagamento
+				        </button>
+			        </div>
+			        
+			    </div>
             </section>
         </form>
     </section>

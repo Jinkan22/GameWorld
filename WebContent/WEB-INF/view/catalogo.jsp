@@ -9,6 +9,8 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+OrdinamentoProdotti ordinamento = (OrdinamentoProdotti) request.getAttribute("ordinamento");
 %>
 <!DOCTYPE html>
 <html>
@@ -22,10 +24,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	<aside class="sidebar-filtri">
 		<h3>FILTRI</h3>
 		<form action="<%= request.getContextPath() %>/Catalogo" method="get">
-		
-			<%
-		    	OrdinamentoProdotti ordinamento = (OrdinamentoProdotti) request.getAttribute("ordinamento");
-		    %>
 		
 			<strong>Ordina per:</strong><br>
 		    

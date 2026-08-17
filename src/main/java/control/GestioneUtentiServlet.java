@@ -44,6 +44,13 @@ public class GestioneUtentiServlet extends HttpServlet {
 			return;
 		}
 		
+		//sposta l'eventuale errore dalla session alla request
+		String errore = (String) session.getAttribute("errore");
+		if(errore != null) {
+			request.setAttribute("errore", errore);
+			session.removeAttribute("errore");
+		}
+		
 		UtenteDAO dao = new UtenteDAO();
 		ArrayList<UtenteBean> utenti = dao.doRetrieveAll();
 		

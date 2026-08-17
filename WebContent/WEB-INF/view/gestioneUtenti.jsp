@@ -20,7 +20,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	<h2>GESTIONE UTENTI</h2>
 
 	<%
-	String errore = (String) session.getAttribute("errore");
+	String errore = (String) request.getAttribute("errore");
 
 	if(errore != null){
 	%>
