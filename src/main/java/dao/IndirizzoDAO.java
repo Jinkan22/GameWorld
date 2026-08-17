@@ -10,17 +10,15 @@ import model.IndirizzoBean;
 import utils.DBConnection;
 
 public class IndirizzoDAO {
-	private Connection connection;
-
     public IndirizzoDAO() {
-        connection = DBConnection.getConnection();
+    	
     }
     
     //lettura di un indirizzo in base alla chiave primaria
     public IndirizzoBean doRetrieveByKey (int idIndirizzo){
     	IndirizzoBean indirizzo = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM indirizzo WHERE idIndirizzo=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -53,7 +51,7 @@ public class IndirizzoDAO {
     public ArrayList<IndirizzoBean> doRetrieveAll(){
     	ArrayList<IndirizzoBean> list = new ArrayList<IndirizzoBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM indirizzo";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -85,8 +83,7 @@ public class IndirizzoDAO {
     
     //salvataggio di un indirizzo
     public boolean doSave(IndirizzoBean indirizzo) {
-    	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO indirizzo "
     				+ "(via, citta, cap, provincia, paese, idUtente) "
     				+ "VALUES (?, ?, ?, ?, ?, ?)";
@@ -113,7 +110,7 @@ public class IndirizzoDAO {
     
     //modifica di un indirizzo
     public boolean doUpdate(IndirizzoBean indirizzo) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "UPDATE indirizzo "
     				+ "SET via=?, citta=?, cap=?, provincia=?, paese=?, idUtente=? "
     				+ "WHERE idIndirizzo=?";
@@ -141,7 +138,7 @@ public class IndirizzoDAO {
     
     //eliminazione di un indirizzo
     public boolean doDelete(int idIndirizzo) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM indirizzo WHERE idIndirizzo=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -164,7 +161,7 @@ public class IndirizzoDAO {
     public ArrayList<IndirizzoBean> doRetrieveByIdUtente(int idUtente){
     	ArrayList<IndirizzoBean> list = new ArrayList<IndirizzoBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM indirizzo WHERE idUtente=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);

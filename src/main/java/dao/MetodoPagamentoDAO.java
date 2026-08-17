@@ -10,17 +10,15 @@ import model.MetodoPagamentoBean;
 import utils.DBConnection;
 
 public class MetodoPagamentoDAO {
-	private Connection connection;
-
     public MetodoPagamentoDAO() {
-        connection = DBConnection.getConnection();
+    	
     }
     
     //lettura di un metodo di pagamento in base alla chiave primaria
     public MetodoPagamentoBean doRetrieveByKey (int idMetodoPagamento){
     	MetodoPagamentoBean metodoPagamento = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM metodoPagamento WHERE idMetodoPagamento=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -52,7 +50,7 @@ public class MetodoPagamentoDAO {
     public ArrayList<MetodoPagamentoBean> doRetrieveAll(){
     	ArrayList<MetodoPagamentoBean> list = new ArrayList<MetodoPagamentoBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM metodoPagamento";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -84,7 +82,7 @@ public class MetodoPagamentoDAO {
     //salvataggio di un metodo di pagamento
     public boolean doSave(MetodoPagamentoBean metodoPagamento) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO metodoPagamento "
     				+ "(numeroCarta, intestatario, dataScadenza, circuito, idUtente) "
     				+ "VALUES (?, ?, ?, ?, ?)";
@@ -110,7 +108,7 @@ public class MetodoPagamentoDAO {
     
     //modifica di un metodo di pagamento
     public boolean doUpdate(MetodoPagamentoBean metodoPagamento) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "UPDATE metodoPagamento "
     				+ "SET numeroCarta=?, intestatario=?, dataScadenza=?, circuito=?, idUtente=? "
     				+ "WHERE idMetodoPagamento=?";
@@ -137,7 +135,7 @@ public class MetodoPagamentoDAO {
     
     //eliminazione di un metodo di pagamento
     public boolean doDelete(int idMetodoPagamento) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM metodoPagamento WHERE idMetodoPagamento=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -160,7 +158,7 @@ public class MetodoPagamentoDAO {
     public ArrayList<MetodoPagamentoBean> doRetrieveByIdUtente(int idUtente){
     	ArrayList<MetodoPagamentoBean> list = new ArrayList<MetodoPagamentoBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM metodoPagamento WHERE idUtente=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);

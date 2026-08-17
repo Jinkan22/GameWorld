@@ -12,17 +12,15 @@ import model.OrdineViewBean;
 import utils.DBConnection;
 
 public class OrdineDAO {
-	private Connection connection;
-
     public OrdineDAO() {
-        connection = DBConnection.getConnection();
+    	
     }
     
     //lettura di un ordine in base alla chiave primaria
     public OrdineBean doRetrieveByKey (int idOrdine){
     	OrdineBean ordine = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM ordine WHERE idOrdine = ?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -54,7 +52,7 @@ public class OrdineDAO {
     public ArrayList<OrdineBean> doRetrieveAll(){
     	ArrayList<OrdineBean> list = new ArrayList<OrdineBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM ordine";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -86,7 +84,7 @@ public class OrdineDAO {
     //salvataggio di un ordine
     public boolean doSave(OrdineBean ordine) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO ordine "
     				+ "(acquirente, dataOrdine, totale, indirizzoFatturazione, idUtente) "
     				+ "VALUES (?, ?, ?, ?, ?)";
@@ -119,7 +117,7 @@ public class OrdineDAO {
     
     //modifica di un ordine
     public boolean doUpdate(OrdineBean ordine) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "UPDATE ordine "
     				+ "SET acquirente=?, dataOrdine=?, totale=?, indirizzoFatturazione=?, idUtente=? "
     				+ "WHERE idOrdine=?";
@@ -146,7 +144,7 @@ public class OrdineDAO {
     
     //eliminazione di un ordine
     public boolean doDelete(int idOrdine) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM ordine WHERE idOrdine=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -167,10 +165,9 @@ public class OrdineDAO {
     
     // Lettura di tutti gli ordini view
     public ArrayList<OrdineViewBean> doRetrieveAllView() {
-
         ArrayList<OrdineViewBean> list = new ArrayList<OrdineViewBean>();
 
-        try {
+        try (Connection connection = DBConnection.getConnection()) {
             String sql = "SELECT * FROM ordine ORDER BY dataOrdine DESC";
 
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -212,10 +209,9 @@ public class OrdineDAO {
     
     // Lettura di tutti gli ordini view di un utente
     public ArrayList<OrdineViewBean> doRetrieveViewByIdUtente(int idUtente) {
-
         ArrayList<OrdineViewBean> list = new ArrayList<OrdineViewBean>();
 
-        try {
+        try (Connection connection = DBConnection.getConnection()) {
             String sql = "SELECT * FROM ordine WHERE idUtente=? ORDER BY dataOrdine DESC";
 
             PreparedStatement ps = connection.prepareStatement(sql);

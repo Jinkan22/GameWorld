@@ -16,17 +16,15 @@ import model.ProdottoBean;
 import utils.DBConnection;
 
 public class ElementoCarrelloDAO {
-	private Connection connection;
-	
 	public ElementoCarrelloDAO() {
-		connection = DBConnection.getConnection();
+		
 	}
 	
 	//lettura di un elemento del carrello in base alla chiave primaria
     public ElementoCarrelloBean doRetrieveByKey (int idElementoCarrello){
     	ElementoCarrelloBean elementoCarrello = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM elementoCarrello WHERE idElementoCarrello=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -57,7 +55,7 @@ public class ElementoCarrelloDAO {
     public ArrayList<ElementoCarrelloBean> doRetrieveAll(){
     	ArrayList<ElementoCarrelloBean> list = new ArrayList<ElementoCarrelloBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM elementoCarrello";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -88,7 +86,7 @@ public class ElementoCarrelloDAO {
     //salvataggio di un elemento del carrello
     public boolean doSave(ElementoCarrelloBean elementoCarrello) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO elementoCarrello "
     				+ "(quantita, idUtente, idProdotto, idPiattaforma) "
     				+ "VALUES (?, ?, ?, ?)";
@@ -113,7 +111,7 @@ public class ElementoCarrelloDAO {
     
     //modifica di un elemento del carrello
     public boolean doUpdate(ElementoCarrelloBean elementoCarrello) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "UPDATE elementoCarrello "
     				+ "SET quantita=?, idUtente=?, idProdotto=?, idPiattaforma=? "
     				+ "WHERE idElementoCarrello=?";
@@ -139,7 +137,7 @@ public class ElementoCarrelloDAO {
     
     //eliminazione di un elemento del carrello
     public boolean doDelete(int idElementoCarrello) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM elementoCarrello WHERE idElementoCarrello=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -162,7 +160,7 @@ public class ElementoCarrelloDAO {
     public ArrayList<ElementoCarrelloBean> doRetrieveByIdUtente(int idUtente) {
     	ArrayList<ElementoCarrelloBean> list = new ArrayList<ElementoCarrelloBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM elementoCarrello WHERE idUtente=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -195,7 +193,7 @@ public class ElementoCarrelloDAO {
     public ElementoCarrelloBean doRetrieveByIdUtenteIdProdottoIdPiattaforma(int idUtente, int idProdotto, int idPiattaforma) {
     	ElementoCarrelloBean elementoCarrello = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM elementoCarrello WHERE idUtente=? AND idProdotto=? AND idPiattaforma=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -229,7 +227,7 @@ public class ElementoCarrelloDAO {
 
         ArrayList<ElementoCarrelloViewBean> list = new ArrayList<>();
 
-        try {
+        try (Connection connection = DBConnection.getConnection()) {
             String sql = "SELECT p.*, pi.idPiattaforma, pi.nomePiattaforma, ec.quantita "
                     + "FROM elementoCarrello ec "
                     + "JOIN prodotto p "

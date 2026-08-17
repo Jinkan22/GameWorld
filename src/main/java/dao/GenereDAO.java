@@ -10,17 +10,15 @@ import model.GenereBean;
 import utils.DBConnection;
 
 public class GenereDAO {
-	private Connection connection;
-
     public GenereDAO() {
-        connection = DBConnection.getConnection();
+    	
     }
     
     //lettura di un genere in base alla chiave primaria
     public GenereBean doRetrieveByKey (int idGenere){
     	GenereBean genere = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM genere WHERE idGenere=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -49,7 +47,7 @@ public class GenereDAO {
     public ArrayList<GenereBean> doRetrieveAll(){
     	ArrayList<GenereBean> list = new ArrayList<GenereBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM genere ORDER BY nomeGenere ASC";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -77,7 +75,7 @@ public class GenereDAO {
     //salvataggio di un genere
     public boolean doSave(GenereBean genere) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO genere "
     				+ "(nomeGenere) "
     				+ "VALUES (?)";
@@ -99,7 +97,7 @@ public class GenereDAO {
     
     //modifica di un genere
     public boolean doUpdate(GenereBean genere) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "UPDATE genere "
     				+ "SET nomeGenere=? "
     				+ "WHERE idGenere=?";
@@ -122,7 +120,7 @@ public class GenereDAO {
     
     //eliminazione di un genere
     public boolean doDelete(int idGenere) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM genere WHERE idGenere=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -143,7 +141,7 @@ public class GenereDAO {
     
     //controlla se il genere è utilizzato
     public boolean isUtilizzato(int idGenere) {
-        try {
+        try (Connection connection = DBConnection.getConnection()) {
             String sql = "SELECT * FROM prodottoGenere WHERE idGenere=? LIMIT 1";
 
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -168,7 +166,7 @@ public class GenereDAO {
     public ArrayList<GenereBean> doRetrieveByIdProdotto(int idProdotto) {
     	ArrayList<GenereBean> list = new ArrayList<GenereBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT g.* "
     				+ "FROM genere g "
     				+ "JOIN prodottoGenere pg "

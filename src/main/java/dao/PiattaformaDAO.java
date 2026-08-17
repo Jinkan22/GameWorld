@@ -10,17 +10,15 @@ import model.PiattaformaBean;
 import utils.DBConnection;
 
 public class PiattaformaDAO {
-	private Connection connection;
-
     public PiattaformaDAO() {
-        connection = DBConnection.getConnection();
+    	
     }
     
     //lettura di una piattaforma in base alla chiave primaria
     public PiattaformaBean doRetrieveByKey (int idPiattaforma){
     	PiattaformaBean piattaforma = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM piattaforma WHERE idPiattaforma = ?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -49,7 +47,7 @@ public class PiattaformaDAO {
     public ArrayList<PiattaformaBean> doRetrieveAll(){
     	ArrayList<PiattaformaBean> list = new ArrayList<PiattaformaBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM piattaforma ORDER BY nomePiattaforma ASC";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -77,7 +75,7 @@ public class PiattaformaDAO {
     //salvataggio di una piattaforma
     public boolean doSave(PiattaformaBean piattaforma) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO piattaforma "
     				+ "(nomePiattaforma) "
     				+ "VALUES (?)";
@@ -99,7 +97,7 @@ public class PiattaformaDAO {
     
     //modifica di una piattaforma
     public boolean doUpdate(PiattaformaBean piattaforma) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "UPDATE piattaforma "
     				+ "SET nomePiattaforma=? "
     				+ "WHERE idPiattaforma=?";
@@ -122,7 +120,7 @@ public class PiattaformaDAO {
     
     //eliminazione di una piattaforma
     public boolean doDelete(int idPiattaforma) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM piattaforma WHERE idPiattaforma=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -143,7 +141,7 @@ public class PiattaformaDAO {
     
     //controlla se la piattaforma è utilizzata
     public boolean isUtilizzata(int idPiattaforma) {
-        try {
+        try (Connection connection = DBConnection.getConnection()) {
             String sql = "SELECT * FROM prodottoPiattaforma WHERE idPiattaforma=? LIMIT 1";
 
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -168,7 +166,7 @@ public class PiattaformaDAO {
     public ArrayList<PiattaformaBean> doRetrieveByIdProdotto(int idProdotto) {
     	ArrayList<PiattaformaBean> list = new ArrayList<PiattaformaBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT p.* "
     				+ "FROM piattaforma p "
     				+ "JOIN prodottoPiattaforma pp "
@@ -204,7 +202,7 @@ public class PiattaformaDAO {
     public ArrayList<PiattaformaBean> doRetrieveDisponibiliByIdProdotto(int idProdotto){
     	ArrayList<PiattaformaBean> list = new ArrayList<PiattaformaBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT p.* "
     				+ "FROM piattaforma p "
     				+ "JOIN prodottoPiattaforma pp "

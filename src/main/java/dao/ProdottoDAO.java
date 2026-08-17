@@ -15,17 +15,15 @@ import utils.DBConnection;
 import utils.OrdinamentoProdotti;
 
 public class ProdottoDAO {
-	private Connection connection;
-
     public ProdottoDAO() {
-        connection = DBConnection.getConnection();
+    	
     }
 
     //lettura di un prodotto in base alla chiave primaria
     public ProdottoBean doRetrieveByKey (int idProdotto){
     	ProdottoBean prodotto = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM prodotto WHERE idProdotto = ?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -58,7 +56,7 @@ public class ProdottoDAO {
     public ArrayList<ProdottoBean> doRetrieveAll(){
     	ArrayList<ProdottoBean> list = new ArrayList<ProdottoBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM prodotto";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -91,7 +89,7 @@ public class ProdottoDAO {
     //salvataggio di un prodotto
     public boolean doSave(ProdottoBean prodotto) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO prodotto "
     				+ "(nome, descrizione, prezzo, immagine, dataUscita, sviluppatore) "
     				+ "VALUES (?, ?, ?, ?, ?, ?)";
@@ -126,7 +124,7 @@ public class ProdottoDAO {
     
     //modifica di un prodotto
     public boolean doUpdate(ProdottoBean prodotto) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "UPDATE prodotto "
     				+ "SET nome=?, descrizione=?, prezzo=?, immagine=?, dataUscita=?, sviluppatore=? "
     				+ "WHERE idProdotto=?";
@@ -154,7 +152,7 @@ public class ProdottoDAO {
     
     //eliminazione di un prodotto
     public boolean doDelete(int idProdotto) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM prodotto WHERE idProdotto=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -177,7 +175,7 @@ public class ProdottoDAO {
     public ArrayList<ProdottoBean> doRetrieveDisponibili(){
     	ArrayList<ProdottoBean> list = new ArrayList<ProdottoBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM prodotto WHERE quantitaDisponibile > 0";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -211,7 +209,7 @@ public class ProdottoDAO {
     public ProdottoViewBean doRetrieveViewByKey(int idProdotto) {
     	ProdottoViewBean prodottoView = null;
 
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM prodotto WHERE idProdotto = ?";
 
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -266,7 +264,7 @@ public class ProdottoDAO {
     public ProdottoViewBean doRetrieveViewDisponibileByKey(int idProdotto) {
     	ProdottoViewBean prodottoView = null;
 
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM prodotto WHERE idProdotto = ?";
 
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -321,7 +319,7 @@ public class ProdottoDAO {
     public ArrayList<ProdottoViewBean> doRetrieveAllView() {
     	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
 
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM prodotto ORDER BY nome ASC";
 
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -377,7 +375,7 @@ public class ProdottoDAO {
     public ArrayList<ProdottoViewBean> doRetrieveViewDisponibili() {
     	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
 
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM prodotto "
     				+ "WHERE EXISTS ("
     				+ "SELECT 1 FROM prodottoPiattaforma pp "
@@ -444,7 +442,7 @@ public class ProdottoDAO {
 
     	ArrayList<ProdottoViewBean> list = new ArrayList<ProdottoViewBean>();
 
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
 
     		String sql = "SELECT p.* ";
 

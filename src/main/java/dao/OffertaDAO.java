@@ -11,17 +11,15 @@ import model.OffertaBean;
 import utils.DBConnection;
 
 public class OffertaDAO {
-	private Connection connection;
-
     public OffertaDAO() {
-        connection = DBConnection.getConnection();
+    	
     }
     
     //lettura di un'offerta in base alla chiave primaria
     public OffertaBean doRetrieveByKey (int idOfferta){
     	OffertaBean offerta = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM offerta WHERE idOfferta=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -53,7 +51,7 @@ public class OffertaDAO {
     public ArrayList<OffertaBean> doRetrieveAll(){
     	ArrayList<OffertaBean> list = new ArrayList<OffertaBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM offerta";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -84,7 +82,7 @@ public class OffertaDAO {
     //salvataggio di un'offerta
     public boolean doSave(OffertaBean offerta) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO offerta "
     				+ "(percentualeSconto, dataInizio, dataFine, idProdotto) "
     				+ "VALUES (?, ?, ?, ?)";
@@ -109,7 +107,7 @@ public class OffertaDAO {
     
     //modifica di un'offerta
     public boolean doUpdate(OffertaBean offerta) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "UPDATE offerta "
     				+ "SET percentualeSconto=?, dataInizio=?, dataFine=?, idProdotto=? "
     				+ "WHERE idOfferta=?";
@@ -135,7 +133,7 @@ public class OffertaDAO {
     
     //eliminazione di un'offerta
     public boolean doDelete(int idOfferta) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM offerta WHERE idOfferta=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -158,7 +156,7 @@ public class OffertaDAO {
     public ArrayList<OffertaBean> doRetrieveByIdProdotto(int idProdotto){
     	ArrayList<OffertaBean> list = new ArrayList<OffertaBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM offerta WHERE idProdotto=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -189,7 +187,7 @@ public class OffertaDAO {
     
     //controlla se esistono offerte sovrapposte
     public boolean esisteOffertaSovrapposta(int idProdotto, Date dataInizio, Date dataFine) {
-        try {
+        try (Connection connection = DBConnection.getConnection()) {
             String sql = "SELECT * FROM offerta WHERE idProdotto=? AND dataInizio<=? AND dataFine>=?";
 
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -216,7 +214,7 @@ public class OffertaDAO {
     public OffertaBean doRetrieveAttivaByIdProdotto (int idProdotto){
     	OffertaBean offerta = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM offerta WHERE idProdotto=? "
     				+ "AND dataInizio<=CURDATE() AND dataFine>=CURDATE()"
     				+ "LIMIT 1";

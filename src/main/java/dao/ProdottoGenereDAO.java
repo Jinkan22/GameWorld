@@ -11,17 +11,15 @@ import model.ProdottoGenereBean;
 import utils.DBConnection;
 
 public class ProdottoGenereDAO {
-	private Connection connection;
-
     public ProdottoGenereDAO() {
-        connection = DBConnection.getConnection();
+    	
     }
     
     //lettura di una relazione prodottoGenere
     public ProdottoGenereBean doRetrieveByKey (int idProdotto, int idGenere){
     	ProdottoGenereBean prodottoGenere = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM prodottoGenere WHERE idProdotto=? AND idGenere=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -49,7 +47,7 @@ public class ProdottoGenereDAO {
     //salvataggio di una relazione prodottoGenere
     public boolean doSave(ProdottoGenereBean prodottoGenere) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO prodottoGenere "
     				+ "(idProdotto, idGenere) "
     				+ "VALUES (?, ?)";
@@ -71,7 +69,7 @@ public class ProdottoGenereDAO {
     
     //eliminazione di una relazione prodottoPiattaforma
     public boolean doDelete(int idProdotto, int idGenere) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM prodottoGenere WHERE idProdotto=? AND idGenere=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -94,7 +92,7 @@ public class ProdottoGenereDAO {
     public ArrayList<GenereBean> doRetrieveByIdProdotto(int idProdotto){
     	ArrayList<GenereBean> list = new ArrayList<GenereBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT g.* "
     				+ "FROM genere g "
     				+ "JOIN prodottoGenere pg "
@@ -127,7 +125,7 @@ public class ProdottoGenereDAO {
     
     //controlla se una relazione prodottoGenere esiste
     public boolean esiste(int idProdotto, int idGenere) {
-        try {
+        try (Connection connection = DBConnection.getConnection()) {
         	String sql = "SELECT * FROM prodottoGenere WHERE idProdotto = ? AND idGenere = ? LIMIT 1";
         	
         	PreparedStatement ps = connection.prepareStatement(sql);

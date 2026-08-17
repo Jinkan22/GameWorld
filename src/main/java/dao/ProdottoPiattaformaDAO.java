@@ -10,17 +10,15 @@ import model.ProdottoPiattaformaBean;
 import utils.DBConnection;
 
 public class ProdottoPiattaformaDAO {
-	private Connection connection;
-
     public ProdottoPiattaformaDAO() {
-        connection = DBConnection.getConnection();
+    	
     }
     
     //lettura di una relazione prodottoPiattaforma
     public ProdottoPiattaformaBean doRetrieveByKey (int idProdotto, int idPiattaforma){
     	ProdottoPiattaformaBean prodottoPiattaforma = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM prodottoPiattaforma WHERE idProdotto=? AND idPiattaforma=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -49,7 +47,7 @@ public class ProdottoPiattaformaDAO {
     //salvataggio di una relazione prodottoPiattaforma
     public boolean doSave(ProdottoPiattaformaBean prodottoPiattaforma) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO prodottoPiattaforma "
     				+ "(idProdotto, idPiattaforma, quantitaDisponibile) "
     				+ "VALUES (?, ?, ?)";
@@ -72,7 +70,7 @@ public class ProdottoPiattaformaDAO {
     
     //modifica di una relazione prodottoPiattaforma
     public boolean doUpdate(ProdottoPiattaformaBean prodottoPiattaforma) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "UPDATE prodottoPiattaforma "
     				+ "SET quantitaDisponibile=? "
     				+ "WHERE idProdotto=? AND idPiattaforma=?";
@@ -95,7 +93,7 @@ public class ProdottoPiattaformaDAO {
     
     //eliminazione di una relazione prodottoPiattaforma
     public boolean doDelete(int idProdotto, int idPiattaforma) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM prodottoPiattaforma WHERE idProdotto=? AND idPiattaforma=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -118,7 +116,7 @@ public class ProdottoPiattaformaDAO {
     public ArrayList<ProdottoPiattaformaBean> doRetrieveByIdProdotto(int idProdotto){
     	ArrayList<ProdottoPiattaformaBean> list = new ArrayList<ProdottoPiattaformaBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT pp.* "
     				+ "FROM piattaforma p "
     				+ "JOIN prodottoPiattaforma pp "
@@ -154,7 +152,7 @@ public class ProdottoPiattaformaDAO {
     public ArrayList<ProdottoPiattaformaBean> doRetrieveDisponibiliByIdProdotto(int idProdotto){
     	ArrayList<ProdottoPiattaformaBean> list = new ArrayList<ProdottoPiattaformaBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT pp.* "
     				+ "FROM piattaforma p "
     				+ "JOIN prodottoPiattaforma pp "
@@ -189,7 +187,7 @@ public class ProdottoPiattaformaDAO {
     
     //controlla se una relazione prodottoPiattaforma esiste
     public boolean esiste(int idProdotto, int idPiattaforma) {
-        try {
+        try (Connection connection = DBConnection.getConnection()) {
         	String sql = "SELECT * FROM prodottoPiattaforma WHERE idProdotto = ? AND idPiattaforma = ? LIMIT 1";
         	
         	PreparedStatement ps = connection.prepareStatement(sql);

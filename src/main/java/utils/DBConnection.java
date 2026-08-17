@@ -1,31 +1,33 @@
 package utils;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 public class DBConnection {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/GameWorld";
-    private static final String USER = "gameworld";
-    private static final String PASSWORD = "gameworld";
+    private static DataSource dataSource;
 
-    private static Connection connection = null;
+    static {
+        try {
+            Context context = new InitialContext();
+            Context envContext = (Context) context.lookup("java:comp/env");
+            dataSource = (DataSource) envContext.lookup("jdbc/GameWorld");
+        } catch (NamingException e) {
+        	throw new RuntimeException(e);
+        }
+    }
 
-    
     public static Connection getConnection() {
 
-        if (connection == null) {
-            try {
-            	Class.forName("com.mysql.cj.jdbc.Driver");
-            	
-                connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-                return null;
-            }
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+        	throw new RuntimeException(e);
         }
-        
-        return connection;
     }
 }

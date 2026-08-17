@@ -12,18 +12,16 @@ import model.PiattaformaBean;
 import model.ProdottoBean;
 import utils.DBConnection;
 
-public class DettaglioOrdineDAO {
-private Connection connection;
-	
+public class DettaglioOrdineDAO {	
 	public DettaglioOrdineDAO() {
-		connection = DBConnection.getConnection();
+		
 	}
 	
 	//lettura di un dettaglio ordine in base alla chiave primaria
     public DettaglioOrdineBean doRetrieveByKey (int idDettaglioOrdine){
     	DettaglioOrdineBean dettaglioOrdine = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM dettaglioOrdine WHERE idDettaglio=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -55,7 +53,7 @@ private Connection connection;
     public ArrayList<DettaglioOrdineBean> doRetrieveAll(){
     	ArrayList<DettaglioOrdineBean> list = new ArrayList<DettaglioOrdineBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM dettaglioOrdine";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -87,7 +85,7 @@ private Connection connection;
     //salvataggio di un dettaglio ordine
     public boolean doSave(DettaglioOrdineBean dettaglioOrdine) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO dettaglioOrdine "
     				+ "(quantita, prezzoAcquisto, idOrdine, idProdotto, idPiattaforma) "
     				+ "VALUES (?, ?, ?, ?, ?)";
@@ -113,7 +111,7 @@ private Connection connection;
     
     //eliminazione di un dettaglio ordine
     public boolean doDelete(int idDettaglioOrdine) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM dettaglioOrdine WHERE idDettaglio=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -136,7 +134,7 @@ private Connection connection;
 	public ArrayList<DettaglioOrdineBean> doRetrieveByIdOrdine(int idOrdine) {
 		ArrayList<DettaglioOrdineBean> list = new ArrayList<DettaglioOrdineBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM dettaglioOrdine WHERE idOrdine=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -170,7 +168,7 @@ private Connection connection;
 	public ArrayList<DettaglioOrdineViewBean> doRetrieveViewByIdOrdine(int idOrdine) {
 		ArrayList<DettaglioOrdineViewBean> list = new ArrayList<DettaglioOrdineViewBean>();
 
-		try {
+		try (Connection connection = DBConnection.getConnection()) {
 			String sql = "SELECT p.*, pi.*, d.quantita, d.prezzoAcquisto "
 					+ "FROM dettaglioOrdine d "
 					+ "JOIN prodotto p "

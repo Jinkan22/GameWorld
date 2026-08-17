@@ -10,17 +10,15 @@ import model.UtenteBean;
 import utils.DBConnection;
 
 public class UtenteDAO {
-	private Connection connection;
-
     public UtenteDAO() {
-        connection = DBConnection.getConnection();
+    	
     }
     
     //lettura di un utente in base alla chiave primaria
     public UtenteBean doRetrieveByKey (int idUtente){
     	UtenteBean utente = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM utente WHERE idUtente=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -54,7 +52,7 @@ public class UtenteDAO {
     public ArrayList<UtenteBean> doRetrieveAll(){
     	ArrayList<UtenteBean> list = new ArrayList<UtenteBean>();
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM utente";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -88,7 +86,7 @@ public class UtenteDAO {
     //salvataggio di un utente
     public boolean doSave(UtenteBean utente) {
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO utente "
     				+ "(nome, cognome, email, password, dataNascita, numeroTelefono, ruolo) "
     				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -116,7 +114,7 @@ public class UtenteDAO {
     
     //modifica di un utente
     public boolean doUpdate(UtenteBean utente) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "UPDATE utente "
     				+ "SET nome=?, cognome=?, email=?, password=?, dataNascita=?, numeroTelefono=?, ruolo=? "
     				+ "WHERE idUtente=?";
@@ -145,7 +143,7 @@ public class UtenteDAO {
     
     //eliminazione di un utente
     public boolean doDelete(int idUtente) {
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "DELETE FROM utente WHERE idUtente=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -168,7 +166,7 @@ public class UtenteDAO {
     public UtenteBean doRetrieveByEmailAndPassword(String email, String password) {
     	UtenteBean utente = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM utente WHERE email=? AND password=?";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
@@ -203,7 +201,7 @@ public class UtenteDAO {
     public UtenteBean doRetrieveByEmail(String email) {
     	UtenteBean utente = null;
     	
-    	try {
+    	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "SELECT * FROM utente WHERE email=? ";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
