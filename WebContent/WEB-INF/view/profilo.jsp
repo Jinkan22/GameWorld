@@ -12,6 +12,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <meta charset="UTF-8">
 <title>gameWorld - Profilo</title>
 <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/interfaccia.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/validazione.js"></script>
 </head>
 <body>
 
@@ -54,7 +55,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 		<h3>MODIFICA PROFILO</h3>
 
-		<form action="<%= request.getContextPath() %>/ModificaProfilo" method="post">
+		<form id="form-modifica-profilo" action="<%= request.getContextPath() %>/ModificaProfilo" method="post" novalidate>
 
 			<div class="campo-profilo">
 				<label for="nome">Nome</label>
@@ -64,11 +65,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			<div class="campo-profilo">
 				<label for="cognome">Cognome</label>
 				<input type="text" id="cognome" name="cognome" value="<%= utente.getCognome() %>" required>
-			</div>
-
-			<div class="campo-profilo">
-				<label for="email">Email</label>
-				<input type="email" id="email" name="email" value="<%= utente.getEmail() %>" required>
 			</div>
 
 			<div class="campo-profilo">

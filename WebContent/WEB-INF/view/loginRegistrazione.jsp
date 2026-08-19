@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>gameWorld - Login</title>
 <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/interfaccia.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/validazione.js"></script>
 </head>
 <body>
 
@@ -30,7 +31,7 @@
 			}
 		%>
 	
-		<form id="form-login" action="<%= request.getContextPath()%>/Login" method=post>
+		<form id="form-login" action="<%= request.getContextPath()%>/Login" method=post novalidate>
 		
 			<div class="campi-login">
 				<div class="campo">
@@ -62,7 +63,7 @@
 			}
 		%>
 		
-		<form id="form-registrazione" action="<%= request.getContextPath()%>/Registrazione" method=post>
+		<form id="form-registrazione" action="<%= request.getContextPath()%>/Registrazione" method=post novalidate>
 			
 			<div class="campi-registrazione">
 				<div class="campo">
