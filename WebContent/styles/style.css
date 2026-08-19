@@ -917,8 +917,31 @@ a:active {
 .opzione-pagamento {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	gap: 10px;
 	margin-bottom: 12px;
+}
+
+.opzione-indirizzo button,
+.opzione-pagamento button {
+	margin-left: auto;
+	padding: 10px 20px;
+
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--dusty-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
+
+	cursor: pointer;
+}
+
+.opzione-indirizzo button:hover,
+.opzione-pagamento button:hover {
+	background-color: var(--light-violet);
 }
 
 .opzione-indirizzo label,

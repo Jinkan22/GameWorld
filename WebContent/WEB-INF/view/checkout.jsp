@@ -125,6 +125,12 @@
                             <%= indirizzo.getProvincia() %>,
                             <%= indirizzo.getPaese() %>
                         </label>
+                        
+						<input type="hidden" form="form-rimuovi-indirizzo" name="idIndirizzo" value="<%= indirizzo.getIdIndirizzo() %>">
+                        
+                        <button type="submit" id="rimuovi" form="form-rimuovi-indirizzo">
+                        	Rimuovi
+                        </button>
                     </div>
                 <%
                     }
@@ -197,6 +203,12 @@
                             <%= metodo.getIntestatario() %>,
                             <%= sdf.format(metodo.getDataScadenza()) %>
                         </label>
+                        
+                        <input type="hidden" form="form-rimuovi-metodo" name="idMetodo" value="<%= metodo.getIdMetodoPagamento() %>">
+                        
+                        <button type="submit" id="rimuovi" form="form-rimuovi-metodo">
+                        	Rimuovi
+                        </button>
                     </div>
                 <%
                     }
@@ -231,7 +243,7 @@
 			
 			        <div class="campo-checkout">
 			            <label for="dataScadenza">Data di scadenza</label>
-			            <input type="date" id="dataScadenza" name="dataScadenza" form="form-aggiungi-metodo" required>
+			            <input type="month" id="dataScadenza" name="dataScadenza" form="form-aggiungi-metodo" required>
 			        </div>
 			        
 			        <div class="bottoni-inserimento">
@@ -246,6 +258,18 @@
 			        
 			    </div>
             </section>
+        </form>
+        <form id="form-aggiungi-indirizzo" action="<%= request.getContextPath() %>/AggiungiRimuoviIndirizzo" method="post">
+        	<input type="hidden" name="azione" value="aggiungi">
+        </form>
+        <form id="form-rimuovi-indirizzo" action="<%= request.getContextPath() %>/AggiungiRimuoviIndirizzo" method="post">
+        	<input type="hidden" name="azione" value="rimuovi">
+        </form>
+        <form id="form-aggiungi-metodo" action="<%= request.getContextPath() %>/AggiungiRimuoviMetodoPagamento" method="post">
+        	<input type="hidden" name="azione" value="aggiungi">
+        </form>
+        <form id="form-rimuovi-metodo" action="<%= request.getContextPath() %>/AggiungiRimuoviMetodoPagamento" method="post">
+        	<input type="hidden" name="azione" value="rimuovi">
         </form>
     </section>
 
