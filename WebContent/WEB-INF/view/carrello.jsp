@@ -16,20 +16,24 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <head>
 <meta charset="UTF-8">
 <title>gameWorld - Carrello</title>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/carrello.js"></script>
 </head>
 <body>
 
 <main class="pagina-carrello">
 	<section class="lista-carrello">
 		<h2>CARRELLO</h2>
-		
+		<p class="errore">
 		<%
 			String errore = (String) request.getAttribute("errore");
 			if(errore != null){
 		%>
-				<p><%= errore %><br><br>
+				<%= errore %><br><br>
 		<%
 			}
+		%>
+		</p>
+		<%
 			
 			BigDecimal totale = BigDecimal.ZERO;
 			BigDecimal sconto = BigDecimal.ZERO;
@@ -47,7 +51,10 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				
 					totale = totale.add(prodotto.getPrezzo().multiply(BigDecimal.valueOf(elemento.getQuantita())));
 		%>
-					<div class="prodotto-carrello">
+					<div class="prodotto-carrello" 
+						data-id-prodotto="<%= prodotto.getIdProdotto() %>"
+     					data-id-piattaforma="<%= piattaforma.getIdPiattaforma() %>">
+     					
 						<img src="<%= request.getContextPath() + "/images/products/" + prodotto.getImmagine() %>" width="200">
 						
 						<div class="dati-prodotto-carrello">
@@ -115,16 +122,16 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	<aside class="riepilogo-totale">
 		<div class="totale">
 			<strong>Totale: </strong>
-			<span><%= totale %> €</span>
+			<span id="totale"><%= totale %> €</span>
 		</div>
 		<div class="sconto">
 			<strong>Sconto: </strong>
-			<span>- <%= sconto %> €</span>
+			<span id="sconto">- <%= sconto %> €</span>
 		</div>
 		<hr>
 		<div class="totaleScontato">
 			<strong>Totale scontato: </strong>
-			<span><%= totaleScontato %> €</span>
+			<span id="totaleScontato"><%= totaleScontato %> €</span>
 		</div>
 		
 		<form action="<%= request.getContextPath() %>/Checkout" method="get">

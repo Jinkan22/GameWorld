@@ -47,9 +47,6 @@ public class CarrelloUtils {
 	        BigDecimal prezzoScontato = null;
 
 	        if(offerta != null) {
-	            BigDecimal percentualeSconto =
-	                    BigDecimal.valueOf(offerta.getPercentualeSconto());
-
 	            prezzoScontato = prodotto.getPrezzo().multiply(BigDecimal.ONE.subtract(
 	                        	BigDecimal.valueOf(offerta.getPercentualeSconto()).divide(
 	                        	BigDecimal.valueOf(100)))).setScale(2, RoundingMode.HALF_UP);
@@ -89,9 +86,7 @@ public class CarrelloUtils {
 		
 	//manda alla pagina prodotto se non c'è la disponibilità
 	public static boolean gestioneQuantitaNonDisponibile(HttpServletRequest request, HttpServletResponse response, ElementoCarrelloBean elemento, int quantita) throws ServletException, IOException {
-		if(!CarrelloUtils.checkDisponibilita(elemento, quantita)) {
-			ProdottoDAO dao = new ProdottoDAO();
-			
+		if(!CarrelloUtils.checkDisponibilita(elemento, quantita)) {			
 			request.setAttribute("errore", "La quantità richiesta non è disponibile");
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/CarrelloServlet");
