@@ -24,6 +24,7 @@
 <meta charset="UTF-8">
 <title>gameWorld - Checkout</title>
 <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/interfaccia.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/validazione.js"></script>
 </head>
 <body>
 
@@ -103,9 +104,8 @@
 
         </section>
 
-        <form id="form-checkout" action="<%= request.getContextPath() %>/Checkout" method="post">
+        <form id="form-checkout" action="<%= request.getContextPath() %>/Checkout" method="post" novalidate>
 
-            <!-- INDIRIZZO -->
             <section class="indirizzo">
 
                 <h3>Indirizzo di fatturazione</h3>
@@ -259,13 +259,13 @@
 			    </div>
             </section>
         </form>
-        <form id="form-aggiungi-indirizzo" action="<%= request.getContextPath() %>/AggiungiRimuoviIndirizzo" method="post">
+        <form id="form-aggiungi-indirizzo" action="<%= request.getContextPath() %>/AggiungiRimuoviIndirizzo" method="post" novalidate>
         	<input type="hidden" name="azione" value="aggiungi">
         </form>
         <form id="form-rimuovi-indirizzo" action="<%= request.getContextPath() %>/AggiungiRimuoviIndirizzo" method="post">
         	<input type="hidden" name="azione" value="rimuovi">
         </form>
-        <form id="form-aggiungi-metodo" action="<%= request.getContextPath() %>/AggiungiRimuoviMetodoPagamento" method="post">
+        <form id="form-aggiungi-metodo" action="<%= request.getContextPath() %>/AggiungiRimuoviMetodoPagamento" method="post" novalidate>
         	<input type="hidden" name="azione" value="aggiungi">
         </form>
         <form id="form-rimuovi-metodo" action="<%= request.getContextPath() %>/AggiungiRimuoviMetodoPagamento" method="post">

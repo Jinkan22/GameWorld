@@ -12,8 +12,33 @@ function mostraErrore(input, messaggio) {
 	errore.textContent = messaggio;
 }
 
+
 function rimuoviErrore(input) {
 	const contenitore = input.parentElement;
+	const errore = contenitore.querySelector(".errore");
+
+	if(errore) {
+		errore.remove();
+	}
+}
+
+
+function mostraErroreContenitore(contenitore, messaggio) {
+
+	let errore = contenitore.querySelector(".errore");
+
+	if(!errore) {
+		errore = document.createElement("p");
+		errore.className = "errore";
+		contenitore.appendChild(errore);
+	}
+
+	errore.textContent = messaggio;
+}
+
+
+function rimuoviErroreContenitore(contenitore) {
+
 	const errore = contenitore.querySelector(".errore");
 
 	if(errore) {
@@ -310,6 +335,224 @@ function validaSelezione(input, messaggio) {
 
     rimuoviErrore(input);
     return true;
+}
+
+function validaVia(input) {
+	const valore = input.value.trim();
+
+	if(valore === "") {
+		mostraErrore(input, "Inserisci la via.");
+		return false;
+	}
+
+	rimuoviErrore(input);
+	return true;
+}
+
+
+function validaCap(input) {
+	const valore = input.value.trim();
+	const regex = /^[0-9]{5}$/;
+
+	if(valore === "") {
+		mostraErrore(input, "Inserisci il CAP.");
+		return false;
+	}
+
+	if(!regex.test(valore)) {
+		mostraErrore(input, "Il CAP deve contenere 5 cifre.");
+		return false;
+	}
+
+	rimuoviErrore(input);
+	return true;
+}
+
+
+function validaCitta(input) {
+	const valore = input.value.trim();
+	const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ' ]+$/;
+
+	if(valore === "") {
+		mostraErrore(input, "Inserisci la città.");
+		return false;
+	}
+
+	if(!regex.test(valore)) {
+		mostraErrore(input, "La città contiene caratteri non validi.");
+		return false;
+	}
+
+	rimuoviErrore(input);
+	return true;
+}
+
+
+function validaProvincia(input) {
+	const valore = input.value.trim();
+	const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ' ]+$/;
+
+	if(valore === "") {
+		mostraErrore(input, "Inserisci la provincia.");
+		return false;
+	}
+
+	if(!regex.test(valore)) {
+		mostraErrore(input, "La provincia contiene caratteri non validi.");
+		return false;
+	}
+
+	rimuoviErrore(input);
+	return true;
+}
+
+
+function validaPaese(input) {
+	const valore = input.value.trim();
+	const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ' ]+$/;
+
+	if(valore === "") {
+		mostraErrore(input, "Inserisci il paese.");
+		return false;
+	}
+
+	if(!regex.test(valore)) {
+		mostraErrore(input, "Il paese contiene caratteri non validi.");
+		return false;
+	}
+
+	rimuoviErrore(input);
+	return true;
+}
+
+
+function validaCircuito(input) {
+	const valore = input.value.trim();
+
+	if(valore === "") {
+		mostraErrore(input, "Inserisci il circuito della carta.");
+		return false;
+	}
+
+	rimuoviErrore(input);
+	return true;
+}
+
+
+function validaNumeroCarta(input) {
+	const valore = input.value.trim();
+	const regex = /^[0-9]{13,19}$/;
+
+	if(valore === "") {
+		mostraErrore(input, "Inserisci il numero della carta.");
+		return false;
+	}
+
+	if(!regex.test(valore)) {
+		mostraErrore(input, "Inserisci un numero di carta valido.");
+		return false;
+	}
+
+	rimuoviErrore(input);
+	return true;
+}
+
+
+function validaIntestatario(input) {
+	const valore = input.value.trim();
+	const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ' ]+$/;
+
+	if(valore === "") {
+		mostraErrore(input, "Inserisci l'intestatario della carta.");
+		return false;
+	}
+
+	if(!regex.test(valore)) {
+		mostraErrore(input, "L'intestatario contiene caratteri non validi.");
+		return false;
+	}
+
+	rimuoviErrore(input);
+	return true;
+}
+
+
+function validaDataScadenza(input) {
+	const valore = input.value;
+
+	if(valore === "") {
+		mostraErrore(input, "Inserisci la data di scadenza.");
+		return false;
+	}
+	
+	const data = new Date(valore);
+	const oggi = new Date();
+
+	if(data < oggi) {
+		mostraErrore(input, "La carta è scaduta.");
+		return false;
+	}
+
+	rimuoviErrore(input);
+	return true;
+}
+
+
+function validaIndirizzoCheckout(form) {
+
+	const contenitore = form.querySelector(".indirizzo");
+	const indirizzi = form.querySelectorAll('input[name="indirizzo"]');
+
+	if(indirizzi.length === 0) {
+		mostraErroreContenitore(
+			contenitore,
+			"Devi aggiungere un indirizzo di fatturazione."
+		);
+		return false;
+	}
+
+	for(const indirizzo of indirizzi) {
+		if(indirizzo.checked) {
+			rimuoviErroreContenitore(contenitore);
+			return true;
+		}
+	}
+
+	mostraErroreContenitore(
+		contenitore,
+		"Seleziona un indirizzo di fatturazione."
+	);
+
+	return false;
+}
+
+
+function validaMetodoPagamentoCheckout(form) {
+
+	const contenitore = form.querySelector(".metodo-pagamento");
+	const metodiPagamento = form.querySelectorAll('input[name="metodoPagamento"]');
+
+	if(metodiPagamento.length === 0) {
+		mostraErroreContenitore(
+			contenitore,
+			"Devi aggiungere un metodo di pagamento."
+		);
+		return false;
+	}
+
+	for(const metodo of metodiPagamento) {
+		if(metodo.checked) {
+			rimuoviErroreContenitore(contenitore);
+			return true;
+		}
+	}
+
+	mostraErroreContenitore(
+		contenitore,
+		"Seleziona un metodo di pagamento."
+	);
+
+	return false;
 }
 
 
@@ -656,5 +899,144 @@ document.addEventListener("DOMContentLoaded", function() {
 	            event.preventDefault();
 	        }
 	    });
+	}
+	
+	
+	/* AGGIUNGI INDIRIZZO */
+
+	const formAggiungiIndirizzo = document.getElementById("form-aggiungi-indirizzo");
+
+	if(formAggiungiIndirizzo) {
+
+		const via = document.getElementById("via");
+		const cap = document.getElementById("cap");
+		const citta = document.getElementById("citta");
+		const provincia = document.getElementById("provincia");
+		const paese = document.getElementById("paese");
+
+
+		via.addEventListener("change", function() {
+			validaVia(via);
+		});
+
+		cap.addEventListener("change", function() {
+			validaCap(cap);
+		});
+
+		citta.addEventListener("change", function() {
+			validaCitta(citta);
+		});
+
+		provincia.addEventListener("change", function() {
+			validaProvincia(provincia);
+		});
+
+		paese.addEventListener("change", function() {
+			validaPaese(paese);
+		});
+
+
+		formAggiungiIndirizzo.addEventListener("submit", function(event) {
+
+			const viaValida = validaVia(via);
+			const capValido = validaCap(cap);
+			const cittaValida = validaCitta(citta);
+			const provinciaValida = validaProvincia(provincia);
+			const paeseValido = validaPaese(paese);
+
+			if(!viaValida ||
+			   !capValido ||
+			   !cittaValida ||
+			   !provinciaValida ||
+			   !paeseValido) {
+
+				event.preventDefault();
+			}
+		});
+	}
+
+
+	/* AGGIUNGI METODO DI PAGAMENTO */
+
+	const formAggiungiMetodo = document.getElementById("form-aggiungi-metodo");
+
+	if(formAggiungiMetodo) {
+
+		const circuito = document.getElementById("circuito");
+		const numeroCarta = document.getElementById("numeroCarta");
+		const intestatario = document.getElementById("intestatario");
+		const dataScadenza = document.getElementById("dataScadenza");
+
+
+		circuito.addEventListener("change", function() {
+			validaCircuito(circuito);
+		});
+
+		numeroCarta.addEventListener("change", function() {
+			validaNumeroCarta(numeroCarta);
+		});
+
+		intestatario.addEventListener("change", function() {
+			validaIntestatario(intestatario);
+		});
+
+		dataScadenza.addEventListener("change", function() {
+			validaDataScadenza(dataScadenza);
+		});
+
+
+		formAggiungiMetodo.addEventListener("submit", function(event) {
+
+			const circuitoValido = validaCircuito(circuito);
+			const numeroCartaValido = validaNumeroCarta(numeroCarta);
+			const intestatarioValido = validaIntestatario(intestatario);
+			const dataScadenzaValida = validaDataScadenza(dataScadenza);
+
+			if(!circuitoValido ||
+			   !numeroCartaValido ||
+			   !intestatarioValido ||
+			   !dataScadenzaValida) {
+
+				event.preventDefault();
+			}
+		});
+	}
+	
+	
+	/* CHECKOUT */
+
+	const formCheckout = document.getElementById("form-checkout");
+
+	if(formCheckout) {
+
+		const indirizzi = formCheckout.querySelectorAll('input[name="indirizzo"]');
+		const metodiPagamento = formCheckout.querySelectorAll('input[name="metodoPagamento"]');
+
+
+		for(const indirizzo of indirizzi) {
+
+			indirizzo.addEventListener("change", function() {
+				validaIndirizzoCheckout(formCheckout);
+			});
+		}
+
+
+		for(const metodo of metodiPagamento) {
+
+			metodo.addEventListener("change", function() {
+				validaMetodoPagamentoCheckout(formCheckout);
+			});
+		}
+
+
+		formCheckout.addEventListener("submit", function(event) {
+
+			const indirizzoValido = validaIndirizzoCheckout(formCheckout);
+			const metodoPagamentoValido = validaMetodoPagamentoCheckout(formCheckout);
+
+			if(!indirizzoValido || !metodoPagamentoValido) {
+				event.preventDefault();
+			}
+		});
 	}
 });
