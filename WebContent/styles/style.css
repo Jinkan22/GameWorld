@@ -1877,11 +1877,17 @@ a:active {
 	justify-content: space-between;
 }
 
+.campo-selezione {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
 .form-aggiungi-piattaforma,
 .form-aggiungi-genere {
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 	gap: 12px;
 
 	margin-top: 25px;

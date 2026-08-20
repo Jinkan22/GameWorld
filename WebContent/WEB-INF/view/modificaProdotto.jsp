@@ -24,6 +24,7 @@ ArrayList<OffertaBean> offerte = (ArrayList<OffertaBean>) request.getAttribute("
 <meta charset="UTF-8">
 <title>gameWorld - Gestione prodotto</title>
 <script type="text/javascript" src="<%= request.getContextPath() %>/scripts/interfaccia.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/validazione.js"></script>
 </head>
 <body>
 
@@ -43,7 +44,7 @@ ArrayList<OffertaBean> offerte = (ArrayList<OffertaBean>) request.getAttribute("
 
 		<h3>DATI PRODOTTO</h3>
 
-		<form action="<%= request.getContextPath() %>/ModificaProdotto" method="post">
+		<form id="form-modifica-prodotto" action="<%= request.getContextPath() %>/ModificaProdotto" method="post" novalidate>
 
 			<div class="campo-gestione-prodotto">
 				<label for="nome">Nome prodotto</label>
@@ -97,7 +98,7 @@ ArrayList<OffertaBean> offerte = (ArrayList<OffertaBean>) request.getAttribute("
 			%>
 				<div class="riga-gestione-piattaforma">
 				
-					<form action="<%= request.getContextPath() %>/ModificaProdotto" method="post">
+					<form id="form-quantita" action="<%= request.getContextPath() %>/ModificaProdotto" method="post">
 						<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
 						<input type="hidden" name="idPiattaforma" value="<%= piattaforma.getIdPiattaforma() %>">
 
@@ -116,21 +117,23 @@ ArrayList<OffertaBean> offerte = (ArrayList<OffertaBean>) request.getAttribute("
 
 		</div>
 
-		<form class="form-aggiungi-piattaforma" action="<%= request.getContextPath() %>/ModificaProdotto" method="post">
+		<form class="form-aggiungi-piattaforma" action="<%= request.getContextPath() %>/ModificaProdotto" method="post" novalidate>
 			<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
-
-			<select name="idPiattaforma">
-				<option value="">Seleziona piattaforma</option>
-				<%
-				for(PiattaformaBean piattaforma : piattaforme) {
-				%>
-					<option value="<%= piattaforma.getIdPiattaforma() %>">
-						<%= piattaforma.getNomePiattaforma() %>
-					</option>
-				<%
-				}
-				%>
-			</select>
+			
+			<div class="campo-selezione">
+				<select name="idPiattaforma" required>
+					<option value="">Seleziona piattaforma</option>
+					<%
+					for(PiattaformaBean piattaforma : piattaforme) {
+					%>
+						<option value="<%= piattaforma.getIdPiattaforma() %>">
+							<%= piattaforma.getNomePiattaforma() %>
+						</option>
+					<%
+					}
+					%>
+				</select>
+			</div>
 
 			<button type="submit" name="azione" value="Aggiungi piattaforma">Aggiungi piattaforma</button>
 		</form>
@@ -160,21 +163,23 @@ ArrayList<OffertaBean> offerte = (ArrayList<OffertaBean>) request.getAttribute("
 			%>
 		</div>
 
-		<form class="form-aggiungi-genere" action="<%= request.getContextPath() %>/ModificaProdotto" method="post">
+		<form class="form-aggiungi-genere" action="<%= request.getContextPath() %>/ModificaProdotto" method="post" novalidate>
 			<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
 
-			<select name="idGenere">
-				<option value="">Seleziona genere</option>
-				<%
-				for(GenereBean genere : generi) {
-				%>
-					<option value="<%= genere.getIdGenere() %>">
-						<%= genere.getNomeGenere() %>
-					</option>
-				<%
-				}
-				%>
-			</select>
+			<div class="campo-selezione">
+				<select name="idGenere" required>
+					<option value="">Seleziona genere</option>
+					<%
+					for(GenereBean genere : generi) {
+					%>
+						<option value="<%= genere.getIdGenere() %>">
+							<%= genere.getNomeGenere() %>
+						</option>
+					<%
+					}
+					%>
+				</select>
+			</div>
 
 			<button type="submit" name="azione" value="Aggiungi genere">Aggiungi genere</button>
 		</form>
@@ -224,7 +229,7 @@ ArrayList<OffertaBean> offerte = (ArrayList<OffertaBean>) request.getAttribute("
 
 		<div id="form-nuova-offerta">
 
-			<form action="<%= request.getContextPath() %>/ModificaProdotto" method="post">
+			<form id="form-offerta" action="<%= request.getContextPath() %>/ModificaProdotto" method="post" novalidate>
 				<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
 
 				<div class="campo-gestione-offerta">
