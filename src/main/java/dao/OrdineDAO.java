@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import model.DettaglioOrdineViewBean;
@@ -163,7 +164,7 @@ public class OrdineDAO {
     	}
     }
     
-    // Lettura di tutti gli ordini view
+    //lettura di tutti gli ordini view
     public ArrayList<OrdineViewBean> doRetrieveAllView() {
         ArrayList<OrdineViewBean> list = new ArrayList<OrdineViewBean>();
 
@@ -207,7 +208,7 @@ public class OrdineDAO {
         return list;
     }
     
-    // Lettura di tutti gli ordini view di un utente
+    //lettura di tutti gli ordini view di un utente
     public ArrayList<OrdineViewBean> doRetrieveViewByIdUtente(int idUtente) {
         ArrayList<OrdineViewBean> list = new ArrayList<OrdineViewBean>();
 
@@ -236,6 +237,73 @@ public class OrdineDAO {
 
                 OrdineViewBean ordineView = new OrdineViewBean();
                 
+                ordineView.setOrdine(ordine);
+                ordineView.setDettagli(dettagli);
+
+                list.add(ordineView);
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    
+    //lettura degli ordini view in base ai filtri
+    public ArrayList<OrdineViewBean> doRetrieveViewByFiltri(Timestamp dataInizio, Timestamp dataFine, Integer idUtente) {
+        ArrayList<OrdineViewBean> list = new ArrayList<OrdineViewBean>();
+
+        try (Connection connection = DBConnection.getConnection()) {
+            String sql = "SELECT * FROM ordine WHERE 1=1";
+
+            if (dataInizio != null) {
+                sql += " AND dataOrdine >= ?";
+            }
+            if (dataFine != null) {
+                sql += " AND dataOrdine <= ?";
+            }
+            if (idUtente != null) {
+                sql += " AND idUtente = ?";
+            }
+
+            sql += " ORDER BY dataOrdine DESC";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            int index = 1;
+
+            if (dataInizio != null) {
+                ps.setTimestamp(index++, dataInizio);
+            }
+            if (dataFine != null) {
+                ps.setTimestamp(index++, dataFine);
+            }
+            if (idUtente != null) {
+                ps.setInt(index++, idUtente);
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            DettaglioOrdineDAO dettaglioOrdineDAO = new DettaglioOrdineDAO();
+
+            while (rs.next()) {
+                OrdineBean ordine = new OrdineBean();
+
+                ordine.setIdOrdine(rs.getInt("idOrdine"));
+                ordine.setAcquirente(rs.getString("acquirente"));
+                ordine.setDataOrdine(rs.getTimestamp("dataOrdine"));
+                ordine.setTotale(rs.getBigDecimal("totale"));
+                ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
+                ordine.setIdUtente(rs.getInt("idUtente"));
+
+                ArrayList<DettaglioOrdineViewBean> dettagli = dettaglioOrdineDAO.doRetrieveViewByIdOrdine(ordine.getIdOrdine());
+
+                OrdineViewBean ordineView = new OrdineViewBean();
+
                 ordineView.setOrdine(ordine);
                 ordineView.setDettagli(dettagli);
 

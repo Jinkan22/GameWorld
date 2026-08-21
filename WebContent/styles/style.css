@@ -1197,6 +1197,56 @@ a:active {
 	padding: 20px 180px 50px;
 }
 
+.filtri-ordini {
+	padding: 25px 0 10px 0;
+	margin: 30px 0;
+
+	background-color: var(--dark-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+}
+
+.filtri-ordini form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.filtri-ordini input {
+	padding: 10px 15px;
+
+	background-color: var(--soft-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--soft-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 500;
+}
+
+.filtri-ordini form input[type="submit"] {
+	padding: 10px 20px;
+
+	background-color: var(--dusty-violet);
+	color: var(--almost-white);
+
+	border: 1px solid var(--dusty-violet);
+	border-radius: 20px;
+
+	font-family: "Satoshi", sans-serif;
+	font-weight: 700;
+
+	cursor: pointer;
+}
+
+.filtri-ordini form input[type="submit"]:hover {
+	background-color: var(--light-violet);
+}
+
 .ordine {
 	padding: 30px;
 	margin: 30px 0;

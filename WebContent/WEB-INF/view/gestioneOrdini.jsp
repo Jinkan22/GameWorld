@@ -10,6 +10,10 @@
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 ArrayList<OrdineViewBean> ordini = (ArrayList<OrdineViewBean>) request.getAttribute("ordini");
+
+String dataInizio = (String) request.getAttribute("dataInizio");
+String dataFine = (String) request.getAttribute("dataFine");
+String idUtente = (String) request.getAttribute("idUtente");
 %>
 <!DOCTYPE html>
 <html>
@@ -22,6 +26,28 @@ ArrayList<OrdineViewBean> ordini = (ArrayList<OrdineViewBean>) request.getAttrib
 <main class="pagina-storico-ordini">
 
     <h2>GESTIONE ORDINI</h2>
+    
+    <div class="filtri-ordini">
+		<form action="<%= request.getContextPath() %>/GestioneOrdini" method="get">
+			<div class="dataInizio-ordini">
+				<label for="dataInizio">Data inizio</label>
+				<input type="date" id="dataInizio" name="dataInizio" value="<%= dataInizio != null ? dataInizio : "" %>">
+			</div>
+			
+			<div class="dataFine-ordini">
+				<label for="dataFine">Data fine</label>
+				<input type="date" id="dataFine" name="dataFine" value="<%= dataFine != null ? dataFine : "" %>">
+			</div>
+			
+			<div class="idUtente ordini">
+				<label for="prezzo">ID Utente</label>
+				<input type="number" id="idUtente" name="idUtente" min="0" value="<%= idUtente != null ? idUtente : "" %>">
+			</div>
+			
+			<input type="submit" name="azione" value="Filtra ordini">
+			<input type="submit" name="azione" value="Mostra tutti">
+    	</form>
+    </div>
 
     <%
     if(ordini != null && !ordini.isEmpty()) {
@@ -107,7 +133,7 @@ ArrayList<OrdineViewBean> ordini = (ArrayList<OrdineViewBean>) request.getAttrib
 
     } else {
     %>
-        <p>Non hai ancora effettuato ordini</p>
+        <p>Non ci sono ordini che corrispondono ai filtri impostati</p>
     <%
     }
     %>
