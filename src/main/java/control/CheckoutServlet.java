@@ -14,6 +14,7 @@ import model.IndirizzoBean;
 import model.MetodoPagamentoBean;
 import model.OffertaBean;
 import model.OrdineBean;
+import model.PiattaformaBean;
 import model.ProdottoBean;
 import model.ProdottoPiattaformaBean;
 import model.UtenteBean;
@@ -31,6 +32,7 @@ import dao.IndirizzoDAO;
 import dao.MetodoPagamentoDAO;
 import dao.OffertaDAO;
 import dao.OrdineDAO;
+import dao.PiattaformaDAO;
 import dao.ProdottoDAO;
 import dao.ProdottoPiattaformaDAO;
 
@@ -104,6 +106,7 @@ public class CheckoutServlet extends HttpServlet {
 		OrdineDAO ordineDAO = new OrdineDAO();
 		ProdottoDAO prodottoDAO = new ProdottoDAO();
 		OffertaDAO offertaDAO = new OffertaDAO();
+		PiattaformaDAO piattaformaDAO = new PiattaformaDAO();
 		ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
 		ElementoCarrelloDAO elementoCarrelloDAO = new ElementoCarrelloDAO();
 		DettaglioOrdineDAO dettaglioOrdineDAO = new DettaglioOrdineDAO();
@@ -183,12 +186,14 @@ public class CheckoutServlet extends HttpServlet {
 			DettaglioOrdineBean dettaglioOrdine = new DettaglioOrdineBean();
 			
 			ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(elemento.getIdProdotto());
+			PiattaformaBean piattaforma = piattaformaDAO.doRetrieveByKey(elemento.getIdPiattaforma());
 			ProdottoPiattaformaBean prodottoPiattaforma = prodottoPiattaformaDAO.doRetrieveByKey(elemento.getIdProdotto(), elemento.getIdPiattaforma());
 			
 			dettaglioOrdine.setQuantita(elemento.getQuantita());
+			dettaglioOrdine.setIdProdotto(prodotto.getIdProdotto());
+			dettaglioOrdine.setNomeProdotto(prodotto.getNome());
+			dettaglioOrdine.setNomePiattaforma(piattaforma.getNomePiattaforma());
 			dettaglioOrdine.setIdOrdine(ordine.getIdOrdine());
-			dettaglioOrdine.setIdProdotto(elemento.getIdProdotto());
-			dettaglioOrdine.setIdPiattaforma(elemento.getIdPiattaforma());
 			
 			BigDecimal prezzo = prodotto.getPrezzo();
 

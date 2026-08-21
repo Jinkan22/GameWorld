@@ -7,9 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.DettaglioOrdineBean;
-import model.DettaglioOrdineViewBean;
-import model.PiattaformaBean;
-import model.ProdottoBean;
 import utils.DBConnection;
 
 public class DettaglioOrdineDAO {	
@@ -35,9 +32,10 @@ public class DettaglioOrdineDAO {
     			dettaglioOrdine.setIdDettaglio(rs.getInt("idDettaglio"));
     			dettaglioOrdine.setQuantita(rs.getInt("quantita"));
     			dettaglioOrdine.setPrezzoAcquisto(rs.getBigDecimal("prezzoAcquisto"));
-    			dettaglioOrdine.setIdOrdine(rs.getInt("idOrdine"));
     			dettaglioOrdine.setIdProdotto(rs.getInt("idProdotto"));
-    			dettaglioOrdine.setIdPiattaforma(rs.getInt("idPiattaforma"));
+    			dettaglioOrdine.setNomeProdotto(rs.getString("nomeProdotto"));
+    			dettaglioOrdine.setNomePiattaforma(rs.getString("nomePiattaforma"));
+    			dettaglioOrdine.setIdOrdine(rs.getInt("idOrdine"));
     		}
     		rs.close();
     		ps.close();
@@ -66,9 +64,10 @@ public class DettaglioOrdineDAO {
     			dettaglioOrdine.setIdDettaglio(rs.getInt("idDettaglio"));
     			dettaglioOrdine.setQuantita(rs.getInt("quantita"));
     			dettaglioOrdine.setPrezzoAcquisto(rs.getBigDecimal("prezzoAcquisto"));
-    			dettaglioOrdine.setIdOrdine(rs.getInt("idOrdine"));
     			dettaglioOrdine.setIdProdotto(rs.getInt("idProdotto"));
-    			dettaglioOrdine.setIdPiattaforma(rs.getInt("idPiattaforma"));
+    			dettaglioOrdine.setNomeProdotto(rs.getString("nomeProdotto"));
+    			dettaglioOrdine.setNomePiattaforma(rs.getString("nomePiattaforma"));
+    			dettaglioOrdine.setIdOrdine(rs.getInt("idOrdine"));
     			
     			list.add(dettaglioOrdine);
     		}
@@ -87,16 +86,18 @@ public class DettaglioOrdineDAO {
     	
     	try (Connection connection = DBConnection.getConnection()) {
     		String sql = "INSERT INTO dettaglioOrdine "
-    				+ "(quantita, prezzoAcquisto, idOrdine, idProdotto, idPiattaforma) "
-    				+ "VALUES (?, ?, ?, ?, ?)";
+    				+ "(quantita, prezzoAcquisto, idProdotto, nomeProdotto, nomePiattaforma, idOrdine) "
+    				+ "VALUES (?, ?, ?, ?, ?, ?)";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
     		
     		ps.setInt(1, dettaglioOrdine.getQuantita());
     		ps.setBigDecimal(2, dettaglioOrdine.getPrezzoAcquisto());
-    		ps.setInt(3, dettaglioOrdine.getIdOrdine());
-    		ps.setInt(4,  dettaglioOrdine.getIdProdotto());
-    		ps.setInt(5, dettaglioOrdine.getIdPiattaforma());
+    		ps.setInt(3, dettaglioOrdine.getIdProdotto());
+    		ps.setString(4,  dettaglioOrdine.getNomeProdotto());
+    		ps.setString(5, dettaglioOrdine.getNomePiattaforma());
+    		ps.setInt(6, dettaglioOrdine.getIdOrdine());
+    		
     		
     		int result = ps.executeUpdate();
     		ps.close();
@@ -148,9 +149,10 @@ public class DettaglioOrdineDAO {
     			dettaglioOrdine.setIdDettaglio(rs.getInt("idDettaglio"));
     			dettaglioOrdine.setQuantita(rs.getInt("quantita"));
     			dettaglioOrdine.setPrezzoAcquisto(rs.getBigDecimal("prezzoAcquisto"));
-    			dettaglioOrdine.setIdOrdine(rs.getInt("idOrdine"));
     			dettaglioOrdine.setIdProdotto(rs.getInt("idProdotto"));
-    			dettaglioOrdine.setIdPiattaforma(rs.getInt("idPiattaforma"));
+    			dettaglioOrdine.setNomeProdotto(rs.getString("nomeProdotto"));
+    			dettaglioOrdine.setNomePiattaforma(rs.getString("nomePiattaforma"));
+    			dettaglioOrdine.setIdOrdine(rs.getInt("idOrdine"));
     			
     			list.add(dettaglioOrdine);
     		}
@@ -162,59 +164,5 @@ public class DettaglioOrdineDAO {
     	}
     	
     	return list;
-	}
-	
-	// lettura di tutti i dettagli ordine view di un ordine
-	public ArrayList<DettaglioOrdineViewBean> doRetrieveViewByIdOrdine(int idOrdine) {
-		ArrayList<DettaglioOrdineViewBean> list = new ArrayList<DettaglioOrdineViewBean>();
-
-		try (Connection connection = DBConnection.getConnection()) {
-			String sql = "SELECT p.*, pi.*, d.quantita, d.prezzoAcquisto "
-					+ "FROM dettaglioOrdine d "
-					+ "JOIN prodotto p "
-					+ "ON d.idProdotto = p.idProdotto "
-					+ "JOIN piattaforma pi "
-					+ "ON d.idPiattaforma = pi.idPiattaforma "
-					+ "WHERE d.idOrdine=?";
-
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, idOrdine);
-
-			ResultSet rs = ps.executeQuery();
-
-			while(rs.next()) {
-				ProdottoBean prodotto = new ProdottoBean();
-
-				prodotto.setIdProdotto(rs.getInt("idProdotto"));
-				prodotto.setNome(rs.getString("nome"));
-				prodotto.setDescrizione(rs.getString("descrizione"));
-				prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
-				prodotto.setImmagine(rs.getString("immagine"));
-				prodotto.setDataUscita(rs.getDate("dataUscita"));
-				prodotto.setSviluppatore(rs.getString("sviluppatore"));
-
-				PiattaformaBean piattaforma = new PiattaformaBean();
-
-				piattaforma.setIdPiattaforma(rs.getInt("idPiattaforma"));
-				piattaforma.setNomePiattaforma(rs.getString("nomePiattaforma"));
-
-				DettaglioOrdineViewBean dettaglioOrdine =new DettaglioOrdineViewBean();
-				
-				dettaglioOrdine.setProdotto(prodotto);
-				dettaglioOrdine.setPiattaforma(piattaforma);
-				dettaglioOrdine.setQuantita(rs.getInt("quantita"));
-				dettaglioOrdine.setPrezzoAcquisto(rs.getBigDecimal("prezzoAcquisto"));
-
-				list.add(dettaglioOrdine);
-			}
-
-			rs.close();
-			ps.close();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-
-		return list;
 	}
 }

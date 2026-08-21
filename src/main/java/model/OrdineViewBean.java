@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class OrdineViewBean {
 	private OrdineBean ordine;
-	private ArrayList<DettaglioOrdineViewBean> dettagli;
+	private ArrayList<DettaglioOrdineBean> dettagli;
 	
 	//empty constructor
 	public OrdineViewBean() {
@@ -15,7 +15,7 @@ public class OrdineViewBean {
 	public OrdineBean getOrdine() {
 		return ordine;
 	}
-	public ArrayList<DettaglioOrdineViewBean> getDettagli() {
+	public ArrayList<DettaglioOrdineBean> getDettagli() {
 		return dettagli;
 	}
 	
@@ -23,7 +23,7 @@ public class OrdineViewBean {
 	public void setOrdine(OrdineBean ordine) {
 		this.ordine = ordine;
 	}
-	public void setDettagli(ArrayList<DettaglioOrdineViewBean> dettagli) {
+	public void setDettagli(ArrayList<DettaglioOrdineBean> dettagli) {
 		this.dettagli = dettagli;
 	}
 }

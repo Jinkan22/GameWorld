@@ -109,7 +109,7 @@ public class ModificaProdottoServlet extends HttpServlet {
 		if(prodotto == null) {
 			request.setAttribute("errore", "Il prodotto selezionato non esiste");
 
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/GestioneProdottiServlet");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/GestioneProdotti");
 			dispatcher.forward(request, response);
 			return;
 		}
@@ -150,16 +150,10 @@ public class ModificaProdottoServlet extends HttpServlet {
 			break;
 			}
 		case "Elimina prodotto": {
-			ProdottoPiattaformaDAO prodottoPiattaformaDAO = new ProdottoPiattaformaDAO();
-			ArrayList<ProdottoPiattaformaBean> prodottoPiattaforme = prodottoPiattaformaDAO.doRetrieveByIdProdotto(idProdotto);
+			prodottoDAO.doDelete(idProdotto);
 			
-			for(ProdottoPiattaformaBean prodottoPiattaforma : prodottoPiattaforme) {
-				prodottoPiattaforma.setQuantitaDisponibile(0);
-				prodottoPiattaformaDAO.doUpdate(prodottoPiattaforma);
-			}
-			
-			session.setAttribute("messaggio", "Quantità del prodotto impostate a 0!");
-			break;
+			response.sendRedirect(request.getContextPath() + "/GestioneProdotti");
+			return;
 			}
 		case "Crea offerta": {
 			String percentualeSconto = request.getParameter("percentualeSconto");

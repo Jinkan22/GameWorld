@@ -4,7 +4,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.OrdineBean" %>
 <%@ page import="model.OrdineViewBean" %>
-<%@ page import="model.DettaglioOrdineViewBean" %>
+<%@ page import="model.DettaglioOrdineBean" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -55,7 +55,7 @@ String idUtente = (String) request.getAttribute("idUtente");
         for(OrdineViewBean ordineView : ordini) {
 
             OrdineBean ordine = ordineView.getOrdine();
-            ArrayList<DettaglioOrdineViewBean> dettagli = ordineView.getDettagli();
+            ArrayList<DettaglioOrdineBean> dettagli = ordineView.getDettagli();
     %>
 
         <section class="ordine">
@@ -88,7 +88,7 @@ String idUtente = (String) request.getAttribute("idUtente");
                 <%
                 if(dettagli != null && !dettagli.isEmpty()) {
 
-                    for(DettaglioOrdineViewBean dettaglio : dettagli) {
+                    for(DettaglioOrdineBean dettaglio : dettagli) {
                 %>
 
                     <div class="prodotto-ordine">
@@ -96,13 +96,13 @@ String idUtente = (String) request.getAttribute("idUtente");
                         <div class="dati-prodotto-ordine">
 
                             <strong>
-                                <%= dettaglio.getProdotto().getNome() %>
+                                <%= dettaglio.getNomeProdotto() %>
                             </strong>
 
 							<div>
                                 <strong>Piattaforma:</strong>
                                 <span>
-                                    <%= dettaglio.getPiattaforma().getNomePiattaforma() %>
+                                    <%= dettaglio.getNomePiattaforma() %>
                                 </span>
                             </div>
 

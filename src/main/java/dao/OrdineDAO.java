@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import model.DettaglioOrdineViewBean;
+import model.DettaglioOrdineBean;
 import model.OrdineBean;
 import model.OrdineViewBean;
 import utils.DBConnection;
@@ -188,7 +188,7 @@ public class OrdineDAO {
                 ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
                 ordine.setIdUtente(rs.getInt("idUtente"));
 
-                ArrayList<DettaglioOrdineViewBean> dettagli = dettaglioOrdineDAO.doRetrieveViewByIdOrdine(ordine.getIdOrdine());
+                ArrayList<DettaglioOrdineBean> dettagli = dettaglioOrdineDAO.doRetrieveByIdOrdine(ordine.getIdOrdine());
 
                 OrdineViewBean ordineView = new OrdineViewBean();
                 
@@ -233,7 +233,7 @@ public class OrdineDAO {
                 ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
                 ordine.setIdUtente(rs.getInt("idUtente"));
 
-                ArrayList<DettaglioOrdineViewBean> dettagli = dettaglioOrdineDAO.doRetrieveViewByIdOrdine(ordine.getIdOrdine());
+                ArrayList<DettaglioOrdineBean> dettagli = dettaglioOrdineDAO.doRetrieveByIdOrdine(ordine.getIdOrdine());
 
                 OrdineViewBean ordineView = new OrdineViewBean();
                 
@@ -300,7 +300,7 @@ public class OrdineDAO {
                 ordine.setIndirizzoFatturazione(rs.getString("indirizzoFatturazione"));
                 ordine.setIdUtente(rs.getInt("idUtente"));
 
-                ArrayList<DettaglioOrdineViewBean> dettagli = dettaglioOrdineDAO.doRetrieveViewByIdOrdine(ordine.getIdOrdine());
+                ArrayList<DettaglioOrdineBean> dettagli = dettaglioOrdineDAO.doRetrieveByIdOrdine(ordine.getIdOrdine());
 
                 OrdineViewBean ordineView = new OrdineViewBean();
 
