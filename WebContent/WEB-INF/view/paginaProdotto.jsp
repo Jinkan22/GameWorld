@@ -17,6 +17,7 @@ String errore = (String) request.getAttribute("errore");
 <head>
 <meta charset="UTF-8">
 <title>gameWorld - <%= prodotto.getProdotto().getNome() %></title>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/validazione.js"></script>
 </head>
 <body>
 
@@ -94,10 +95,10 @@ String errore = (String) request.getAttribute("errore");
 			
 		</div>
 		
-		<form action="<%= request.getContextPath()%>/AggiungiAlCarrello" method="post">
+		<form id="form-aggiungi-al-carrello" action="<%= request.getContextPath()%>/AggiungiAlCarrello" method="post" novalidate>
 			<input type="hidden" name="idProdotto" value="<%= prodotto.getProdotto().getIdProdotto() %>">
 			
-			<select name="idPiattaforma" required>
+			<select id="idPiattaforma" name="idPiattaforma" required>
 				<option value="">Seleziona piattaforma</option>
 	
 				<%

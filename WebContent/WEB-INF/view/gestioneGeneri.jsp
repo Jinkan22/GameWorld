@@ -9,9 +9,9 @@
 <head>
 <meta charset="UTF-8">
 <title>gameWorld - Gestione generi</title>
+<script type="text/javascript" src="<%= request.getContextPath() %>/scripts/validazione.js"></script>
 </head>
 <body>
-
 
 <main class="pagina-gestione-generi">
 
@@ -29,8 +29,8 @@
 		}
 		%>
 
-		<form class="aggiungi-genere" action="<%= request.getContextPath()%>/GestioneGeneri" method="post">
-			<input type="text" name="nomeGenere" placeholder="Nuovo genere..." required>
+		<form id="form-gestisci-generi" class="aggiungi-genere" action="<%= request.getContextPath()%>/GestioneGeneri" method="post" novalidate>
+			<input type="text" id="nomeGenere" name="nomeGenere" placeholder="Nuovo genere..." required>
 			<input type="hidden" name="azione" value="aggiungiGenere">
 			<input type="submit" value="+">
 		</form>

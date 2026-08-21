@@ -214,6 +214,7 @@ footer .bottom p {
 
     background-color: var(--soft-violet);
     color: var(--almost-white);
+    transition: background-color 0.2s ease;
 
     border: 1px solid var(--soft-violet);
     border-radius: 0 20px 20px 0;
@@ -227,7 +228,6 @@ footer .bottom p {
 .search-bar button:hover {
     background-color: var(--dusty-violet);
 }
-
 
 /* Account e carrello */
 
@@ -280,6 +280,7 @@ footer .bottom p {
 button {
     background-color: var(--soft-violet);
     color: var(--almost-white);
+    transition: background-color 0.2s ease;
 
     font-family: "Satoshi", sans-serif;
     font-weight: 700;
@@ -289,6 +290,18 @@ button:hover {
     background-color: var(--dusty-violet);
 }
 
+input [type="submit"] {
+	background-color: var(--soft-violet);
+    color: var(--almost-white);
+    transition: background-color 0.2s ease;
+
+    font-family: "Satoshi", sans-serif;
+    font-weight: 700;
+}
+
+input [type="submit"]:hover {
+    background-color: var(--dusty-violet);
+}
 
 /* Link */
 
@@ -308,7 +321,7 @@ a:active {
     color: var(--dusty-violet);
 }
 
-/* Home - Banners */
+/* HOME */
 
 .banners {
     padding: 40px 40px;
@@ -358,8 +371,6 @@ a:active {
 	object-position: center;
 	border-radius: 20px;
 }
-
-/* Home - Prodotti */
 
 .piattaforme {
     padding: 20px 40px;
@@ -541,6 +552,8 @@ a:active {
     background-color: var(--dusty-violet);
 }
 
+/* PAGINA PRODOTTO */
+
 .pagina-prodotto {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -582,6 +595,7 @@ a:active {
     border-right: none;
 
     outline: none;
+    cursor: pointer;
 }
 
 .pagina-prodotto select,
@@ -694,6 +708,8 @@ a:active {
 .registrazione input[type="submit"] {
 	width: 120px;
 	cursor: pointer;
+	
+	transition: background-color 0.2s ease;
 }
 
 .login input[type="submit"]:hover,
@@ -808,6 +824,12 @@ a:active {
 	cursor: pointer;
 }
 
+.decrementa,
+.incrementa,
+.rimuovi {
+	transition: background-color 0.2s ease;
+}
+
 .decrementa:hover,
 .incrementa:hover,
 .rimuovi:hover {
@@ -844,6 +866,7 @@ a:active {
 	background-color: var(--dusty-violet);
 	color: var(--almost-white);
 	border: 1px solid var(--dusty-violet);
+	transition: background-color 0.2s ease;
 
 	cursor: pointer;
 }
@@ -929,6 +952,7 @@ a:active {
 
 	background-color: var(--dusty-violet);
 	color: var(--almost-white);
+	transition: background-color 0.2s ease;
 
 	border: 1px solid var(--dusty-violet);
 	border-radius: 20px;
@@ -1019,6 +1043,7 @@ a:active {
 #aggiungi-metodo {
 	display: block;
 	margin-top: 20px;
+	transition: background-color 0.2s ease;
 }
 
 #annulla-inserimento,
@@ -1026,6 +1051,7 @@ a:active {
 #annulla-inserimento-metodo,
 #salva-metodo {
 	margin-top: 10px;
+	transition: background-color 0.2s ease;
 }
 
 #annulla-inserimento:hover,
@@ -1149,6 +1175,7 @@ a:active {
 
 	background-color: var(--dusty-violet);
 	color: var(--almost-white);
+	transition: background-color 0.2s ease;
 
 	border: 1px solid var(--dusty-violet);
 	border-radius: 20px;
@@ -1233,6 +1260,7 @@ a:active {
 
 	background-color: var(--dusty-violet);
 	color: var(--almost-white);
+	transition: background-color 0.2s ease;
 
 	border: 1px solid var(--dusty-violet);
 	border-radius: 20px;
@@ -1382,6 +1410,7 @@ a:active {
 
 	background-color: var(--dusty-violet);
 	color: var(--almost-white);
+	transition: background-color 0.2s ease;
 
 	border: 1px solid var(--dusty-violet);
 	border-radius: 20px;
@@ -1453,6 +1482,7 @@ a:active {
 
 	background-color: var(--dusty-violet);
 	color: var(--almost-white);
+	transition: background-color 0.2s ease;
 
 	border: 1px solid var(--dusty-violet);
 	border-radius: 0 20px 20px 0;
@@ -1461,6 +1491,10 @@ a:active {
 	font-weight: 700;
 
 	cursor: pointer;
+}
+
+.aggiungi-genere input[type="submit"]:hover {
+	background-color: var(--light-violet);
 }
 
 .lista-generi {
@@ -1492,6 +1526,7 @@ a:active {
 
 	background: none;
 	color: var(--almost-white);
+	transition: background-color 0.2s ease;
 
 	border: none;
 
@@ -1576,6 +1611,7 @@ a:active {
 
 	background-color: var(--dusty-violet);
 	color: var(--almost-white);
+	transition: background-color 0.2s ease;
 
 	border: 1px solid var(--dusty-violet);
 	border-radius: 20px;
@@ -1622,6 +1658,7 @@ a:active {
 
 	background-color: var(--dusty-violet);
 	color: var(--almost-white);
+	transition: background-color 0.2s ease;
 
 	border: 1px solid var(--dusty-violet);
 	border-radius: 20px;
@@ -1849,6 +1886,7 @@ a:active {
 
 	background-color: var(--dusty-violet);
 	color: var(--almost-white);
+	transition: background-color 0.2s ease;
 
 	border: 1px solid var(--dusty-violet);
 	border-radius: 20px;

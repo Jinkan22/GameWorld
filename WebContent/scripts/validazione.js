@@ -47,6 +47,14 @@ function rimuoviErroreContenitore(contenitore) {
 }
 
 
+function validaGenerico(input) {
+    const valore = input.value.trim();
+
+    if(valore === "") return false;
+    else return true;
+}
+
+
 function validaNome(input) {
 	const valore = input.value.trim();
 	const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ' ]+$/;
@@ -645,6 +653,26 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 		});
 	}
+	
+	
+	/* AGGIUNGI PRODOTTO AL CARRELLO */
+	
+	const formAggiungiAlCarrello = document.getElementById("form-aggiungi-al-carrello");
+
+		if(formAggiungiAlCarrello) {
+			
+			const idPiattaforma = document.getElementById("idPiattaforma");
+
+			idPiattaforma.addEventListener("change", function() {
+				validaGenerico(idPiattaforma);
+			});
+
+			formAggiungiAlCarrello.addEventListener("submit", function(event) {
+				if(!validaGenerico(idPiattaforma)) {
+					event.preventDefault();
+				}
+			});
+		}
 
 
 	/* MODIFICA PROFILO */
@@ -691,7 +719,26 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 		});
 	}
+
+
+	/* GESTISCI GENERI */
 	
+	const formGestisciGeneri = document.getElementById("form-gestisci-generi");
+
+	if(formGestisciGeneri) {
+		
+		const nomeGenere = document.getElementById("nomeGenere");
+
+		nomeGenere.addEventListener("change", function() {
+			validaGenerico(nomeGenere);
+		});
+
+		formGestisciGeneri.addEventListener("submit", function(event) {
+			if(!validaGenerico(nomeGenere)) {
+				event.preventDefault();
+			}
+		});
+	}
 	
 	/* AGGIUNGI PRODOTTO */
 	
