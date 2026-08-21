@@ -1799,3 +1799,371 @@ footer .bottom p {
 .domanda-faq h3 {
     margin-bottom: 0 0 10px;
 }
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+    .header-top {
+        grid-template-columns: 1fr;
+        row-gap: 20px;
+        justify-items: center;
+        padding: 25px 30px 0;
+    }
+
+    .search-bar {
+        width: min(600px, 100%);
+    }
+
+    .accedi-registrati {
+        justify-self: center;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+        padding: 25px 30px 12px;
+    }
+
+    .catalogo {
+        grid-template-columns: 210px 1fr;
+        padding: 30px;
+    }
+
+    .linea-prodotti {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pagina-carrello,
+    .pagina-checkout {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+
+    .pagina-storico-ordini,
+    .pagina-gestione-offerte,
+    .pagina-gestione-generi,
+    .pagina-gestione-utenti,
+    .pagina-gestione-prodotti,
+    .pagina-gestione-prodotto,
+    .pagina-chi-siamo,
+    .pagina-faq,
+    .pagina-profilo {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+
+    .lista-offerte,
+    #lista-prodotti,
+    .lista-utenti {
+        grid-template-columns: 1fr;
+    }
+
+    .filtri-ordini form {
+        flex-wrap: wrap;
+        padding: 0 20px 15px;
+    }
+}
+
+@media (max-width: 800px) {
+    .banners {
+        padding: 30px;
+    }
+
+    .top-banners,
+    .bottom-banners,
+    .pagina-prodotto,
+    .pagina-carrello,
+    .pagina-checkout {
+        flex-direction: column;
+    }
+
+    .top-banners,
+    .bottom-banners {
+        flex-direction: column;
+    }
+
+    .top-banners .descrizione,
+    .top-banners .banner,
+    .bottom-banners .banner {
+        width: 100%;
+    }
+
+    .top-banners .descrizione h3 {
+        margin-bottom: 30px;
+    }
+
+    .banners img {
+        height: auto;
+        min-height: 250px;
+    }
+
+    .catalogo {
+        grid-template-columns: 1fr;
+        padding: 25px;
+    }
+
+    .linea-prodotti {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pagina-prodotto {
+        display: grid;
+        grid-template-columns: 1fr;
+        padding: 30px;
+    }
+
+    .pagina-prodotto form {
+        width: 100%;
+    }
+
+    .pagina-carrello,
+    .pagina-checkout {
+        padding: 30px;
+    }
+
+    .riepilogo-totale,
+    .pagina-checkout .riepilogo-totale {
+        width: auto;
+        margin-top: 20px;
+    }
+
+    .prodotto-carrello {
+        flex-direction: column;
+    }
+
+    .prodotto-carrello img {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 0 20px;
+    }
+
+    .dati-prodotto-carrello form {
+        flex-wrap: wrap;
+    }
+
+    .contenuto-checkout {
+        width: 100%;
+    }
+
+    .pagina-checkout {
+        display: flex;
+    }
+
+    .informazioni-profilo,
+    .modifica-profilo,
+    .dashboard-admin,
+    .card-generi,
+    .card-chi-siamo,
+    .card-faq,
+    .card-aggiungi-prodotto,
+    .card-gestione-dati-prodotto,
+    .card-gestione-piattaforme,
+    .card-gestione-generi,
+    .card-gestione-offerte {
+        width: 100%;
+        max-width: 700px;
+    }
+
+    .card-aggiungi-prodotto {
+        max-width: 500px;
+    }
+
+    .lista-generi {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .azioni-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-admin button {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .intestazione-ordine,
+    .prodotto-ordine {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .intestazione-ordine div:last-child,
+    .prezzo-prodotto-ordine {
+        text-align: left;
+        align-items: flex-start;
+    }
+
+    .opzione-indirizzo,
+    .opzione-pagamento,
+    .riga-gestione-offerta {
+        align-items: flex-start;
+    }
+
+    .opzione-indirizzo,
+    .opzione-pagamento {
+        flex-wrap: wrap;
+    }
+
+    .opzione-indirizzo button,
+    .opzione-pagamento button {
+        margin-left: 0;
+    }
+
+    .form-aggiungi-piattaforma,
+    .form-aggiungi-genere {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .riga-gestione-piattaforma form {
+        flex-wrap: wrap;
+    }
+
+    .riga-gestione-piattaforma label {
+        margin-left: 0;
+    }
+
+    .campi-registrazione {
+        grid-template-columns: 1fr;
+    }
+
+    .login,
+    .registrazione {
+        width: min(500px, calc(100% - 30px));
+        padding-left: 30px;
+        padding-right: 30px;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 560px) {
+    .header-top {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .accedi-registrati,
+    footer .nav,
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .separator {
+        display: none;
+    }
+
+    .navbar {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .banners,
+    .piattaforme,
+    .catalogo,
+    .pagina-prodotto,
+    .pagina-carrello,
+    .pagina-checkout,
+    .pagina-storico-ordini,
+    .pagina-gestione-offerte,
+    .pagina-gestione-generi,
+    .pagina-gestione-utenti,
+    .pagina-gestione-prodotti,
+    .pagina-gestione-prodotto,
+    .pagina-chi-siamo,
+    .pagina-faq,
+    .pagina-profilo {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .linea-prodotti,
+    .lista-generi {
+        grid-template-columns: 1fr;
+    }
+
+    .top-banners,
+    .bottom-banners {
+        gap: 20px;
+    }
+
+    .banners img {
+        min-height: 180px;
+    }
+
+    .prezzi {
+        flex-wrap: wrap;
+    }
+
+    .login,
+    .registrazione {
+        width: calc(100% - 20px);
+        padding: 25px 20px 30px;
+    }
+
+    .campi-login .campo,
+    .campi-registrazione .campo {
+        width: 100%;
+    }
+
+    .selezioni,
+    .bottoni-profilo,
+    .azioni-profilo,
+    .bottoni-gestione-prodotti,
+    .bottoni-gestione-prodotto,
+    .bottoni-gestione-offerta,
+    .bottoni-inserimento {
+        flex-wrap: wrap;
+    }
+
+    .filtri-ordini form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .filtri-ordini input,
+    .filtri-ordini form input[type="submit"] {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .dati-utente p,
+    .dato-profilo,
+    .dato-offerta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .riga-gestione-offerta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .riga-gestione-piattaforma form,
+    .riga-gestione-genere form {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .aggiungi-genere {
+        width: 100%;
+    }
+
+    .card-gestione-prodotto,
+    .card-aggiungi-prodotto,
+    .card-generi,
+    .card-chi-siamo,
+    .card-faq,
+    .card-gestione-dati-prodotto,
+    .card-gestione-piattaforme,
+    .card-gestione-generi,
+    .card-gestione-offerte {
+        padding: 20px;
+    }
+}
