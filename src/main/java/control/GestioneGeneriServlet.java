@@ -15,33 +15,21 @@ import java.util.ArrayList;
 
 import dao.GenereDAO;
 
-/**
- * Servlet implementation class GestioneTagServlet
- */
 @WebServlet("/GestioneGeneri")
 public class GestioneGeneriServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public GestioneGeneriServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
 		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
-			request.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
-			dispatcher.forward(request, response);
+			session.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
+			response.sendRedirect(request.getContextPath() + "/Login");
 			return;
 		}
 		
@@ -54,18 +42,13 @@ public class GestioneGeneriServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
 		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
-			request.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
-			dispatcher.forward(request, response);
+			session.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
+			response.sendRedirect(request.getContextPath() + "/Login");
 			return;
 		}
 		
@@ -86,7 +69,6 @@ public class GestioneGeneriServlet extends HttpServlet {
 
 			if(genereDAO.isUtilizzato(idGenere)) {
 		    	request.setAttribute("errore", "Il genere selezionato è ancora associato a uno o più prodotti.");
-
 		        doGet(request, response);
 		        return;
 		    }
@@ -96,7 +78,7 @@ public class GestioneGeneriServlet extends HttpServlet {
 			}
 		}
 		
-		response.sendRedirect(request.getContextPath() + "/GestioneGeneri");
+		doGet(request, response);
 	}
 
 }

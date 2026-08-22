@@ -9,7 +9,7 @@ public class IndirizzoBean {
 	private String paese;
 	private int idUtente;
 	
-	//empty contructor
+	//costruttore vuoto
 	public IndirizzoBean() {
 		
 	}

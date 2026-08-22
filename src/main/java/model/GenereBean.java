@@ -4,7 +4,7 @@ public class GenereBean {
 	private int idGenere;
 	private String nomeGenere;
 	
-	//empty constructor
+	//costruttore vuoto
 	public GenereBean() {
 		
 	}

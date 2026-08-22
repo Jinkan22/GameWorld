@@ -4,7 +4,7 @@ public class ProdottoGenereBean {
 	private int idProdotto;
 	private int idGenere;
 	
-	//empty constructor
+	//costruttore vuoto
 	public ProdottoGenereBean() {
 		
 	}

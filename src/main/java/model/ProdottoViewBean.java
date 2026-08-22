@@ -11,7 +11,7 @@ public class ProdottoViewBean {
 	private ArrayList<ProdottoPiattaformaBean> prodottoPiattaforme;
 	private ArrayList<PiattaformaBean> piattaforme;
 	
-	//empty constructor
+	//costruttore vuoto
 	public ProdottoViewBean(){
 		
 	}

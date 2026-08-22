@@ -9,7 +9,7 @@ public class OffertaBean {
 	private Date dataFine;
 	private int idProdotto;
 	
-	//empty constructor
+	//costruttore vuoto
 	public OffertaBean() {
 		
 	}

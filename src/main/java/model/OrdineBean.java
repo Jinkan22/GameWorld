@@ -11,7 +11,7 @@ public class OrdineBean {
 	private String indirizzoFatturazione;
 	private int idUtente;
 	
-	//empty constructor
+	//costruttore vuoto
 	public OrdineBean() {
 		
 	}

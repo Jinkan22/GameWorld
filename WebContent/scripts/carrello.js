@@ -72,26 +72,26 @@ function modificaQuantita(form, azione) {
 function gestisciRispostaCarrello(request, form) {
 
 	var risposta = JSON.parse(request.responseText);
-	var errore = document.querySelector(".errore");
-
-	if(risposta.successo) {
+	var errore = document.querySelector(".errore-carrello");
+	
+	if(!risposta.errore) {
 		errore.textContent = "";
-		
-		document.getElementById("totale").textContent = risposta.totale.toFixed(2) + " €";
-		document.getElementById("sconto").textContent = "- " + risposta.sconto.toFixed(2) + " €";
-		document.getElementById("totaleScontato").textContent = risposta.totaleScontato.toFixed(2) + " €";
-
-		if(risposta.quantita === 0) {
-			var prodotto = form.closest(".prodotto-carrello");
-			prodotto.remove();
-		}
-		else {
-			var quantita = form.querySelector(".quantita-prodotto");
-			quantita.textContent = risposta.quantita;
-		}
 	}
 	else {
 		errore.textContent = risposta.errore;
+	}
+
+	document.getElementById("totale").textContent = risposta.totale.toFixed(2) + " €";
+	document.getElementById("sconto").textContent = "- " + risposta.sconto.toFixed(2) + " €";
+	document.getElementById("totaleScontato").textContent = risposta.totaleScontato.toFixed(2) + " €";
+
+	if(risposta.quantita === 0) {
+		var prodotto = form.closest(".prodotto-carrello");
+		prodotto.remove();
+	}
+	else {
+		var quantita = form.querySelector(".quantita-prodotto");
+		quantita.textContent = risposta.quantita;
 	}
 }
 

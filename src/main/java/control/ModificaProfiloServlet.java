@@ -1,6 +1,5 @@
 package control;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,32 +14,14 @@ import java.io.IOException;
 
 import dao.UtenteDAO;
 
-/**
- * Servlet implementation class ModificaProfiloServlet
- */
 @WebServlet("/ModificaProfilo")
 public class ModificaProfiloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ModificaProfiloServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
@@ -52,10 +33,8 @@ public class ModificaProfiloServlet extends HttpServlet {
 		UtenteBean utente = (UtenteBean)session.getAttribute("utente");
 		
 		if(utente == null) {
-			request.setAttribute("erroreLogin", "Login necessario per la modifica");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
-			dispatcher.forward(request, response);
+			session.setAttribute("erroreLogin", "Login necessario per la modifica del profilo");
+			response.sendRedirect(request.getContextPath() + "/Login");
 			return;
 		}
 		
@@ -75,10 +54,8 @@ public class ModificaProfiloServlet extends HttpServlet {
 		
 		dao.doUpdate(utente);
 		session.setAttribute("utente", utente);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/profilo.jsp");
-		dispatcher.forward(request, response);
 
+		response.sendRedirect(request.getContextPath() + "/Profilo");
 	}
 
 }

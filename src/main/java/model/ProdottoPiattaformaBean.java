@@ -5,7 +5,7 @@ public class ProdottoPiattaformaBean {
 	private int idPiattaforma;
 	private int quantitaDisponibile;
 	
-	//empty constructor
+	//costruttore vuoto
 	public ProdottoPiattaformaBean() {
 		
 	}

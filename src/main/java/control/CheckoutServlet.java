@@ -36,33 +36,21 @@ import dao.PiattaformaDAO;
 import dao.ProdottoDAO;
 import dao.ProdottoPiattaformaDAO;
 
-/**
- * Servlet implementation class CheckoutServlet
- */
 @WebServlet("/Checkout")
 public class CheckoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public CheckoutServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
 		if(utente == null) {
-			request.setAttribute("erroreLogin", "Effettuare il login per completare l'acquisto");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
-			dispatcher.forward(request, response);
+			session.setAttribute("erroreLogin", "Effettuare il login per completare l'acquisto");
+			response.sendRedirect(request.getContextPath() + "/Login");
 			return;
 		}
 		
@@ -87,19 +75,13 @@ public class CheckoutServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
-		//errore se l'utente non ha effettuato il login
 		if(utente == null) {
-			request.setAttribute("erroreLogin", "Effettuare il login per completare l'acquisto");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
-			dispatcher.forward(request, response);
+			session.setAttribute("erroreLogin", "Effettuare il login per completare l'acquisto");
+			response.sendRedirect(request.getContextPath() + "/Login");
 			return;
 		}
 		
@@ -116,7 +98,7 @@ public class CheckoutServlet extends HttpServlet {
 		
 		//errore se il carrello è vuoto
 		if(carrello == null || carrello.isEmpty()) {
-			response.sendRedirect(request.getContextPath()+"/Carrello");
+			response.sendRedirect(request.getContextPath() + "/Carrello");
 			return;
 		}
 		
@@ -134,7 +116,6 @@ public class CheckoutServlet extends HttpServlet {
 				}
 				
 				session.setAttribute("errore", "La quantità di prodotti richiesta non è disponibile");
-				
 				response.sendRedirect(request.getContextPath() + "/Carrello");
 				return;
 			}
@@ -219,6 +200,6 @@ public class CheckoutServlet extends HttpServlet {
 			elementoCarrelloDAO.doDelete(elemento.getIdElementoCarrello());
 		}
 		
-		response.sendRedirect(request.getContextPath()+"/StoricoOrdini");
+		response.sendRedirect(request.getContextPath() + "/StoricoOrdini");
 	}
 }

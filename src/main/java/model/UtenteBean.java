@@ -12,7 +12,7 @@ public class UtenteBean {
 	private String numeroTelefono;
 	private String ruolo;
 	
-	//empty constructor
+	//costruttore vuoto
 	public UtenteBean() {
 		
 	}

@@ -10,7 +10,7 @@ public class MetodoPagamentoBean {
 	private String circuito;
 	private int idUtente;
 	
-	//empty constructor
+	//costruttore vuoto
 	public MetodoPagamentoBean() {
 		
 	}

@@ -16,35 +16,23 @@ import java.util.ArrayList;
 
 import dao.OrdineDAO;
 
-/**
- * Servlet implementation class GestioneOrdiniServlet
- */
 @WebServlet("/GestioneOrdini")
 public class GestioneOrdiniServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public GestioneOrdiniServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         UtenteBean utente = (UtenteBean) session.getAttribute("utente");
-
-        if (utente == null || !"ADMIN".equals(utente.getRuolo())) {
-            request.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
-            dispatcher.forward(request, response);
-            return;
-        }
+        
+        if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
+			session.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
+			response.sendRedirect(request.getContextPath() + "/Login");
+			return;
+		}
         
         OrdineDAO ordineDAO = new OrdineDAO();
         ArrayList<OrdineViewBean> ordini = new ArrayList<OrdineViewBean>();
@@ -85,12 +73,8 @@ public class GestioneOrdiniServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/gestioneOrdini.jsp");
         dispatcher.forward(request, response);
     }
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+    
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

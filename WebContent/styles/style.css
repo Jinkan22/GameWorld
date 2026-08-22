@@ -793,6 +793,10 @@ footer .bottom p {
     gap: 30px;
 }
 
+.errore-carrello {
+	text-align: left;
+}
+
 .lista-carrello {
     flex: 1;
     min-width: 0;

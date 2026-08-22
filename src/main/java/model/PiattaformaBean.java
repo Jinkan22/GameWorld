@@ -4,7 +4,7 @@ public class PiattaformaBean {
 	private int idPiattaforma;
 	private String nomePiattaforma;
 	
-	//empty constructor
+	//costruttore vuoto
 	public PiattaformaBean() {
 		
 	}

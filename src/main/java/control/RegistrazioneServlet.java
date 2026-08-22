@@ -14,32 +14,19 @@ import java.sql.Date;
 
 import dao.UtenteDAO;
 
-/**
- * Servlet implementation class RegistrazioneServlet
- */
 @WebServlet("/Registrazione")
 public class RegistrazioneServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public RegistrazioneServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.sendRedirect(request.getContextPath() + "/WEB-INF/view/loginRegistrazione.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
+		dispatcher.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
@@ -52,7 +39,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		
 		UtenteBean utente = dao.doRetrieveByEmail(email);
 		
-		if(utente!=null) {
+		if(utente != null) {
 			request.setAttribute("erroreLogin", "Email già esistente, effettuare il login");
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
@@ -69,7 +56,6 @@ public class RegistrazioneServlet extends HttpServlet {
 		utente.setDataNascita(dataNascita);
 		utente.setNumeroTelefono(numeroTelefono);
 		
-	
 		if(!dao.doSave(utente)) {
 			request.setAttribute("erroreRegistrazione", "Errore nella registrazione");
 			
@@ -78,13 +64,12 @@ public class RegistrazioneServlet extends HttpServlet {
 			return;
 		}
 		
-		utente=dao.doRetrieveByEmailAndPassword(email, password);
+		utente = dao.doRetrieveByEmailAndPassword(email, password);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("utente",utente);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/Home");
-		dispatcher.forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/Home");
 	}
 
 }

@@ -13,37 +13,19 @@ import utils.CarrelloUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import dao.ElementoCarrelloDAO;
 
-/**
- * Servlet implementation class ModificaCarrelloServlet
- */
 @WebServlet("/ModificaCarrello")
 public class ModificaCarrelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ModificaCarrelloServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
@@ -181,13 +163,26 @@ public class ModificaCarrelloServlet extends HttpServlet {
 	    
 	    BigDecimal sconto = totale.subtract(totaleScontato);
 
-	    response.getWriter().write(
-	            "{\"successo\":true,"
-	            + "\"quantita\":" + nuovaQuantita + ","
-	            + "\"totale\":" + totale + ","
-	            + "\"sconto\":" + sconto + ","
-	            + "\"totaleScontato\":" + totaleScontato
-	            + "}"
-	    );
+	    if(carrelloAggiornato == null || carrelloAggiornato.isEmpty()) {
+	    	response.getWriter().write(
+		            "{\"successo\":true,"
+	    			+ "\"errore\":\"Il carrello è vuoto\","
+		            + "\"quantita\":" + nuovaQuantita + ","
+		            + "\"totale\":" + totale + ","
+		            + "\"sconto\":" + sconto + ","
+		            + "\"totaleScontato\":" + totaleScontato
+		            + "}"
+		    );
+        }
+	    else {
+	    	response.getWriter().write(
+		            "{\"successo\":true,"
+		            + "\"quantita\":" + nuovaQuantita + ","
+		            + "\"totale\":" + totale + ","
+		            + "\"sconto\":" + sconto + ","
+		            + "\"totaleScontato\":" + totaleScontato
+		            + "}"
+		    );
+	    }
 	}
 }

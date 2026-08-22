@@ -11,34 +11,21 @@ import model.UtenteBean;
 
 import java.io.IOException;
 
-/**
- * Servlet implementation class ProfiloServlet
- */
 @WebServlet("/Profilo")
 public class ProfiloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ProfiloServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
 		if(utente == null) {
-			request.setAttribute("erroreLogin", "Effettuare il login per accedere al profilo");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
-			dispatcher.forward(request, response);
+			session.setAttribute("erroreLogin", "Effettuare il login per accedere al profilo");
+			response.sendRedirect(request.getContextPath() + "/Login");
 			return;
 		}
 		
@@ -46,11 +33,7 @@ public class ProfiloServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

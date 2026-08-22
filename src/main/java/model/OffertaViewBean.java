@@ -7,7 +7,7 @@ public class OffertaViewBean {
 	private ProdottoBean prodotto;
 	private BigDecimal prezzoScontato;
 	
-	//empty constructor
+	//costruttore vuoto
 	public OffertaViewBean() {
 	}
 

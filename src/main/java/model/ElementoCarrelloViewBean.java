@@ -9,7 +9,7 @@ public class ElementoCarrelloViewBean {
 	private BigDecimal prezzoScontato;
 	private int quantita;
 	
-	//empty constructor
+	//costruttore vuoto
 	public ElementoCarrelloViewBean() {
 		
 	}

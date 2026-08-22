@@ -12,7 +12,7 @@ public class ProdottoBean {
 	private Date dataUscita;
 	private String sviluppatore;
 	
-	//empty constructor
+	//costruttore vuoto
 	public ProdottoBean() {
 		
 	}

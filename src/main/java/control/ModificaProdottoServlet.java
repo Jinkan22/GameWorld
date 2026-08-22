@@ -28,33 +28,21 @@ import dao.ProdottoDAO;
 import dao.ProdottoGenereDAO;
 import dao.ProdottoPiattaformaDAO;
 
-/**
- * Servlet implementation class ModificaProdottoServlet
- */
 @WebServlet("/ModificaProdotto")
 public class ModificaProdottoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public ModificaProdottoServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		UtenteBean utente = (UtenteBean) session.getAttribute("utente");
 		
 		if(utente == null || !"ADMIN".equals(utente.getRuolo())) {
-			request.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
-			dispatcher.forward(request, response);
+			session.setAttribute("erroreLogin", "Effettuare il login come admin per accedere alla dashboard");
+			response.sendRedirect(request.getContextPath() + "/Login");
 			return;
 		}
 		
@@ -72,10 +60,8 @@ public class ModificaProdottoServlet extends HttpServlet {
 		
 		//controlla se il prodotto non esiste
 		if(prodotto == null) {
-			request.setAttribute("errore", "Il prodotto selezionato non esiste");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/gestioneProdotti.jsp");
-			dispatcher.forward(request, response);
+			session.setAttribute("errore", "Il prodotto selezionato non esiste");
+			response.sendRedirect(request.getContextPath() + "/GestioneProdotti");
 			return;
 		}
 		
@@ -97,24 +83,19 @@ public class ModificaProdottoServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		int idProdotto = Integer.parseInt(request.getParameter("idProdotto"));
 		
 		ProdottoDAO prodottoDAO = new ProdottoDAO();
 		ProdottoBean prodotto = prodottoDAO.doRetrieveByKey(idProdotto);
 		
 		if(prodotto == null) {
-			request.setAttribute("errore", "Il prodotto selezionato non esiste");
-
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/GestioneProdotti");
-			dispatcher.forward(request, response);
+			session.setAttribute("errore", "Il prodotto selezionato non esiste");
+			response.sendRedirect(request.getContextPath() + "/GestioneProdotti");
 			return;
 		}
 		
-		HttpSession session = request.getSession();
 		String azione = request.getParameter("azione");
 		
 		switch(azione) {

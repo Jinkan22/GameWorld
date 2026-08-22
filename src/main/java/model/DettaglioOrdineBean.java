@@ -11,7 +11,7 @@ public class DettaglioOrdineBean {
 	private String nomePiattaforma;
 	private int idOrdine;
 	
-	//empty constructor
+	//costruttore vuoto
 	public DettaglioOrdineBean() {
 		
 	}

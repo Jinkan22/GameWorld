@@ -7,7 +7,7 @@ public class ElementoCarrelloBean {
 	private int idProdotto;
 	private int idPiattaforma;
 	
-	//empty constructor
+	//costruttore vuoto
 	public ElementoCarrelloBean() {
 		
 	}

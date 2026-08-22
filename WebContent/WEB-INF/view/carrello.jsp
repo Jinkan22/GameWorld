@@ -23,7 +23,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 <main class="pagina-carrello">
 	<section class="lista-carrello">
 		<h2>CARRELLO</h2>
-		<p class="errore">
+		<p id="errore" class="errore-carrello">
 		<%
 			String errore = (String) request.getAttribute("errore");
 			if(errore != null){

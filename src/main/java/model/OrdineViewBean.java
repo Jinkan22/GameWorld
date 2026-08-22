@@ -6,7 +6,7 @@ public class OrdineViewBean {
 	private OrdineBean ordine;
 	private ArrayList<DettaglioOrdineBean> dettagli;
 	
-	//empty constructor
+	//costruttore vuoto
 	public OrdineViewBean() {
 		
 	}
