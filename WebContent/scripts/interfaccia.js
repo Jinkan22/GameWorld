@@ -1,5 +1,15 @@
 //loginRegistrazione.jsp
 
+document.addEventListener("DOMContentLoaded", function() {
+	const loginRegistrazione = document.getElementById("login-registrazione");
+
+	if(loginRegistrazione) {
+		if(loginRegistrazione.dataset.erroreRegistrazione === "true") {
+			mostraRegistrazione();
+		}
+	}
+});
+
 function mostraLogin() {
 	document.getElementById("registrazione").style.display = "none";
 	document.getElementById("login").style.display = "block";

@@ -40,7 +40,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		UtenteBean utente = dao.doRetrieveByEmail(email);
 		
 		if(utente != null) {
-			request.setAttribute("erroreLogin", "Email già esistente, effettuare il login");
+			request.setAttribute("erroreRegistrazione", "Email già esistente, effettuare il login");
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/loginRegistrazione.jsp");
 			dispatcher.forward(request, response);
@@ -55,6 +55,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		utente.setPassword(password);
 		utente.setDataNascita(dataNascita);
 		utente.setNumeroTelefono(numeroTelefono);
+		utente.setRuolo("USER");
 		
 		if(!dao.doSave(utente)) {
 			request.setAttribute("erroreRegistrazione", "Errore nella registrazione");

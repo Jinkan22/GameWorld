@@ -11,7 +11,10 @@
 </head>
 <body>
 
-<main class="login-registrazione">
+<%
+String erroreRegistrazione = (String) request.getAttribute("erroreRegistrazione");
+%>
+<main class="login-registrazione" id="login-registrazione" data-errore-registrazione="<%= erroreRegistrazione != null %>">
 	<div class="selezioni">
 		<button class="login-selezione" type="button" id="login-selezione" onclick="mostraLogin()">Accedi</button>
 		<button class="registrazione-selezione" type="button" id="registrazione-selezione" onclick="mostraRegistrazione()">Registrati</button>
@@ -54,8 +57,6 @@
 		<h2>REGISTRAZIONE</h2>
 	
 		<%
-			String erroreRegistrazione = (String) request.getAttribute("erroreRegistrazione");
-
 			if(erroreRegistrazione != null){
 		%>
 				<p><%= erroreRegistrazione %><br><br>
