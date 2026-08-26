@@ -52,7 +52,8 @@ public class OffertaDAO {
     	ArrayList<OffertaBean> list = new ArrayList<OffertaBean>();
     	
     	try (Connection connection = DBConnection.getConnection()) {
-    		String sql = "SELECT * FROM offerta";
+    		String sql = "SELECT * FROM offerta "
+    				+ "ORDER BY idOfferta DESC";
     		
     		PreparedStatement ps = connection.prepareStatement(sql);
     		
